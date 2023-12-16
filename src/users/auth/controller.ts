@@ -4,39 +4,37 @@ import { IResponse } from "../../utils/interface";
 import { RequestMethods } from "../../utils/enums";
 import { UsersAuthRoutes } from "./enums";
 
-export default class UsersAuthController  {
-  public execute = async (req: Request, res: Response): Promise<void> => {
-    try {
-      const method = req.method;
-      const routeName = req.route.path.split("/")[1];
+export default class UsersAuthController {
+	public execute = async (req: Request, res: Response): Promise<void> => {
+		try {
+			const method = req.method;
+			const routeName = req.route.path.split("/")[1];
 
-      const response: IResponse = {
-          success: false,
-        }
-      let statusCode = 200;
-    
-      if (routeName === UsersAuthRoutes.LOGIN) {
-        if (method === RequestMethods.POST) {
-          console.log("login controller");
-         //do something 
-         //redirect to login service
-        }
-      } 
+			const response: IResponse = {
+				success: false,
+			};
+			let statusCode = 200;
 
-      res.status(statusCode).send(response);
-    } catch (error) {
-      console.log("error: ", error);
-      errorHandler(res, error);
-    }
-  };
+			if (routeName === UsersAuthRoutes.LOGIN) {
+				if (method === RequestMethods.POST) {
+					console.log("login controller");
+				}
+			}
 
-  // private loginController = async (
-  //   reqObj: IUserAuthLoginReqObj
-  // ): Promise<IResponse> => {
-  //   await this.loginService(reqObj);
-  //   return {
-  //     success: true,
-  //     message: "OTP Sent Successfully!",
-  //   };
-  // };
+			res.status(statusCode).send(response);
+		} catch (error) {
+			console.log("error: ", error);
+			errorHandler(res, error);
+		}
+	};
+
+	// private loginController = async (
+	//   reqObj: IUserAuthLoginReqObj
+	// ): Promise<IResponse> => {
+	//   await this.loginService(reqObj);
+	//   return {
+	//     success: true,
+	//     message: "OTP Sent Successfully!",
+	//   };
+	// };
 }

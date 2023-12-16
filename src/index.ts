@@ -11,31 +11,21 @@ const app: Application = express();
 app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(express.urlencoded({extended:true}));
-
-
-
-
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 
 // Routes
 import UsersAuthRoutes from "./users/auth/routes";
 
 app.use("/api/users", UsersAuthRoutes);
 
-
-
-
-
-
-
 app.get("/", (req: Request, res: Response) => {
 	console.log(req.baseUrl);
-    const date = new Date().toLocaleString();
+	const date = new Date().toLocaleString();
 	res.status(200).send({
 		message: "Route Found",
 		status_code: 200,
-        entry_time: date,
+		entry_time: date,
 	});
 });
 
