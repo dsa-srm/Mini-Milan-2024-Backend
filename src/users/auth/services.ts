@@ -1,14 +1,12 @@
-import { v4 } from "uuid";
 import ErrorHandler from "../../utils/errors.handler";
 
 import {
-  AuthObj,
-  IAuthResponse,
-  IUserAuthLoginReqObj,
-  IUserAuthResObject,
-  IUserAuthSignupReqObj,
+	AuthObj,
+	IUserAuthLoginReqObj,
+	IUserAuthResObject,
+	IUserAuthSignupReqObj,
 } from "./interface";
-import moment from "moment";
+
 import JWTUtils from "../../utils/jwt.utils";
 import UsersAuthHelper from "./helper";
 

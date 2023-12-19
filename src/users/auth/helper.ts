@@ -21,6 +21,9 @@ export default class UsersAuthHelper extends UsersAuthDB {
 	protected signupUserHelper = async (
 		reqObj: IUserAuthSignupReqObj
 	): Promise<IUserAuthResObject> => {
+		reqObj.created_at = new Date();
+		reqObj.updated_at = new Date();
+
 		const newReqObj: IUserAuthSignupReqObj = {
 			...reqObj,
 			password: await bcrypt.hash(reqObj.password, 12),
