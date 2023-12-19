@@ -6,6 +6,9 @@ export default class BookingsHelper extends BookingsDB {
 	protected createBookingHelper = async (
 		reqObj: ICreateBookingReqObj
 	): Promise<BookingObj> => {
+		reqObj.created_at = new Date();
+		reqObj.updated_at = new Date();
+
 		// Additional validation and business logic can be added here
 		const booking = await this.createBooking(reqObj);
 

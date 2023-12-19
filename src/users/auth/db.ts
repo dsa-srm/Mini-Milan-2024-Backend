@@ -16,15 +16,22 @@ export default class UsersAuthDB {
 	): Promise<IUserAuthResObject> => {
 		const query = db.format(`INSERT INTO users ? RETURNING *`, reqObj);
 
-		try {
-			const { rows } = await db.query(query);
-			return rows[0] as unknown as IUserAuthResObject;
-		} catch (err) {
-			throw new ErrorHandler({
-				status_code: 400,
-				message: "Phone number already exists",
-				message_code: "PHONE_NUMBER_ALREADY_EXISTS",
-			});
+		const { rows } = await db.query(query);
+		return rows[0] as unknown as IUserAuthResObject;
+	};
+
+	protected isExistingUser = async (
+		email: string,
+		phone_number: number
+	): Promise<boolean> => {
+		const query = `SELECT * FROM users WHERE email = $1 OR phone_number = $2 LIMIT 1`;
+
+		const { rows } = await db.query(query, [email, phone_number]);
+
+		if (rows.length > 0) {
+			return true;
+		} else {
+			return false;
 		}
 	};
 }
