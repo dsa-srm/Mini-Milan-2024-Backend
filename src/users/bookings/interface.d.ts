@@ -1,7 +1,7 @@
 export type IBookingResponse = {
 	success: boolean;
-	message?: string;
-	booking?: BookingObj | null;
+	message: string;
+	booking: BookingObj;
 };
 
 export type ICreateBookingReqObj = {
@@ -13,8 +13,8 @@ export type ICreateBookingReqObj = {
 	payment_status: string;
 	ticket_status: string;
 	offline_ticket_issued: boolean;
-	updated_at?: Date | null;
-	created_at?: Date | null;
+	updated_at: Date;
+	created_at: Date;
 };
 
 export type BookingObj = {
