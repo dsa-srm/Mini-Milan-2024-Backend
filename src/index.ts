@@ -5,10 +5,18 @@ import cors from "cors";
 import morgan from "morgan";
 import logger, { LogTypes } from "./utils/logger";
 import bodyParser from "body-parser";
+import cookieParser from "cookie-parser";
 
 const app: Application = express();
 
-app.use(cors());
+app.use(
+	cors({
+		origin: "http://localhost:5173",
+		credentials: true,
+	})
+);
+
+app.use(cookieParser());
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -20,7 +28,6 @@ import UsersAuthRoutes from "./users/auth/routes";
 app.use("/api/users", UsersAuthRoutes);
 
 app.get("/", (req: Request, res: Response) => {
-	console.log(req.baseUrl);
 	const date = new Date().toLocaleString();
 	res.status(200).send({
 		message: "Route Found",
@@ -30,7 +37,6 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.use("*", (req: Request, res: Response) => {
-	console.log(req.baseUrl);
 	res.status(404).send({
 		message: "Route not Found",
 		status_code: 404,

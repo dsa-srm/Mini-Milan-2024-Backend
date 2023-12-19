@@ -29,7 +29,7 @@ export default class UsersAuthHelper extends UsersAuthDB {
 
 		if (!user) {
 			throw new ErrorHandler({
-				status_code: 500,
+				status_code: 400,
 				message: "Something went wrong while creating user",
 				message_code: "SOMETHING_WENT_WRONG",
 			});

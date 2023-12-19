@@ -3,6 +3,7 @@ import { errorHandler } from "../../utils/ress.error";
 import { IResponse } from "../../utils/interface";
 import { RequestMethods } from "../../utils/enums";
 import { UsersAuthRoutes } from "./enums";
+import { v4 } from "uuid";
 import {
 	AuthObj,
 	IAuthResponse,
@@ -24,27 +25,26 @@ export default class UsersAuthController extends UsersAuthService {
 
 			if (routeName === UsersAuthRoutes.LOGIN) {
 				if (method === RequestMethods.POST) {
-					const reqObj: IUserAuthLoginReqObj = req.body;
+					const reqObj: IUserAuthLoginReqObj = { ...req.body, id: v4() };
 					const authRes: IAuthResponse = await this.loginController(reqObj);
-					//-----------
-					//Send Cookie
-					//-----------
+					res.cookie("token", authRes.token, {
+						httpOnly: true,
+					});
 					response = authRes.user;
 				}
 			} else if (routeName === UsersAuthRoutes.SIGNUP) {
 				if (method === RequestMethods.POST) {
-					const reqObj: IUserAuthSignupReqObj = req.body;
+					const reqObj: IUserAuthSignupReqObj = { ...req.body, id: v4() };
 					const authRes: IAuthResponse = await this.signupController(reqObj);
-					//-----------
-					//Send Cookie
-					//-----------
+					res.cookie("token", authRes.token, {
+						httpOnly: true,
+					});
 					response = authRes.user;
 				}
 			}
 
 			res.status(statusCode).send(response);
 		} catch (error) {
-			console.log("error: ", error);
 			errorHandler(res, error);
 		}
 	};
@@ -57,7 +57,7 @@ export default class UsersAuthController extends UsersAuthService {
 			user: {
 				success: true,
 				message: "Logged In Successfully!",
-				data: data.user,
+				data: data,
 			},
 			token: data.token,
 		};
@@ -71,7 +71,7 @@ export default class UsersAuthController extends UsersAuthService {
 			user: {
 				success: true,
 				message: "Signed Up Successfully!",
-				data: data.user,
+				data: data,
 			},
 			token: data.token,
 		};

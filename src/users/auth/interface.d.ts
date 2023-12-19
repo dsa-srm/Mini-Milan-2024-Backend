@@ -4,13 +4,16 @@ export type IUserAuthLoginReqObj = {
 };
 
 export type IUserAuthSignupReqObj = {
+	id: string;
 	name: string;
 	email: string;
 	password: string;
 	reg_number: string;
 	is_srm_student: boolean;
 	phone_number: number;
-	is_ticket_issue: boolean;
+	is_ticket_issued: boolean;
+	updated_at?: Date | null;
+	created_at?: Date | null;
 };
 
 export type IUserAuthResObject = {
@@ -20,8 +23,8 @@ export type IUserAuthResObject = {
 	reg_number: string;
 	is_srm_student: boolean;
 	phone_number: number;
-	is_ticket_issue: boolean;
-	update_at: Date;
+	is_ticket_issued: boolean;
+	updated_at: Date;
 	created_at: Date;
 };
 

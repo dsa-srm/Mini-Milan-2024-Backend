@@ -5,5 +5,6 @@ const router: Router = Router();
 const { execute } = new UsersAuthController();
 
 router.post("/login", execute);
+router.post("/signup", execute);
 
 export default router;
