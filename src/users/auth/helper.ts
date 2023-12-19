@@ -25,6 +25,7 @@ export default class UsersAuthHelper extends UsersAuthDB {
 			reqObj.email,
 			reqObj.phone_number
 		);
+
 		if (isExistingUser) {
 			throw new ErrorHandler({
 				status_code: 409,

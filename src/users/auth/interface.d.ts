@@ -28,6 +28,13 @@ export type IUserAuthResObject = {
 	created_at: Date;
 };
 
+export type IResponse<T = any> = {
+	success: boolean;
+	message?: string;
+	data?: T | null;
+	message_code?: string;
+};
+
 export type IAuthResponse = {
 	user: IResponse;
 	token: string;

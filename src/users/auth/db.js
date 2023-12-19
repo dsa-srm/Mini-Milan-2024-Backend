@@ -13,7 +13,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const pg_config_1 = __importDefault(require("../../config/pg.config"));
-const errors_handler_1 = __importDefault(require("../../utils/errors.handler"));
 class UsersAuthDB {
     constructor() {
         this.getUser = (email) => __awaiter(this, void 0, void 0, function* () {
@@ -22,20 +21,14 @@ class UsersAuthDB {
             return rows[0];
         });
         this.createUser = (reqObj) => __awaiter(this, void 0, void 0, function* () {
-            reqObj.created_at = new Date();
-            reqObj.updated_at = new Date();
             const query = pg_config_1.default.format(`INSERT INTO users ? RETURNING *`, reqObj);
-            try {
-                const { rows } = yield pg_config_1.default.query(query);
-                return rows[0];
-            }
-            catch (err) {
-                throw new errors_handler_1.default({
-                    status_code: 400,
-                    message: "Something went wrong while creating user",
-                    message_code: "PHONE_NUMBER_ALREADY_EXISTS",
-                });
-            }
+            const { rows } = yield pg_config_1.default.query(query);
+            return rows[0];
+        });
+        this.isExistingUser = (email, phone_number) => __awaiter(this, void 0, void 0, function* () {
+            const query = `SELECT * FROM users WHERE email = $1 OR phone_number = $2 LIMIT 1`;
+            const { rows } = yield pg_config_1.default.query(query, [email, phone_number]);
+            return rows[0];
         });
     }
 }

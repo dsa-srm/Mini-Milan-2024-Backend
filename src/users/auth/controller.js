@@ -30,7 +30,7 @@ class UsersAuthController extends services_1.default {
                 let statusCode = 200;
                 if (routeName === enums_2.UsersAuthRoutes.LOGIN) {
                     if (method === enums_1.RequestMethods.POST) {
-                        const reqObj = Object.assign(Object.assign({}, req.body), { id: (0, uuid_1.v4)() });
+                        const reqObj = req.body;
                         const authRes = yield this.loginController(reqObj);
                         res.cookie("token", authRes.token, {
                             httpOnly: true,

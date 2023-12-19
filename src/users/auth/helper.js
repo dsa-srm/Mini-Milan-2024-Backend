@@ -26,6 +26,16 @@ class UsersAuthHelper extends db_1.default {
             return yield bcryptjs_1.default.compare(password, user.password);
         });
         this.signupUserHelper = (reqObj) => __awaiter(this, void 0, void 0, function* () {
+            const isExistingUser = yield this.isExistingUser(reqObj.email, reqObj.phone_number);
+            if (isExistingUser) {
+                throw new errors_handler_1.default({
+                    status_code: 409,
+                    message: "User already exists",
+                    message_code: "USER_ALREADY_EXISTS",
+                });
+            }
+            reqObj.created_at = new Date();
+            reqObj.updated_at = new Date();
             const newReqObj = Object.assign(Object.assign({}, reqObj), { password: yield bcryptjs_1.default.hash(reqObj.password, 12) });
             const user = yield this.createUser(newReqObj);
             if (!user) {
