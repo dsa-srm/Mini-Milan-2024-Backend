@@ -14,9 +14,6 @@ export default class UsersAuthDB {
 	protected createUser = async (
 		reqObj: IUserAuthSignupReqObj
 	): Promise<IUserAuthResObject> => {
-		reqObj.created_at = new Date();
-		reqObj.updated_at = new Date();
-
 		const query = db.format(`INSERT INTO users ? RETURNING *`, reqObj);
 
 		try {
@@ -25,7 +22,7 @@ export default class UsersAuthDB {
 		} catch (err) {
 			throw new ErrorHandler({
 				status_code: 400,
-				message: "Something went wrong while creating user",
+				message: "Phone number already exists",
 				message_code: "PHONE_NUMBER_ALREADY_EXISTS",
 			});
 		}

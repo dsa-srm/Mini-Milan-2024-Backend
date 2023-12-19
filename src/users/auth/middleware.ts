@@ -1,7 +1,9 @@
 import jwt from "jsonwebtoken";
 import fs from "fs";
+import { errorHandler } from "../../utils/ress.error";
 import path from "path";
 import { Request, Response, NextFunction } from "express";
+import ErrorHandler from "../../utils/errors.handler";
 
 export default class IUserAuthValidation {
 	private jwtVerifyPromisified = (token: string, secret: Buffer) => {
@@ -29,11 +31,15 @@ export default class IUserAuthValidation {
 				// To check for the jwt in cookie
 				token = req.cookies.token;
 			} else {
-				throw new Error("You are not logged in! Please login to get access.");
+				throw new ErrorHandler({
+					status_code: 400,
+					message: "You are not logged in! Please log in to get access.",
+					message_code: "NOT_LOGGED_IN",
+				});
 			}
 
 			const JWT_SECRET = fs.readFileSync(
-				path.resolve(__dirname, "../../keys/jwtRS256.key")
+				path.resolve(__dirname, "../../../keys/jwtRS256.key")
 			);
 
 			// 2. Verification of Token
@@ -41,7 +47,7 @@ export default class IUserAuthValidation {
 
 			next();
 		} catch (error) {
-			throw new Error("You are not logged in! Please login to get access.");
+			errorHandler(res, error);
 		}
 	};
 }

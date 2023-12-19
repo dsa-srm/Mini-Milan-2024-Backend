@@ -25,7 +25,7 @@ export default class UsersAuthController extends UsersAuthService {
 
 			if (routeName === UsersAuthRoutes.LOGIN) {
 				if (method === RequestMethods.POST) {
-					const reqObj: IUserAuthLoginReqObj = { ...req.body, id: v4() };
+					const reqObj: IUserAuthLoginReqObj = req.body;
 					const authRes: IAuthResponse = await this.loginController(reqObj);
 					res.cookie("token", authRes.token, {
 						httpOnly: true,

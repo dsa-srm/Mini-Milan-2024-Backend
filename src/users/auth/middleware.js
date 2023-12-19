@@ -14,7 +14,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const fs_1 = __importDefault(require("fs"));
+const ress_error_1 = require("../../utils/ress.error");
 const path_1 = __importDefault(require("path"));
+const errors_handler_1 = __importDefault(require("../../utils/errors.handler"));
 class IUserAuthValidation {
     constructor() {
         this.jwtVerifyPromisified = (token, secret) => {
@@ -42,15 +44,19 @@ class IUserAuthValidation {
                     token = req.cookies.token;
                 }
                 else {
-                    throw new Error("You are not logged in! Please login to get access.");
+                    throw new errors_handler_1.default({
+                        status_code: 400,
+                        message: "You are not logged in! Please log in to get access.",
+                        message_code: "NOT_LOGGED_IN",
+                    });
                 }
-                const JWT_SECRET = fs_1.default.readFileSync(path_1.default.resolve(__dirname, "../../keys/jwtRS256.key"));
+                const JWT_SECRET = fs_1.default.readFileSync(path_1.default.resolve(__dirname, "../../../keys/jwtRS256.key"));
                 // 2. Verification of Token
                 const payload = yield this.jwtVerifyPromisified(token, JWT_SECRET);
                 next();
             }
             catch (error) {
-                throw new Error("You are not logged in! Please login to get access.");
+                (0, ress_error_1.errorHandler)(res, error);
             }
         });
     }

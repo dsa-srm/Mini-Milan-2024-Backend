@@ -46,7 +46,9 @@ app.use(body_parser_1.default.urlencoded({ extended: true }));
 app.use(express_1.default.urlencoded({ extended: true }));
 // Routes
 const routes_1 = __importDefault(require("./users/auth/routes"));
+const routes_2 = __importDefault(require("./users/bookings/routes"));
 app.use("/api/users", routes_1.default);
+app.use("/api/bookings", routes_2.default);
 app.get("/", (req, res) => {
     const date = new Date().toLocaleString();
     res.status(200).send({
