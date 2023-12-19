@@ -8,4 +8,5 @@ const controller_1 = __importDefault(require("./controller"));
 const router = (0, express_1.Router)();
 const { execute } = new controller_1.default();
 router.post("/login", execute);
+router.post("/signup", execute);
 exports.default = router;

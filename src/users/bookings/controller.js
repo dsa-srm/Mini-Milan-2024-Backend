@@ -24,7 +24,6 @@ class UsersAuthController {
                 res.status(statusCode).send(response);
             }
             catch (error) {
-                console.log("error: ", error);
                 (0, ress_error_1.errorHandler)(res, error);
             }
         });

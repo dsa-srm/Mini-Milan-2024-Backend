@@ -8,43 +8,74 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const ress_error_1 = require("../../utils/ress.error");
 const enums_1 = require("../../utils/enums");
 const enums_2 = require("./enums");
-class UsersAuthController {
+const uuid_1 = require("uuid");
+const services_1 = __importDefault(require("./services"));
+class UsersAuthController extends services_1.default {
     constructor() {
+        super(...arguments);
         this.execute = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
                 const method = req.method;
                 const routeName = req.route.path.split("/")[1];
-                const response = {
+                let response = {
                     success: false,
                 };
                 let statusCode = 200;
                 if (routeName === enums_2.UsersAuthRoutes.LOGIN) {
                     if (method === enums_1.RequestMethods.POST) {
-                        console.log("login controller");
-                        //do something 
-                        //redirect to login service
+                        const reqObj = Object.assign(Object.assign({}, req.body), { id: (0, uuid_1.v4)() });
+                        const authRes = yield this.loginController(reqObj);
+                        res.cookie("token", authRes.token, {
+                            httpOnly: true,
+                        });
+                        response = authRes.user;
+                    }
+                }
+                else if (routeName === enums_2.UsersAuthRoutes.SIGNUP) {
+                    if (method === enums_1.RequestMethods.POST) {
+                        const reqObj = Object.assign(Object.assign({}, req.body), { id: (0, uuid_1.v4)() });
+                        const authRes = yield this.signupController(reqObj);
+                        res.cookie("token", authRes.token, {
+                            httpOnly: true,
+                        });
+                        response = authRes.user;
                     }
                 }
                 res.status(statusCode).send(response);
             }
             catch (error) {
-                console.log("error: ", error);
                 (0, ress_error_1.errorHandler)(res, error);
             }
         });
-        // private loginController = async (
-        //   reqObj: IUserAuthLoginReqObj
-        // ): Promise<IResponse> => {
-        //   await this.loginService(reqObj);
-        //   return {
-        //     success: true,
-        //     message: "OTP Sent Successfully!",
-        //   };
-        // };
+        this.loginController = (reqObj) => __awaiter(this, void 0, void 0, function* () {
+            const data = yield this.loginService(reqObj);
+            return {
+                user: {
+                    success: true,
+                    message: "Logged In Successfully!",
+                    data: data,
+                },
+                token: data.token,
+            };
+        });
+        this.signupController = (reqObj) => __awaiter(this, void 0, void 0, function* () {
+            const data = yield this.signupService(reqObj);
+            return {
+                user: {
+                    success: true,
+                    message: "Signed Up Successfully!",
+                    data: data,
+                },
+                token: data.token,
+            };
+        });
     }
 }
 exports.default = UsersAuthController;

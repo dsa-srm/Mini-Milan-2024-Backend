@@ -33,8 +33,13 @@ const cors_1 = __importDefault(require("cors"));
 const morgan_1 = __importDefault(require("morgan"));
 const logger_1 = __importStar(require("./utils/logger"));
 const body_parser_1 = __importDefault(require("body-parser"));
+const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const app = (0, express_1.default)();
-app.use((0, cors_1.default)());
+app.use((0, cors_1.default)({
+    origin: "http://localhost:5173",
+    credentials: true,
+}));
+app.use((0, cookie_parser_1.default)());
 app.use(express_1.default.json());
 app.use((0, morgan_1.default)("dev"));
 app.use(body_parser_1.default.urlencoded({ extended: true }));
@@ -43,7 +48,6 @@ app.use(express_1.default.urlencoded({ extended: true }));
 const routes_1 = __importDefault(require("./users/auth/routes"));
 app.use("/api/users", routes_1.default);
 app.get("/", (req, res) => {
-    console.log(req.baseUrl);
     const date = new Date().toLocaleString();
     res.status(200).send({
         message: "Route Found",
@@ -52,7 +56,6 @@ app.get("/", (req, res) => {
     });
 });
 app.use("*", (req, res) => {
-    console.log(req.baseUrl);
     res.status(404).send({
         message: "Route not Found",
         status_code: 404,
