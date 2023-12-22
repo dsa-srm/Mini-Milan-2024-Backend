@@ -9,9 +9,9 @@ export type IUserAuthSignupReqObj = {
 	email: string;
 	password: string;
 	reg_number: string;
-	is_srm_student: boolean;
+	is_ktr_student: boolean;
+	gender: string;
 	phone_number: number;
-	is_ticket_issued: boolean;
 	updated_at: Date;
 	created_at: Date;
 };
@@ -21,9 +21,11 @@ export type IUserAuthResObject = {
 	name: string;
 	email: string;
 	reg_number: string;
-	is_srm_student: boolean;
+	is_ktr_student: boolean;
+	gender: string;
 	phone_number: number;
 	is_ticket_issued: boolean;
+	is_deleted: boolean;
 	updated_at: Date;
 	created_at: Date;
 };
@@ -44,3 +46,9 @@ export type AuthObj = {
 	user: IUserAuthResObject;
 	token: string;
 };
+
+declare namespace Express {
+	interface Request {
+		user?: any; // or replace 'any' with the type of your user object
+	}
+}

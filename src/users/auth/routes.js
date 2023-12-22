@@ -9,4 +9,5 @@ const router = (0, express_1.Router)();
 const { execute } = new controller_1.default();
 router.post("/login", execute);
 router.post("/signup", execute);
+router.delete("/:id", execute);
 exports.default = router;

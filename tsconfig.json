@@ -8,7 +8,8 @@
 		"esModuleInterop": true /* Enable ES Module interoperability */
 	},
 	"include": [
-		"src/**/*.ts"
+		"src/**/*.ts",
+		"custom.d.ts"
 	] /* Specify the files to be included in compilation */,
 	"exclude": [
 		"node_modules"
