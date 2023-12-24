@@ -1,9 +1,10 @@
 {
+ 
   "development": {
-    "username": "postgres",
-    "password": "minimilan",
-    "database": "minimilan",
-    "host": "mini-milan.ckci7ohurjfc.ap-south-1.rds.amazonaws.com",
+    "username": "default",
+    "password": "5UAw4rhQkZNp",
+    "database": "verceldb",
+    "host": "ep-delicate-dew-08255488-pooler.ap-southeast-1.postgres.vercel-storage.com",
     "dialect": "postgres",
     "dialectOptions": {
       "ssl": {
@@ -12,5 +13,4 @@
       }
     }
   }
-
 }
