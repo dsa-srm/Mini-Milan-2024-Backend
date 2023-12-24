@@ -2,6 +2,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 import express, { Application, Response, Request } from "express";
 import cors from "cors";
+import moment from "moment-timezone";
 import morgan from "morgan";
 import logger, { LogTypes } from "./utils/logger";
 import bodyParser from "body-parser";
@@ -9,9 +10,13 @@ import cookieParser from "cookie-parser";
 import moment from "moment";
 const app: Application = express();
 
+const desiredTimeZone = "Asia/Kolkata"; // India Standard Time (GMT+5:30)
+
+// Get the current time in the specified time zone
+
 app.use(
 	cors({
-		origin: "http://localhost:5173",
+		origin: ["http://localhost:5173", "https://mini.srmmilan.org", "*"],
 		credentials: true,
 	})
 );
@@ -30,9 +35,9 @@ app.use("/api/users", UsersAuthRoutes);
 app.use("/api/bookings", UsersBookingRoutes);
 
 app.get("/", (req: Request, res: Response) => {
-	const date = new Date().toLocaleString();
+	const date = moment().tz(desiredTimeZone).format("YYYY-MM-DD HH:mm:ss");
 	res.status(200).send({
-		message: "Route Found",
+		message: "Server is running",
 		status_code: 200,
 		entry_time: date,
 	});
