@@ -8,4 +8,4 @@ var RequestMethods;
     RequestMethods["PUT"] = "PUT";
     RequestMethods["DELETE"] = "DELETE";
     RequestMethods["PATCH"] = "PATCH";
-})(RequestMethods || (exports.RequestMethods = RequestMethods = {}));
+})(RequestMethods = exports.RequestMethods || (exports.RequestMethods = {}));

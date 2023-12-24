@@ -7,7 +7,7 @@ var LogTypes;
 (function (LogTypes) {
     LogTypes["LOGS"] = "logs";
     LogTypes["CUSTOM_OBJ"] = "customObj";
-})(LogTypes || (exports.LogTypes = LogTypes = {}));
+})(LogTypes = exports.LogTypes || (exports.LogTypes = {}));
 const Logs = (msg) => init().info(msg);
 const customLogHandler = (obj) => init().child(obj);
 const logger = (msg, func) => {

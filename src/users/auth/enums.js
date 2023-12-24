@@ -5,4 +5,4 @@ var UsersAuthRoutes;
 (function (UsersAuthRoutes) {
     UsersAuthRoutes["LOGIN"] = "login";
     UsersAuthRoutes["SIGNUP"] = "signup";
-})(UsersAuthRoutes || (exports.UsersAuthRoutes = UsersAuthRoutes = {}));
+})(UsersAuthRoutes = exports.UsersAuthRoutes || (exports.UsersAuthRoutes = {}));
