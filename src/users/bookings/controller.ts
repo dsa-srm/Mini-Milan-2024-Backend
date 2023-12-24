@@ -14,8 +14,14 @@ export default class BookingsController extends BookingsService {
 	public execute = async (req: Request, res: Response): Promise<void> => {
 		try {
 			const method = req.method;
-			const routeName = req.route.path.split("/")[1];
-
+			// const routeName = req.route.path.split("/")[1];
+			const ticketType = req.query.ticketType as string;
+			const userId = req.query.userId as string;
+			const paymentId = req.query.paymentId as string;
+			const ticketId = req.query.ticketId as string;
+			const paymentStatus = req.query.paymentStatus as string;
+			const ticketIssued = req.query.ticketIssued as string;
+		  
 			let response: IResponse = {
 				success: false,
 			};

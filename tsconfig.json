@@ -6,7 +6,8 @@
 		// "rootDir": "./src" /* Specify the root directory for TypeScript source files */,
 		"strict": true /* Enable all strict type-checking options */,
 		"esModuleInterop": true /* Enable ES Module interoperability */,
-		"types": ["node"]
+		"types": ["node"],
+		"skipLibCheck": true    
 	}
 	// "include": [
 	// 	"src/**/*.ts"

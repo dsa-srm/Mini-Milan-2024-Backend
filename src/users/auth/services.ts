@@ -54,7 +54,6 @@ export default class UsersAuthService extends UsersAuthHelper {
     return response;
   };
 
-<<<<<<< HEAD
 	protected signupService = async (
 		reqObj: IUserAuthSignupReqObj
 	): Promise<any> => {
@@ -63,20 +62,12 @@ export default class UsersAuthService extends UsersAuthHelper {
 
 		const user: IUserAuthResObject = await this.signupUserHelper(reqObj);
 		const token = await this.jwtHelper.generateTokens(user);
-=======
-  protected signupService = async (
-    reqObj: IUserAuthSignupReqObj
-  ): Promise<any> => {
-    const user: IUserAuthResObject = await this.signupUserHelper(reqObj);
-    const token = await this.jwtHelper.generateTokens(user);
->>>>>>> 930bce6ab8e3a010546bed217f2b7b5f60de3cb7
 
     const response: AuthObj = {
       user,
       token: token.access_token,
     };
 
-<<<<<<< HEAD
 		return response;
 	};
 
@@ -102,8 +93,4 @@ export default class UsersAuthService extends UsersAuthHelper {
 		await this.deleteUserHelper(user_id);
 		return;
 	};
-=======
-    return response;
-  };
->>>>>>> 930bce6ab8e3a010546bed217f2b7b5f60de3cb7
 }

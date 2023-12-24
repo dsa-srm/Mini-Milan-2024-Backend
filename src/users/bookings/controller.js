@@ -22,7 +22,13 @@ class BookingsController extends services_1.default {
         this.execute = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
                 const method = req.method;
-                const routeName = req.route.path.split("/")[1];
+                // const routeName = req.route.path.split("/")[1];
+                const ticketType = req.query.ticketType;
+                const userId = req.query.userId;
+                const paymentId = req.query.paymentId;
+                const ticketId = req.query.ticketId;
+                const paymentStatus = req.query.paymentStatus;
+                const ticketIssued = req.query.ticketIssued;
                 let response = {
                     success: false,
                 };

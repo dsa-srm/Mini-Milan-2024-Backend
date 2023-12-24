@@ -6,7 +6,7 @@ import morgan from "morgan";
 import logger, { LogTypes } from "./utils/logger";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
-
+import moment from "moment";
 const app: Application = express();
 
 app.use(
