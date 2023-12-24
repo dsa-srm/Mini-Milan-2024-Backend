@@ -13,7 +13,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const pg_config_1 = __importDefault(require("../../config/pg.config"));
-const errors_handler_1 = __importDefault(require("../../utils/errors.handler"));
 class BookingsDB {
     constructor() {
         this.getBooking = (bookingId) => __awaiter(this, void 0, void 0, function* () {
@@ -22,20 +21,9 @@ class BookingsDB {
             return rows[0];
         });
         this.createBooking = (reqObj) => __awaiter(this, void 0, void 0, function* () {
-            reqObj.created_at = new Date();
-            reqObj.updated_at = new Date();
             const query = pg_config_1.default.format(`INSERT INTO bookings ? RETURNING *`, reqObj);
-            try {
-                const { rows } = yield pg_config_1.default.query(query);
-                return rows[0];
-            }
-            catch (err) {
-                throw new errors_handler_1.default({
-                    status_code: 400,
-                    message: "Something went wrong while creating booking",
-                    message_code: "ENTER_VALID_DETAILS",
-                });
-            }
+            const { rows } = yield pg_config_1.default.query(query);
+            return rows[0];
         });
         // Additional database methods specific to booking functionality can be added here
     }

@@ -45,6 +45,14 @@ export default class IUserAuthValidation {
 			// 2. Verification of Token
 			const payload = await this.jwtVerifyPromisified(token, JWT_SECRET);
 
+			if (!payload) {
+				throw new ErrorHandler({
+					status_code: 400,
+					message: "You are not logged in! Please log in to get access.",
+					message_code: "NOT_LOGGED_IN",
+				});
+			}
+
 			next();
 		} catch (error) {
 			errorHandler(res, error);

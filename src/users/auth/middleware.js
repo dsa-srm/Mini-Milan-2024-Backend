@@ -53,6 +53,13 @@ class IUserAuthValidation {
                 const JWT_SECRET = fs_1.default.readFileSync(path_1.default.resolve(__dirname, "../../../keys/jwtRS256.key"));
                 // 2. Verification of Token
                 const payload = yield this.jwtVerifyPromisified(token, JWT_SECRET);
+                if (!payload) {
+                    throw new errors_handler_1.default({
+                        status_code: 400,
+                        message: "You are not logged in! Please log in to get access.",
+                        message_code: "NOT_LOGGED_IN",
+                    });
+                }
                 next();
             }
             catch (error) {

@@ -1,5 +1,4 @@
 import db from "../../config/pg.config";
-import ErrorHandler from "../../utils/errors.handler";
 import { IUserAuthResObject, IUserAuthSignupReqObj } from "./interface";
 
 export default class UsersAuthDB {
@@ -23,15 +22,11 @@ export default class UsersAuthDB {
 	protected isExistingUser = async (
 		email: string,
 		phone_number: number
-	): Promise<boolean> => {
+	): Promise<IUserAuthResObject> => {
 		const query = `SELECT * FROM users WHERE email = $1 OR phone_number = $2 LIMIT 1`;
 
 		const { rows } = await db.query(query, [email, phone_number]);
 
-		if (rows.length > 0) {
-			return true;
-		} else {
-			return false;
-		}
+		return rows[0] as unknown as IUserAuthResObject;
 	};
 }

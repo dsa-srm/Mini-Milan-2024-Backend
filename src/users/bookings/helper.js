@@ -18,6 +18,8 @@ class BookingsHelper extends db_1.default {
     constructor() {
         super(...arguments);
         this.createBookingHelper = (reqObj) => __awaiter(this, void 0, void 0, function* () {
+            reqObj.created_at = new Date();
+            reqObj.updated_at = new Date();
             // Additional validation and business logic can be added here
             const booking = yield this.createBooking(reqObj);
             if (!booking) {
