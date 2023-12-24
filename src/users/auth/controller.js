@@ -26,7 +26,6 @@ class UsersAuthController extends services_1.default {
             try {
                 const method = req.method;
                 const routeName = req.route.path.split("/")[1];
-                console.log(routeName, method);
                 let response = {
                     success: false,
                 };
@@ -37,6 +36,8 @@ class UsersAuthController extends services_1.default {
                         const authRes = yield this.loginController(reqObj);
                         res.cookie("token", authRes.token, {
                             httpOnly: true,
+                            secure: true,
+                            sameSite: "none",
                         });
                         response = authRes.user;
                     }
@@ -47,12 +48,13 @@ class UsersAuthController extends services_1.default {
                         const authRes = yield this.signupController(reqObj);
                         res.cookie("token", authRes.token, {
                             httpOnly: true,
+                            secure: true,
+                            sameSite: "none",
                         });
                         response = authRes.user;
                     }
                 }
                 else if (routeName === enums_2.UsersAuthRoutes.DELETE) {
-                    console.log("🔥🔥🔥🔥🔥🔥");
                     if (method === enums_1.RequestMethods.DELETE) {
                         const user_id = req.params.id;
                         yield this.deleteUserController(user_id);

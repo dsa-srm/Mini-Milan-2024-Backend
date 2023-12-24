@@ -91,7 +91,6 @@ class IUserAuthValidation {
             }
         });
         this.checkIsKtrStudentEmail = (email) => {
-            console.log("Been here 🔥🔥🔥🔥");
             const ktr_email_schema = joi_1.default.string().pattern(/^[a-zA-Z]{2}[0-9]{4}@srmist.edu.in$/);
             const ktr_email_validation_result = ktr_email_schema.validate(email);
             if (ktr_email_validation_result.error) {
