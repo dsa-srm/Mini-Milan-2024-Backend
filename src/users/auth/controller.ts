@@ -20,8 +20,6 @@ export default class UsersAuthController extends UsersAuthService {
 			const method = req.method;
 			const routeName = req.route.path.split("/")[1];
 
-			console.log(routeName, method);
-
 			let response: IResponse = {
 				success: false,
 			};
@@ -33,6 +31,8 @@ export default class UsersAuthController extends UsersAuthService {
 					const authRes: IAuthResponse = await this.loginController(reqObj);
 					res.cookie("token", authRes.token, {
 						httpOnly: true,
+						secure: true,
+						sameSite: "none",
 					});
 					response = authRes.user;
 				}
@@ -42,12 +42,12 @@ export default class UsersAuthController extends UsersAuthService {
 					const authRes: IAuthResponse = await this.signupController(reqObj);
 					res.cookie("token", authRes.token, {
 						httpOnly: true,
+						secure: true,
+						sameSite: "none",
 					});
 					response = authRes.user;
 				}
 			} else if (routeName === UsersAuthRoutes.DELETE) {
-				console.log("🔥🔥🔥🔥🔥🔥");
-
 				if (method === RequestMethods.DELETE) {
 					const user_id = req.params.id;
 					await this.deleteUserController(user_id);

@@ -92,8 +92,6 @@ export default class IUserAuthValidation {
 	};
 
 	public checkIsKtrStudentEmail = (email: string) => {
-		console.log("Been here 🔥🔥🔥🔥");
-
 		const ktr_email_schema = Joi.string().pattern(
 			/^[a-zA-Z]{2}[0-9]{4}@srmist.edu.in$/
 		);
