@@ -1,6 +1,8 @@
+
+
 import { QueryInterface, DataTypes } from "sequelize";
 
-const tableName = "users";
+const tableName = "bookings";
 
 exports.default = {
   up: (queryInterface: QueryInterface) => {
@@ -8,39 +10,48 @@ exports.default = {
       tableName,
       {
         id: {
-          type: DataTypes.STRING, // Use STRING for varchar
+          type: DataTypes.UUID,
+
           allowNull: false,
           primaryKey: true,
         },
-        name: {
-          type: DataTypes.STRING,
+        ticket_type: {
+          type: DataTypes.TEXT,
           allowNull: false,
         },
-        email: {
-          type: DataTypes.STRING,
+        user_id: {
+          type: DataTypes.UUID,
+          allowNull: false,
+          references: {
+            model: "users",
+            key: "id",
+          },
+        },
+        payment_id: {
+          type: DataTypes.TEXT,
+        },
+        ticket_id: {
+          type: DataTypes.TEXT,
+        },
+        payment_status: {
+          type: DataTypes.ENUM("success", "failed", "pending"),
+          defaultValue: "pending",
           allowNull: false,
         },
-        password: {
-          type: DataTypes.STRING,
+        ticket_status: {
+          type: DataTypes.ENUM("success", "failed", "pending"),
+          defaultValue: "pending",
           allowNull: false,
         },
-        reg_number: {
-          type: DataTypes.STRING,
-          allowNull: false,
-        },
-        is_srm_student: {
+        offline_ticket_issued: {
           type: DataTypes.BOOLEAN,
-          defaultValue: false,
-        },
-        phone_number: {
-          type: DataTypes.INTEGER,
-        },
-        is_ticket_issued: {
-          type: DataTypes.BOOLEAN,
+          allowNull: false,
           defaultValue: false,
         },
         created_at: {
           type: DataTypes.DATE,
+          defaultValue: DataTypes.NOW,
+
           allowNull: false,
         },
         updated_at: {

@@ -1,6 +1,6 @@
 import { QueryInterface, DataTypes } from "sequelize";
 
-const tableName = "bookings";
+const tableName = "users";
 
 exports.default = {
   up: (queryInterface: QueryInterface) => {
@@ -9,39 +9,58 @@ exports.default = {
       {
         id: {
           type: DataTypes.UUID,
-
+					primaryKey: true,
+					allowNull: false,
+        },
+        name: {
+          type: DataTypes.TEXT,
           allowNull: false,
-          primaryKey: true,
         },
-        ticket_type: {
-          type: DataTypes.STRING,
+        email: {
+          type: DataTypes.TEXT,
+          allowNull: false,
+          
         },
-        user_id: {
-          type: DataTypes.UUID,
+        password: {
+          type: DataTypes.TEXT,
+          allowNull: false,
         },
-        payment_id: {
-          type: DataTypes.UUID,
+        reg_number: {
+          type: DataTypes.TEXT,
+          allowNull: false,
         },
-        ticket_id: {
-          type: DataTypes.UUID,
-        },
-        payment_status: {
-          type: DataTypes.STRING,
-        },
-        ticket_status: {
-          type: DataTypes.STRING,
-        },
-        offline_ticket_issued: {
+        is_ktr_student: {
           type: DataTypes.BOOLEAN,
+          allowNull: false,
+          defaultValue: false,
+        },
+        phone_number: {
+          type: DataTypes.INTEGER,
+          allowNull: false,
+        },
+        is_ticket_issued: {
+          type: DataTypes.BOOLEAN,
+          allowNull: false,
           defaultValue: false,
         },
         created_at: {
           type: DataTypes.DATE,
           allowNull: false,
+          defaultValue: DataTypes.NOW,
+
         },
         updated_at: {
           type: DataTypes.DATE,
           allowNull: false,
+        },
+        gender: {
+          type: DataTypes.TEXT,
+          allowNull: false,
+        },
+        is_deleted: {
+          type: DataTypes.BOOLEAN,
+          allowNull: false,
+          defaultValue: false,
         },
       },
       {
@@ -54,3 +73,9 @@ exports.default = {
     return queryInterface.dropTable(tableName);
   },
 };
+
+
+
+
+
+
