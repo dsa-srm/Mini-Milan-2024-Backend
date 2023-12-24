@@ -22,7 +22,11 @@ export default class BookingsController extends BookingsService {
 			let statusCode = 200;
 
 			if (method === RequestMethods.POST) {
-				const reqObj: ICreateBookingReqObj = { ...req.body, id: v4() };
+				const reqObj: ICreateBookingReqObj = {
+					...req.body,
+					offline_ticket_issued: false,
+					id: v4(),
+				};
 				const bookingRes: IBookingResponse = await this.createBookingController(
 					reqObj
 				);

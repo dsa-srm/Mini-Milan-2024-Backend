@@ -28,7 +28,7 @@ class BookingsController extends services_1.default {
                 };
                 let statusCode = 200;
                 if (method === enums_1.RequestMethods.POST) {
-                    const reqObj = Object.assign(Object.assign({}, req.body), { id: (0, uuid_1.v4)() });
+                    const reqObj = Object.assign(Object.assign({}, req.body), { offline_ticket_issued: false, id: (0, uuid_1.v4)() });
                     const bookingRes = yield this.createBookingController(reqObj);
                     // Additional logic if needed
                     response = bookingRes;

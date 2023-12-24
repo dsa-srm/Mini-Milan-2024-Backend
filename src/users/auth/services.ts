@@ -1,5 +1,7 @@
 import ErrorHandler from "../../utils/errors.handler";
 
+import IUserAuthValidation from "./middleware";
+
 import {
 	AuthObj,
 	IUserAuthLoginReqObj,
@@ -52,17 +54,56 @@ export default class UsersAuthService extends UsersAuthHelper {
     return response;
   };
 
+<<<<<<< HEAD
+	protected signupService = async (
+		reqObj: IUserAuthSignupReqObj
+	): Promise<any> => {
+		const { checkIsKtrStudentEmail } = new IUserAuthValidation();
+		checkIsKtrStudentEmail(reqObj.email);
+
+		const user: IUserAuthResObject = await this.signupUserHelper(reqObj);
+		const token = await this.jwtHelper.generateTokens(user);
+=======
   protected signupService = async (
     reqObj: IUserAuthSignupReqObj
   ): Promise<any> => {
     const user: IUserAuthResObject = await this.signupUserHelper(reqObj);
     const token = await this.jwtHelper.generateTokens(user);
+>>>>>>> 930bce6ab8e3a010546bed217f2b7b5f60de3cb7
 
     const response: AuthObj = {
       user,
       token: token.access_token,
     };
 
+<<<<<<< HEAD
+		return response;
+	};
+
+	protected deleteUserService = async (user_id: string): Promise<void> => {
+		const user = await this.getUserHelper(user_id);
+
+		if (!user) {
+			throw new ErrorHandler({
+				status_code: 404,
+				message: "User not found",
+				message_code: "USER_NOT_FOUND",
+			});
+		}
+
+		if (user.is_ticket_issued) {
+			throw new ErrorHandler({
+				status_code: 400,
+				message: "User cannot be deleted now, offline ticket has been issued",
+				message_code: "OFFLINE_TICKET_ISSUED_USER_CANNOT_BE_DELETED",
+			});
+		}
+
+		await this.deleteUserHelper(user_id);
+		return;
+	};
+=======
     return response;
   };
+>>>>>>> 930bce6ab8e3a010546bed217f2b7b5f60de3cb7
 }

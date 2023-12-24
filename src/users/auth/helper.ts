@@ -7,7 +7,7 @@ export default class UsersAuthHelper extends UsersAuthDB {
 	protected getUserByEmailHelper = async (
 		email: string
 	): Promise<IUserAuthResObject> => {
-		const user = await this.getUser(email);
+		const user = await this.getUserByEmail(email);
 		return user;
 	};
 
@@ -26,7 +26,7 @@ export default class UsersAuthHelper extends UsersAuthDB {
 			reqObj.phone_number
 		);
 
-		if (isExistingUser) {
+		if (isExistingUser && !isExistingUser.is_deleted) {
 			throw new ErrorHandler({
 				status_code: 409,
 				message: "User already exists",
@@ -52,5 +52,15 @@ export default class UsersAuthHelper extends UsersAuthDB {
 		}
 
 		return user;
+	};
+
+	protected getUserHelper = async (id: string): Promise<IUserAuthResObject> => {
+		const user = await this.getUser(id);
+		return user;
+	};
+
+	protected deleteUserHelper = async (user_id: string): Promise<void> => {
+		await this.deleteUser(user_id);
+		return;
 	};
 }

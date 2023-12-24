@@ -6,5 +6,6 @@ const { execute } = new UsersAuthController();
 
 router.post("/login", execute);
 router.post("/signup", execute);
+router.delete("/:id", execute);
 
 export default router;

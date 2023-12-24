@@ -15,8 +15,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const ress_error_1 = require("../../utils/ress.error");
 const enums_1 = require("../../utils/enums");
 const enums_2 = require("./enums");
+const middleware_1 = __importDefault(require("./middleware"));
 const uuid_1 = require("uuid");
 const services_1 = __importDefault(require("./services"));
+const errors_handler_1 = __importDefault(require("../../utils/errors.handler"));
 class UsersAuthController extends services_1.default {
     constructor() {
         super(...arguments);
@@ -24,6 +26,7 @@ class UsersAuthController extends services_1.default {
             try {
                 const method = req.method;
                 const routeName = req.route.path.split("/")[1];
+                console.log(routeName, method);
                 let response = {
                     success: false,
                 };
@@ -48,6 +51,15 @@ class UsersAuthController extends services_1.default {
                         response = authRes.user;
                     }
                 }
+                else if (routeName === enums_2.UsersAuthRoutes.DELETE) {
+                    console.log("🔥🔥🔥🔥🔥🔥");
+                    if (method === enums_1.RequestMethods.DELETE) {
+                        const user_id = req.params.id;
+                        yield this.deleteUserController(user_id);
+                        response.message = "User deleted successfully";
+                        statusCode = 204;
+                    }
+                }
                 res.status(statusCode).send(response);
             }
             catch (error) {
@@ -66,6 +78,17 @@ class UsersAuthController extends services_1.default {
             };
         });
         this.signupController = (reqObj) => __awaiter(this, void 0, void 0, function* () {
+            if (!reqObj.email || !reqObj.phone_number) {
+                throw new errors_handler_1.default({
+                    status_code: 400,
+                    message: "Email or Phone Number is required.",
+                    message_code: "EMAIL_OR_PHONE_NUMBER_REQUIRED",
+                });
+            }
+            else {
+                const { validateEmailAndPhoneNumber } = new middleware_1.default();
+                validateEmailAndPhoneNumber(reqObj.email, reqObj.phone_number);
+            }
             const data = yield this.signupService(reqObj);
             return {
                 user: {
@@ -75,6 +98,10 @@ class UsersAuthController extends services_1.default {
                 },
                 token: data.token,
             };
+        });
+        this.deleteUserController = (user_id) => __awaiter(this, void 0, void 0, function* () {
+            yield this.deleteUserService(user_id);
+            return;
         });
     }
 }
