@@ -13,47 +13,48 @@ import JWTUtils from "../../utils/jwt.utils";
 import UsersAuthHelper from "./helper";
 
 export default class UsersAuthService extends UsersAuthHelper {
-	jwtHelper: JWTUtils;
-	constructor() {
-		super();
-		this.jwtHelper = new JWTUtils();
-	}
+  jwtHelper: JWTUtils;
+  constructor() {
+    super();
+    this.jwtHelper = new JWTUtils();
+  }
 
-	protected loginService = async (
-		reqObj: IUserAuthLoginReqObj
-	): Promise<any> => {
-		const { email, password } = reqObj;
+  protected loginService = async (
+    reqObj: IUserAuthLoginReqObj
+  ): Promise<any> => {
+    const { email, password } = reqObj;
 
-		const user = await this.getUserByEmailHelper(email);
+    const user = await this.getUserByEmailHelper(email);
 
-		if (!user) {
-			throw new ErrorHandler({
-				status_code: 404,
-				message: "User not found",
-				message_code: "USER_NOT_FOUND",
-			});
-		}
+    if (!user) {
+      throw new ErrorHandler({
+        status_code: 404,
+        message: "User not found",
+        message_code: "USER_NOT_FOUND",
+      });
+    }
 
-		const isPasswordMatch = await this.comparePasswordHelper(user, password);
+    const isPasswordMatch = await this.comparePasswordHelper(user, password);
 
-		if (!isPasswordMatch) {
-			throw new ErrorHandler({
-				status_code: 400,
-				message: "Invalid Credentials",
-				message_code: "INVALID_CREDENTIALS",
-			});
-		}
+    if (!isPasswordMatch) {
+      throw new ErrorHandler({
+        status_code: 400,
+        message: "Invalid Credentials",
+        message_code: "INVALID_CREDENTIALS",
+      });
+    }
 
-		const token = await this.jwtHelper.generateTokens(user);
+    const token = await this.jwtHelper.generateTokens(user);
 
-		const response: AuthObj = {
-			user,
-			token: token.access_token,
-		};
+    const response: AuthObj = {
+      user,
+      token: token.access_token,
+    };
 
-		return response;
-	};
+    return response;
+  };
 
+<<<<<<< HEAD
 	protected signupService = async (
 		reqObj: IUserAuthSignupReqObj
 	): Promise<any> => {
@@ -62,12 +63,20 @@ export default class UsersAuthService extends UsersAuthHelper {
 
 		const user: IUserAuthResObject = await this.signupUserHelper(reqObj);
 		const token = await this.jwtHelper.generateTokens(user);
+=======
+  protected signupService = async (
+    reqObj: IUserAuthSignupReqObj
+  ): Promise<any> => {
+    const user: IUserAuthResObject = await this.signupUserHelper(reqObj);
+    const token = await this.jwtHelper.generateTokens(user);
+>>>>>>> 930bce6ab8e3a010546bed217f2b7b5f60de3cb7
 
-		const response: AuthObj = {
-			user,
-			token: token.access_token,
-		};
+    const response: AuthObj = {
+      user,
+      token: token.access_token,
+    };
 
+<<<<<<< HEAD
 		return response;
 	};
 
@@ -93,4 +102,8 @@ export default class UsersAuthService extends UsersAuthHelper {
 		await this.deleteUserHelper(user_id);
 		return;
 	};
+=======
+    return response;
+  };
+>>>>>>> 930bce6ab8e3a010546bed217f2b7b5f60de3cb7
 }
