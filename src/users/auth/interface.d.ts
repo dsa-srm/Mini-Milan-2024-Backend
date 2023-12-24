@@ -27,20 +27,19 @@ export type IUserAuthResObject = {
 	updated_at: Date;
 	created_at: Date;
 };
-
 export type IResponse<T = any> = {
-	success: boolean;
-	message?: string;
-	data?: T | null;
-	message_code?: string;
-};
-
+    success: boolean;
+    message?: string;
+    data?: T | null;
+    message_code?: string;
+  };
+  
 export type IAuthResponse = {
-	user: IResponse;
+	user: IResponse; //error
 	token: string;
 };
 
 export type AuthObj = {
-	user: IUserAuthResObject;
+	user: IUserAuthResObject;  //error
 	token: string;
 };
