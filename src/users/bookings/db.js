@@ -13,23 +13,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const pg_config_1 = __importDefault(require("../../config/pg.config"));
-class UsersAuthDB {
+class BookingsDB {
     constructor() {
-        this.getUser = (email) => __awaiter(this, void 0, void 0, function* () {
-            const query = `SELECT * FROM users WHERE email = $1 LIMIT 1`;
-            const { rows } = yield pg_config_1.default.query(query, [email]);
+        this.getBooking = (bookingId) => __awaiter(this, void 0, void 0, function* () {
+            const query = `SELECT * FROM bookings WHERE id = $1 LIMIT 1`;
+            const { rows } = yield pg_config_1.default.query(query, [bookingId]);
             return rows[0];
         });
-        this.createUser = (reqObj) => __awaiter(this, void 0, void 0, function* () {
-            const query = pg_config_1.default.format(`INSERT INTO users ? RETURNING *`, reqObj);
+        this.createBooking = (reqObj) => __awaiter(this, void 0, void 0, function* () {
+            const query = pg_config_1.default.format(`INSERT INTO bookings ? RETURNING *`, reqObj);
             const { rows } = yield pg_config_1.default.query(query);
             return rows[0];
         });
-        this.isExistingUser = (email, phone_number) => __awaiter(this, void 0, void 0, function* () {
-            const query = `SELECT * FROM users WHERE email = $1 OR phone_number = $2 LIMIT 1`;
-            const { rows } = yield pg_config_1.default.query(query, [email, phone_number]);
-            return rows[0];
-        });
+        // Additional database methods specific to booking functionality can be added here
     }
 }
-exports.default = UsersAuthDB;
+exports.default = BookingsDB;

@@ -24,8 +24,10 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 import UsersAuthRoutes from "./users/auth/routes";
+import UsersBookingRoutes from "./users/bookings/routes";
 
 app.use("/api/users", UsersAuthRoutes);
+app.use("/api/bookings", UsersBookingRoutes);
 
 app.get("/", (req: Request, res: Response) => {
 	const date = new Date().toLocaleString();

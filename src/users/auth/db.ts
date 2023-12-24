@@ -1,5 +1,4 @@
 import db from "../../config/pg.config";
-import ErrorHandler from "../../utils/errors.handler";
 import { IUserAuthResObject, IUserAuthSignupReqObj } from "./interface";
 
 export default class UsersAuthDB {
@@ -12,23 +11,23 @@ export default class UsersAuthDB {
     return rows[0] as unknown as IUserAuthResObject;
   };
 
-  protected createUser = async (
-    reqObj: IUserAuthSignupReqObj
-  ): Promise<IUserAuthResObject> => {
-    reqObj.created_at = new Date();
-    reqObj.updated_at = new Date();
+	protected createUser = async (
+		reqObj: IUserAuthSignupReqObj
+	): Promise<IUserAuthResObject> => {
+		const query = db.format(`INSERT INTO users ? RETURNING *`, reqObj);
 
-    const query = db.format(`INSERT INTO users ? RETURNING *`, reqObj);
+		const { rows } = await db.query(query);
+		return rows[0] as unknown as IUserAuthResObject;
+	};
 
-    try {
-      const { rows } = await db.query(query);
-      return rows[0] as unknown as IUserAuthResObject;
-    } catch (err) {
-      throw new ErrorHandler({
-        status_code: 400,
-        message: "Something went wrong while creating user",
-        message_code: "PHONE_NUMBER_ALREADY_EXISTS",
-      });
-    }
-  };
+	protected isExistingUser = async (
+		email: string,
+		phone_number: number
+	): Promise<IUserAuthResObject> => {
+		const query = `SELECT * FROM users WHERE email = $1 OR phone_number = $2 LIMIT 1`;
+
+		const { rows } = await db.query(query, [email, phone_number]);
+
+		return rows[0] as unknown as IUserAuthResObject;
+	};
 }

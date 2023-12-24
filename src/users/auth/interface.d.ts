@@ -12,8 +12,8 @@ export type IUserAuthSignupReqObj = {
 	is_srm_student: boolean;
 	phone_number: number;
 	is_ticket_issued: boolean;
-	updated_at?: Date | null;
-	created_at?: Date | null;
+	updated_at: Date;
+	created_at: Date;
 };
 
 export type IUserAuthResObject = {

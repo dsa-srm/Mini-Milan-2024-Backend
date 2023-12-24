@@ -12,41 +12,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const errors_handler_1 = __importDefault(require("../../utils/errors.handler"));
 const db_1 = __importDefault(require("./db"));
-class UsersAuthHelper extends db_1.default {
+class BookingsHelper extends db_1.default {
     constructor() {
         super(...arguments);
-        this.getUserByEmailHelper = (email) => __awaiter(this, void 0, void 0, function* () {
-            const user = yield this.getUser(email);
-            return user;
-        });
-        this.comparePasswordHelper = (user, password) => __awaiter(this, void 0, void 0, function* () {
-            return yield bcryptjs_1.default.compare(password, user.password);
-        });
-        this.signupUserHelper = (reqObj) => __awaiter(this, void 0, void 0, function* () {
-            const isExistingUser = yield this.isExistingUser(reqObj.email, reqObj.phone_number);
-            if (isExistingUser) {
-                throw new errors_handler_1.default({
-                    status_code: 409,
-                    message: "User already exists",
-                    message_code: "USER_ALREADY_EXISTS",
-                });
-            }
+        this.createBookingHelper = (reqObj) => __awaiter(this, void 0, void 0, function* () {
             reqObj.created_at = new Date();
             reqObj.updated_at = new Date();
-            const newReqObj = Object.assign(Object.assign({}, reqObj), { password: yield bcryptjs_1.default.hash(reqObj.password, 12) });
-            const user = yield this.createUser(newReqObj);
-            if (!user) {
+            // Additional validation and business logic can be added here
+            const booking = yield this.createBooking(reqObj);
+            if (!booking) {
                 throw new errors_handler_1.default({
                     status_code: 400,
-                    message: "Something went wrong while creating user",
+                    message: "Something went wrong while creating booking",
                     message_code: "SOMETHING_WENT_WRONG",
                 });
             }
-            return user;
+            return booking;
         });
+        // Additional helper methods specific to booking functionality can be added here
     }
 }
-exports.default = UsersAuthHelper;
+exports.default = BookingsHelper;

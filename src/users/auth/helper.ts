@@ -21,6 +21,22 @@ export default class UsersAuthHelper extends UsersAuthDB {
 	protected signupUserHelper = async (
 		reqObj: IUserAuthSignupReqObj
 	): Promise<IUserAuthResObject> => {
+		const isExistingUser = await this.isExistingUser(
+			reqObj.email,
+			reqObj.phone_number
+		);
+
+		if (isExistingUser) {
+			throw new ErrorHandler({
+				status_code: 409,
+				message: "User already exists",
+				message_code: "USER_ALREADY_EXISTS",
+			});
+		}
+
+		reqObj.created_at = new Date();
+		reqObj.updated_at = new Date();
+
 		const newReqObj: IUserAuthSignupReqObj = {
 			...reqObj,
 			password: await bcrypt.hash(reqObj.password, 12),
