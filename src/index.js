@@ -30,13 +30,16 @@ const dotenv = __importStar(require("dotenv"));
 dotenv.config();
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
+const moment_timezone_1 = __importDefault(require("moment-timezone"));
 const morgan_1 = __importDefault(require("morgan"));
 const logger_1 = __importStar(require("./utils/logger"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const app = (0, express_1.default)();
+const desiredTimeZone = "Asia/Kolkata"; // India Standard Time (GMT+5:30)
+// Get the current time in the specified time zone
 app.use((0, cors_1.default)({
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173", "https://mini.srmmilan.org", "*"],
     credentials: true,
 }));
 app.use((0, cookie_parser_1.default)());
@@ -50,9 +53,9 @@ const routes_2 = __importDefault(require("./users/bookings/routes"));
 app.use("/api/users", routes_1.default);
 app.use("/api/bookings", routes_2.default);
 app.get("/", (req, res) => {
-    const date = new Date().toLocaleString();
+    const date = (0, moment_timezone_1.default)().tz(desiredTimeZone).format("YYYY-MM-DD HH:mm:ss");
     res.status(200).send({
-        message: "Route Found",
+        message: "Server is running",
         status_code: 200,
         entry_time: date,
     });

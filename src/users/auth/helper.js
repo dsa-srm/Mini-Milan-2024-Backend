@@ -19,7 +19,7 @@ class UsersAuthHelper extends db_1.default {
     constructor() {
         super(...arguments);
         this.getUserByEmailHelper = (email) => __awaiter(this, void 0, void 0, function* () {
-            const user = yield this.getUser(email);
+            const user = yield this.getUserByEmail(email);
             return user;
         });
         this.comparePasswordHelper = (user, password) => __awaiter(this, void 0, void 0, function* () {
@@ -27,7 +27,7 @@ class UsersAuthHelper extends db_1.default {
         });
         this.signupUserHelper = (reqObj) => __awaiter(this, void 0, void 0, function* () {
             const isExistingUser = yield this.isExistingUser(reqObj.email, reqObj.phone_number);
-            if (isExistingUser) {
+            if (isExistingUser && !isExistingUser.is_deleted) {
                 throw new errors_handler_1.default({
                     status_code: 409,
                     message: "User already exists",
@@ -46,6 +46,14 @@ class UsersAuthHelper extends db_1.default {
                 });
             }
             return user;
+        });
+        this.getUserHelper = (id) => __awaiter(this, void 0, void 0, function* () {
+            const user = yield this.getUser(id);
+            return user;
+        });
+        this.deleteUserHelper = (user_id) => __awaiter(this, void 0, void 0, function* () {
+            yield this.deleteUser(user_id);
+            return;
         });
     }
 }

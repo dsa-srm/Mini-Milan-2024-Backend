@@ -1,0 +1,21 @@
+config:
+  target: http://127.0.0.1:5000/api
+  phases:
+    - duration: 10
+      arrivalRate: 10
+      rampTo: 20
+      name: Warm up phase
+    - duration: 60
+      arrivalRate: 200
+      rampTo: 500
+      name: Ramp up load
+  processor: "./dataGenerate.js"
+
+scenarios:
+  - flow:
+      - post:
+          url: "/bookings"
+          beforeRequest: "generateRandomBody"
+          json: "{{ data }}"
+          headers:
+            Authorization: "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbiI6ImFjY2Vzc190b2tlbiIsImRhdGEiOnsiaWQiOiJhMzg3ODVjZC05ZWU1LTQzNmYtYjZmNS01MGI5NTdhNzRiZTQiLCJuYW1lIjoiSm9obiBEb2UiLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwicGFzc3dvcmQiOiIkMmEkMTIkUGRJbjhvbXFESUxCcnN3eWNmQkVmZWJTUmxBM0tXUXVpNmxCdzhmOHE4L0ZKNi9aNkhzMTIiLCJyZWdfbnVtYmVyIjoiU1JNMTIzNDU2IiwiaXNfc3JtX3N0dWRlbnQiOnRydWUsInBob25lX251bWJlciI6MTIzNDU2Nzg5MCwiaXNfdGlja2V0X2lzc3VlZCI6ZmFsc2UsImNyZWF0ZWRfYXQiOiIyMDIzLTEyLTE5VDA2OjIwOjMxLjA0N1oiLCJ1cGRhdGVkX2F0IjoiMjAyMy0xMi0xOVQwNjoyMDozMS4wNDdaIn0sImlhdCI6MTcwMzAwNDg1MSwiZXhwIjoxNzA0MzAwODUxfQ.r9-28lR7L7AaS1K_APDROI13xA8UvXXH4XJN7XknKNi_nNKhMm7waxB4xkiLYZCuMXfSkTBQugkNWYfvxjFaYlgxHcR96x9kCm3_4-iGyaBsPEVZcCdFT2Z4GNLcI4BqHJAzry5ONpN5aPphfIkQytdS2VeJQHLhNOemRfkrZ8l9-M8qCDnq9q2a80fvaTEdDhoK65aBIg0rWAQHJoG9YQhSVVoG_U7dThgUA4nh9z7a65yAaGD9jm5Xnz9doVeHwupoRV51LNL3sLKAWO1WgYtUR4QoSZwQ8XON3YpvhqFS7GJnKBbbxPPwqlV83fomqLcZrOdwW756NnVMvZDWhg"

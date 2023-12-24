@@ -15,9 +15,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const pg_config_1 = __importDefault(require("../../config/pg.config"));
 class UsersAuthDB {
     constructor() {
-        this.getUser = (email) => __awaiter(this, void 0, void 0, function* () {
-            const query = `SELECT * FROM users WHERE email = $1 LIMIT 1`;
+        this.getUserByEmail = (email) => __awaiter(this, void 0, void 0, function* () {
+            const query = `SELECT * FROM users WHERE email = $1 AND is_deleted = false LIMIT 1`;
             const { rows } = yield pg_config_1.default.query(query, [email]);
+            return rows[0];
+        });
+        this.getUser = (id) => __awaiter(this, void 0, void 0, function* () {
+            const query = `SELECT * FROM users WHERE id = $1 AND is_deleted = false LIMIT 1`;
+            const { rows } = yield pg_config_1.default.query(query, [id]);
             return rows[0];
         });
         this.createUser = (reqObj) => __awaiter(this, void 0, void 0, function* () {
@@ -26,9 +31,13 @@ class UsersAuthDB {
             return rows[0];
         });
         this.isExistingUser = (email, phone_number) => __awaiter(this, void 0, void 0, function* () {
-            const query = `SELECT * FROM users WHERE email = $1 OR phone_number = $2 LIMIT 1`;
+            const query = `SELECT * FROM users WHERE email = $1 OR phone_number = $2 AND is_deleted = false LIMIT 1`;
             const { rows } = yield pg_config_1.default.query(query, [email, phone_number]);
             return rows[0];
+        });
+        this.deleteUser = (user_id) => __awaiter(this, void 0, void 0, function* () {
+            const query = `UPDATE users SET is_deleted = true WHERE id = $1`;
+            yield pg_config_1.default.query(query, [user_id]);
         });
     }
 }

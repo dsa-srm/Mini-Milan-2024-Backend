@@ -2,15 +2,16 @@
 	"compilerOptions": {
 		"target": "es2018" /* Specify the ECMAScript target version */,
 		"module": "commonjs" /* Specify the module system */,
-		"outDir": "./dist" /* Specify the output directory for compiled JavaScript files */,
-		"rootDir": "./src" /* Specify the root directory for TypeScript source files */,
+		"outDir": "dist" /* Specify the output directory for compiled JavaScript files */,
+		// "rootDir": "./src" /* Specify the root directory for TypeScript source files */,
 		"strict": true /* Enable all strict type-checking options */,
-		"esModuleInterop": true /* Enable ES Module interoperability */
-	},
-	"include": [
-		"src/**/*.ts"
-	] /* Specify the files to be included in compilation */,
-	"exclude": [
-		"node_modules"
-	] /* Specify files or directories to be excluded from compilation */
+		"esModuleInterop": true /* Enable ES Module interoperability */,
+		"types": ["node"]
+	}
+	// "include": [
+	// 	"src/**/*.ts"
+	// ] /* Specify the files to be included in compilation */,
+	// "exclude": [
+	// 	"node_modules"
+	// ] /* Specify files or directories to be excluded from compilation */
 }
