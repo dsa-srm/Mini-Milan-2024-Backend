@@ -21,6 +21,8 @@ class BookingsController extends services_1.default {
         super(...arguments);
         this.execute = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
+                const queryParams = Object.assign({}, req.query);
+                const reqData = JSON.parse(JSON.stringify(queryParams));
                 const method = req.method;
                 const routeName = req.route.path.split("/")[1];
                 let response = {
@@ -28,7 +30,7 @@ class BookingsController extends services_1.default {
                 };
                 let statusCode = 200;
                 if (method === enums_1.RequestMethods.POST) {
-                    const reqObj = Object.assign(Object.assign({}, req.body), { offline_ticket_issued: false, id: (0, uuid_1.v4)() });
+                    const reqObj = Object.assign(Object.assign({}, reqData), { offline_ticket_issued: false, id: (0, uuid_1.v4)() });
                     const bookingRes = yield this.createBookingController(reqObj);
                     // Additional logic if needed
                     response = bookingRes;

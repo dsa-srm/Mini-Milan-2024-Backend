@@ -23,6 +23,7 @@ class UsersAuthController extends services_1.default {
     constructor() {
         super(...arguments);
         this.execute = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            console.log("🔥🔥🔥🔥🔥🔥🔥");
             try {
                 const method = req.method;
                 const routeName = req.route.path.split("/")[1];
@@ -54,13 +55,11 @@ class UsersAuthController extends services_1.default {
                         response = authRes.user;
                     }
                 }
-                else if (routeName === enums_2.UsersAuthRoutes.DELETE) {
-                    if (method === enums_1.RequestMethods.DELETE) {
-                        const user_id = req.params.id;
-                        yield this.deleteUserController(user_id);
-                        response.message = "User deleted successfully";
-                        statusCode = 204;
-                    }
+                else if (method === enums_1.RequestMethods.DELETE) {
+                    const user_id = req.params.id;
+                    yield this.deleteUserController(user_id);
+                    response.message = "User deleted successfully";
+                    statusCode = 204;
                 }
                 res.status(statusCode).send(response);
             }

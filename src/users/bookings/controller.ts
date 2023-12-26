@@ -13,6 +13,9 @@ import BookingsService from "./services"; // Assuming you have a BookingsService
 export default class BookingsController extends BookingsService {
 	public execute = async (req: Request, res: Response): Promise<void> => {
 		try {
+			const queryParams = { ...req.query };
+			const reqData = JSON.parse(JSON.stringify(queryParams));
+
 			const method = req.method;
 			const routeName = req.route.path.split("/")[1];
 
@@ -23,7 +26,7 @@ export default class BookingsController extends BookingsService {
 
 			if (method === RequestMethods.POST) {
 				const reqObj: ICreateBookingReqObj = {
-					...req.body,
+					...reqData,
 					offline_ticket_issued: false,
 					id: v4(),
 				};

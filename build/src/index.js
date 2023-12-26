@@ -39,7 +39,11 @@ const app = (0, express_1.default)();
 const desiredTimeZone = "Asia/Kolkata"; // India Standard Time (GMT+5:30)
 // Get the current time in the specified time zone
 app.use((0, cors_1.default)({
-    origin: ["http://localhost:5173", "https://mini.srmmilan.org", "*"],
+    origin: [
+        "http://localhost:5173",
+        "https://9c58mm.csb.app",
+        "https://mini.srmmilan.org",
+    ],
     credentials: true,
 }));
 app.use((0, cookie_parser_1.default)());

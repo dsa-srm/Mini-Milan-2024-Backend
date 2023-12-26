@@ -16,6 +16,7 @@ import ErrorHandler from "../../utils/errors.handler";
 
 export default class UsersAuthController extends UsersAuthService {
 	public execute = async (req: Request, res: Response): Promise<void> => {
+		console.log("🔥🔥🔥🔥🔥🔥🔥");
 		try {
 			const method = req.method;
 			const routeName = req.route.path.split("/")[1];
@@ -47,13 +48,11 @@ export default class UsersAuthController extends UsersAuthService {
 					});
 					response = authRes.user;
 				}
-			} else if (routeName === UsersAuthRoutes.DELETE) {
-				if (method === RequestMethods.DELETE) {
-					const user_id = req.params.id;
-					await this.deleteUserController(user_id);
-					response.message = "User deleted successfully";
-					statusCode = 204;
-				}
+			} else if (method === RequestMethods.DELETE) {
+				const user_id = req.params.id;
+				await this.deleteUserController(user_id);
+				response.message = "User deleted successfully";
+				statusCode = 204;
 			}
 			res.status(statusCode).send(response);
 		} catch (error) {

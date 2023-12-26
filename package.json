@@ -4,11 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node index.ts",
-    "build": "tsc -p .",
-    "prestart": "npm run build",
-    "dev": "nodemon src/index.ts"
+    "start:build": "tsc -w",
+    "start:run": "nodemon build/src/index.js",
+    "start": "concurrently npm:start:*",
+    "test": "artillery run test/artillery.yml"
   },
   "author": "",
   "license": "ISC",
@@ -22,6 +21,7 @@
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
+    "concurrently": "^8.2.2",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "discord-logger": "^1.1.0",

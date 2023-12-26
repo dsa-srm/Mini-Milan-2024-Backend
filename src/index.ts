@@ -16,7 +16,11 @@ const desiredTimeZone = "Asia/Kolkata"; // India Standard Time (GMT+5:30)
 
 app.use(
 	cors({
-		origin: ["http://localhost:5173", "https://mini.srmmilan.org", "*"],
+		origin: [
+			"http://localhost:5173",
+			"https://9c58mm.csb.app",
+			"https://mini.srmmilan.org",
+		],
 		credentials: true,
 	})
 );
