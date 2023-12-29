@@ -21,6 +21,10 @@ class BookingsService extends helper_1.default {
             const booking = yield this.createBookingHelper(reqObj);
             return booking;
         });
+        this.issueOfflineTicketService = (reqObj) => __awaiter(this, void 0, void 0, function* () {
+            const booking = yield this.issueOfflineTicketHelper(reqObj);
+            return booking;
+        });
         this.jwtHelper = new jwt_utils_1.default();
     }
 }

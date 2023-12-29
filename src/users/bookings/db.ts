@@ -1,5 +1,9 @@
 import db from "../../config/pg.config";
-import { ICreateBookingReqObj, BookingObj } from "./interface";
+import {
+	ICreateBookingReqObj,
+	BookingObj,
+	IOfflineTicketIssuedReqObj,
+} from "./interface";
 
 export default class BookingsDB {
 	protected getBooking = async (bookingId: string): Promise<BookingObj> => {
@@ -19,5 +23,17 @@ export default class BookingsDB {
 		return rows[0] as unknown as BookingObj;
 	};
 
+	protected issueOfflineTicket = async (
+		reqObj: IOfflineTicketIssuedReqObj
+	): Promise<BookingObj> => {
+		const query = `UPDATE bookings SET offline_ticket_issued = true WHERE ticket_id = $1 AND payment_id = $2 RETURNING *`;
+
+		const { rows } = await db.query(query, [
+			reqObj.ticket_id,
+			reqObj.payment_id,
+		]);
+
+		return rows[0] as unknown as BookingObj;
+	};
 	// Additional database methods specific to booking functionality can be added here
 }

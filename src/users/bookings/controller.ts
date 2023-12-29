@@ -7,8 +7,10 @@ import {
 	BookingObj,
 	IBookingResponse,
 	ICreateBookingReqObj,
+	IOfflineTicketIssuedReqObj,
 } from "./interface"; // Assuming you have relevant interfaces
 import BookingsService from "./services"; // Assuming you have a BookingsService class
+import logger, { LogTypes } from "../../utils/logger";
 
 export default class BookingsController extends BookingsService {
 	public execute = async (req: Request, res: Response): Promise<void> => {
@@ -35,6 +37,16 @@ export default class BookingsController extends BookingsService {
 				);
 				// Additional logic if needed
 				response = bookingRes;
+			} else if (method === RequestMethods.PATCH) {
+				const booking_id: string = req.params.id;
+				const reqObj: IOfflineTicketIssuedReqObj = {
+					...reqData,
+					booking_id,
+				};
+				const bookingRes: IBookingResponse =
+					await this.issueOfflineTicketController(reqObj);
+				// Additional logic if needed
+				response = bookingRes;
 			}
 			res.status(statusCode).send(response);
 		} catch (error) {
@@ -49,6 +61,19 @@ export default class BookingsController extends BookingsService {
 		return {
 			success: true,
 			message: "Booking Created Successfully!",
+			booking: data,
+		};
+	};
+
+	private issueOfflineTicketController = async (
+		reqObj: IOfflineTicketIssuedReqObj
+	): Promise<IBookingResponse> => {
+		logger(reqObj, LogTypes.LOGS);
+
+		const data: BookingObj = await this.issueOfflineTicketService(reqObj);
+		return {
+			success: true,
+			message: "Offline Ticket Issued Successfully!",
 			booking: data,
 		};
 	};

@@ -5,6 +5,7 @@ import path from "path";
 import { Request, Response, NextFunction } from "express";
 import ErrorHandler from "../../utils/errors.handler";
 import Joi from "joi";
+import logger, { LogTypes } from "../../utils/logger";
 
 export default class IUserAuthValidation {
 	public validateEmailAndPhoneNumber = (
@@ -84,6 +85,10 @@ export default class IUserAuthValidation {
 					message_code: "NOT_LOGGED_IN",
 				});
 			}
+
+			const jsonPayload = JSON.parse(JSON.stringify(payload));
+
+			req.body.current_user = jsonPayload.data;
 
 			next();
 		} catch (error) {

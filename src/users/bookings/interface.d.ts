@@ -29,3 +29,9 @@ export type BookingObj = {
 	updated_at: Date;
 	created_at: Date;
 };
+
+export type IOfflineTicketIssuedReqObj = {
+	booking_id: string;
+	ticket_id: string;
+	payment_id: string;
+};

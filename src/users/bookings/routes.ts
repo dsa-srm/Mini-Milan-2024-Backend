@@ -10,6 +10,6 @@ router.use(protect);
 
 router.route("/").get().post(protect, execute);
 
-router.route("/:id").patch().delete();
+router.route("/:id").patch(protect, execute).delete();
 
 export default router;

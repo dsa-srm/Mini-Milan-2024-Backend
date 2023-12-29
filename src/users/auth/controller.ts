@@ -9,6 +9,7 @@ import {
 	AuthObj,
 	IAuthResponse,
 	IUserAuthLoginReqObj,
+	IUserAuthResObject,
 	IUserAuthSignupReqObj,
 } from "./interface";
 import UsersAuthService from "./services";
@@ -16,7 +17,6 @@ import ErrorHandler from "../../utils/errors.handler";
 
 export default class UsersAuthController extends UsersAuthService {
 	public execute = async (req: Request, res: Response): Promise<void> => {
-		console.log("🔥🔥🔥🔥🔥🔥🔥");
 		try {
 			const method = req.method;
 			const routeName = req.route.path.split("/")[1];
@@ -53,6 +53,14 @@ export default class UsersAuthController extends UsersAuthService {
 				await this.deleteUserController(user_id);
 				response.message = "User deleted successfully";
 				statusCode = 204;
+			} else if (method === RequestMethods.GET) {
+				if (routeName === UsersAuthRoutes.CURRENT) {
+					const user_id = req.body.current_user.id;
+					response = await this.getUserController(user_id);
+				} else {
+					const user_id = req.params.id;
+					response = await this.getUserController(user_id);
+				}
 			}
 			res.status(statusCode).send(response);
 		} catch (error) {
@@ -103,5 +111,14 @@ export default class UsersAuthController extends UsersAuthService {
 	private deleteUserController = async (user_id: string): Promise<void> => {
 		await this.deleteUserService(user_id);
 		return;
+	};
+
+	private getUserController = async (user_id: string): Promise<IResponse> => {
+		const user: IUserAuthResObject = await this.getUserService(user_id);
+		return {
+			success: true,
+			message: "User fetched successfully",
+			data: user,
+		};
 	};
 }

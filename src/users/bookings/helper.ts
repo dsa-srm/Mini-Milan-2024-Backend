@@ -1,4 +1,8 @@
-import { ICreateBookingReqObj, BookingObj } from "./interface";
+import {
+	ICreateBookingReqObj,
+	BookingObj,
+	IOfflineTicketIssuedReqObj,
+} from "./interface";
 import ErrorHandler from "../../utils/errors.handler";
 import BookingsDB from "./db";
 
@@ -21,6 +25,28 @@ export default class BookingsHelper extends BookingsDB {
 		}
 
 		return booking;
+	};
+
+	protected issueOfflineTicketHelper = async (
+		reqObj: IOfflineTicketIssuedReqObj
+	): Promise<BookingObj> => {
+		try {
+			const booking: BookingObj = await this.issueOfflineTicket(reqObj);
+			if (!booking) {
+				throw new ErrorHandler({
+					status_code: 400,
+					message: "Something went wrong while issuing offline ticket",
+					message_code: "SOMETHING_WENT_WRONG",
+				});
+			}
+			return booking;
+		} catch (err) {
+			throw new ErrorHandler({
+				status_code: 400,
+				message: "Booking not found",
+				message_code: "SOMETHING_WENT_WRONG",
+			});
+		}
 	};
 
 	// Additional helper methods specific to booking functionality can be added here

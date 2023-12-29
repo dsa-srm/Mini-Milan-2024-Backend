@@ -25,6 +25,14 @@ class BookingsDB {
             const { rows } = yield pg_config_1.default.query(query);
             return rows[0];
         });
+        this.issueOfflineTicket = (reqObj) => __awaiter(this, void 0, void 0, function* () {
+            const query = `UPDATE bookings SET offline_ticket_issued = true WHERE ticket_id = $1 AND payment_id = $2 RETURNING *`;
+            const { rows } = yield pg_config_1.default.query(query, [
+                reqObj.ticket_id,
+                reqObj.payment_id,
+            ]);
+            return rows[0];
+        });
         // Additional database methods specific to booking functionality can be added here
     }
 }

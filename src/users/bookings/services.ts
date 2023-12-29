@@ -19,4 +19,10 @@ export default class BookingsService extends BookingsHelper {
 
 		return booking;
 	};
+
+	protected issueOfflineTicketService = async (reqObj: any): Promise<any> => {
+		const booking: BookingObj = await this.issueOfflineTicketHelper(reqObj);
+
+		return booking;
+	};
 }
