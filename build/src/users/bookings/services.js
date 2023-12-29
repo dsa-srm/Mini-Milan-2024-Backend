@@ -21,10 +21,6 @@ class BookingsService extends helper_1.default {
             const sqsResponse = yield this.insertBookingInSqs(reqObj);
             return sqsResponse.MessageId;
         });
-        this.issueOfflineTicketService = (reqObj) => __awaiter(this, void 0, void 0, function* () {
-            const booking = yield this.issueOfflineTicketHelper(reqObj);
-            return booking;
-        });
         this.jwtHelper = new jwt_utils_1.default();
     }
 }

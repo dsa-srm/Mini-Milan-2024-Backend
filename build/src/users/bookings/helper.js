@@ -54,30 +54,6 @@ class BookingsHelper extends db_1.default {
             console.log("Message sent to SQS:", result.MessageId);
             return result;
         });
-<<<<<<< HEAD:build/src/users/bookings/helper.js
-        this.issueOfflineTicketHelper = (reqObj) => __awaiter(this, void 0, void 0, function* () {
-            try {
-                const booking = yield this.issueOfflineTicket(reqObj);
-                if (!booking) {
-                    throw new errors_handler_1.default({
-                        status_code: 400,
-                        message: "Something went wrong while issuing offline ticket",
-                        message_code: "SOMETHING_WENT_WRONG",
-                    });
-                }
-                return booking;
-            }
-            catch (err) {
-                throw new errors_handler_1.default({
-                    status_code: 400,
-                    message: "Booking not found",
-                    message_code: "SOMETHING_WENT_WRONG",
-                });
-            }
-        });
-        // Additional helper methods specific to booking functionality can be added here
-=======
->>>>>>> cddf6baaa5ee704264d93596f5dd8dfb247c2281:src/users/bookings/helper.js
     }
 }
 exports.default = BookingsHelper;

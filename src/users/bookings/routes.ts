@@ -10,10 +10,6 @@ const { execute } = new BookingsController();
 
 router.route("/").get(execute);
 
-<<<<<<< HEAD
-router.route("/:id").patch(protect, execute).delete();
-=======
 router.route("/livecount").get(execute);
->>>>>>> cddf6baaa5ee704264d93596f5dd8dfb247c2281
 
 export default router;
