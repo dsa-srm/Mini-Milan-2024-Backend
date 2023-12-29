@@ -6,10 +6,10 @@ const router: Router = Router();
 const { protect } = new IUserAuthValidation();
 const { execute } = new BookingsController();
 
-router.use(protect);
+// router.use(protect);
 
-router.route("/").get().post(protect, execute);
+router.route("/").get(execute);
 
-router.route("/:id").patch().delete();
+router.route("/livecount").get(execute);
 
 export default router;

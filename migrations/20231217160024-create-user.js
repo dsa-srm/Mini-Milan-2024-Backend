@@ -1,44 +1,62 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
-const tableName = "bookings";
+const tableName = "users";
 exports.default = {
     up: (queryInterface) => {
         return queryInterface.createTable(tableName, {
             id: {
                 type: sequelize_1.DataTypes.UUID,
-                allowNull: false,
                 primaryKey: true,
+                allowNull: false,
             },
-            ticket_type: {
-                type: sequelize_1.DataTypes.STRING,
+            name: {
+                type: sequelize_1.DataTypes.TEXT,
+                allowNull: false,
             },
-            user_id: {
-                type: sequelize_1.DataTypes.UUID,
+            email: {
+                type: sequelize_1.DataTypes.TEXT,
+                allowNull: false,
             },
-            payment_id: {
-                type: sequelize_1.DataTypes.UUID,
+            password: {
+                type: sequelize_1.DataTypes.TEXT,
+                allowNull: false,
             },
-            ticket_id: {
-                type: sequelize_1.DataTypes.UUID,
+            reg_number: {
+                type: sequelize_1.DataTypes.TEXT,
+                allowNull: false,
             },
-            payment_status: {
-                type: sequelize_1.DataTypes.STRING,
-            },
-            ticket_status: {
-                type: sequelize_1.DataTypes.STRING,
-            },
-            offline_ticket_issued: {
+            is_ktr_student: {
                 type: sequelize_1.DataTypes.BOOLEAN,
+                allowNull: false,
+                defaultValue: false,
+            },
+            phone_number: {
+                type: sequelize_1.DataTypes.BIGINT,
+                allowNull: false,
+            },
+            is_ticket_issued: {
+                type: sequelize_1.DataTypes.BOOLEAN,
+                allowNull: false,
                 defaultValue: false,
             },
             created_at: {
                 type: sequelize_1.DataTypes.DATE,
                 allowNull: false,
+                defaultValue: sequelize_1.DataTypes.NOW,
             },
             updated_at: {
                 type: sequelize_1.DataTypes.DATE,
                 allowNull: false,
+            },
+            gender: {
+                type: sequelize_1.DataTypes.TEXT,
+                allowNull: false,
+            },
+            is_deleted: {
+                type: sequelize_1.DataTypes.BOOLEAN,
+                allowNull: false,
+                defaultValue: false,
             },
         }, {
             engine: "MYISAM",
