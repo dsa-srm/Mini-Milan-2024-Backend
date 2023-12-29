@@ -31,7 +31,8 @@ export default class UsersAuthController extends UsersAuthService {
 					const reqObj: IUserAuthLoginReqObj = req.body;
 					const authRes: IAuthResponse = await this.loginController(reqObj);
 					res.cookie("token", authRes.token, {
-						httpOnly: true,
+						expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+						httpOnly: false,
 						secure: true,
 						sameSite: "none",
 					});
@@ -42,7 +43,8 @@ export default class UsersAuthController extends UsersAuthService {
 					const reqObj: IUserAuthSignupReqObj = { ...req.body, id: v4() };
 					const authRes: IAuthResponse = await this.signupController(reqObj);
 					res.cookie("token", authRes.token, {
-						httpOnly: true,
+						expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+						httpOnly: false,
 						secure: true,
 						sameSite: "none",
 					});
@@ -118,7 +120,9 @@ export default class UsersAuthController extends UsersAuthService {
 		return {
 			success: true,
 			message: "User fetched successfully",
-			data: user,
+			data: {
+				user: user,
+			},
 		};
 	};
 }
