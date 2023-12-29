@@ -2,17 +2,15 @@ import * as dotenv from "dotenv";
 dotenv.config();
 import express, { Application, Response, Request } from "express";
 import cors from "cors";
-import moment from "moment-timezone";
+// import * as moment from "moment-timezone";
+import moment from "moment";
 import morgan from "morgan";
 import logger, { LogTypes } from "./utils/logger";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
-
 const app: Application = express();
 
 const desiredTimeZone = "Asia/Kolkata"; // India Standard Time (GMT+5:30)
-
-// Get the current time in the specified time zone
 
 app.use(
 	cors({
@@ -35,7 +33,7 @@ app.use("/api/users", UsersAuthRoutes);
 app.use("/api/bookings", UsersBookingRoutes);
 
 app.get("/", (req: Request, res: Response) => {
-	const date = moment().tz(desiredTimeZone).format("YYYY-MM-DD HH:mm:ss");
+	const date = moment().format("YYYY-MM-DD HH:mm:ss");
 	res.status(200).send({
 		message: "Server is running",
 		status_code: 200,

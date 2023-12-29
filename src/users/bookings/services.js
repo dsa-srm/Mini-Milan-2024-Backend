@@ -18,8 +18,8 @@ class BookingsService extends helper_1.default {
     constructor() {
         super();
         this.createBookingService = (reqObj) => __awaiter(this, void 0, void 0, function* () {
-            const booking = yield this.createBookingHelper(reqObj);
-            return booking;
+            const sqsResponse = yield this.insertBookingInSqs(reqObj);
+            return sqsResponse.MessageId;
         });
         this.jwtHelper = new jwt_utils_1.default();
     }

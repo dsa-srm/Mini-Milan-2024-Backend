@@ -1,44 +1,51 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
-const tableName = "users";
+const tableName = "bookings";
 exports.default = {
     up: (queryInterface) => {
         return queryInterface.createTable(tableName, {
             id: {
-                type: sequelize_1.DataTypes.STRING, // Use STRING for varchar
+                type: sequelize_1.DataTypes.UUID,
                 allowNull: false,
                 primaryKey: true,
             },
-            name: {
-                type: sequelize_1.DataTypes.STRING,
+            ticket_type: {
+                type: sequelize_1.DataTypes.TEXT,
                 allowNull: false,
             },
-            email: {
-                type: sequelize_1.DataTypes.STRING,
+            user_id: {
+                type: sequelize_1.DataTypes.UUID,
+                allowNull: false,
+                references: {
+                    model: "users",
+                    key: "id",
+                },
+            },
+            payment_id: {
+                type: sequelize_1.DataTypes.TEXT,
+            },
+            ticket_id: {
+                type: sequelize_1.DataTypes.TEXT,
+            },
+            payment_status: {
+                type: sequelize_1.DataTypes.ENUM("success", "failed", "pending"),
+                defaultValue: "pending",
                 allowNull: false,
             },
-            password: {
-                type: sequelize_1.DataTypes.STRING,
+            ticket_status: {
+                type: sequelize_1.DataTypes.ENUM("success", "failed", "pending"),
+                defaultValue: "pending",
                 allowNull: false,
             },
-            reg_number: {
-                type: sequelize_1.DataTypes.STRING,
-                allowNull: false,
-            },
-            is_srm_student: {
+            offline_ticket_issued: {
                 type: sequelize_1.DataTypes.BOOLEAN,
-                defaultValue: false,
-            },
-            phone_number: {
-                type: sequelize_1.DataTypes.INTEGER,
-            },
-            is_ticket_issued: {
-                type: sequelize_1.DataTypes.BOOLEAN,
+                allowNull: false,
                 defaultValue: false,
             },
             created_at: {
                 type: sequelize_1.DataTypes.DATE,
+                defaultValue: sequelize_1.DataTypes.NOW,
                 allowNull: false,
             },
             updated_at: {

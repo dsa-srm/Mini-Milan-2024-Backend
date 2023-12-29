@@ -1,22 +1,22 @@
 import db from "../../config/pg.config";
-import { ICreateBookingReqObj, BookingObj } from "./interface";
+import { ICreateBookingReqObj } from "./interface";
 
 export default class BookingsDB {
-	protected getBooking = async (bookingId: string): Promise<BookingObj> => {
+	protected getBooking = async (bookingId: string): Promise<ICreateBookingReqObj> => {
 		const query = `SELECT * FROM bookings WHERE id = $1 LIMIT 1`;
 
 		const { rows } = await db.query(query, [bookingId]);
 
-		return rows[0] as unknown as BookingObj;
+		return rows[0] as unknown as ICreateBookingReqObj;
 	};
 
 	protected createBooking = async (
 		reqObj: ICreateBookingReqObj
-	): Promise<BookingObj> => {
+	): Promise<ICreateBookingReqObj> => {
 		const query = db.format(`INSERT INTO bookings ? RETURNING *`, reqObj);
 
 		const { rows } = await db.query(query);
-		return rows[0] as unknown as BookingObj;
+		return rows[0] as unknown as ICreateBookingReqObj;
 	};
 
 	// Additional database methods specific to booking functionality can be added here
