@@ -30,14 +30,14 @@ const dotenv = __importStar(require("dotenv"));
 dotenv.config();
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
-const moment_timezone_1 = __importDefault(require("moment-timezone"));
+// import * as moment from "moment-timezone";
+const moment_1 = __importDefault(require("moment"));
 const morgan_1 = __importDefault(require("morgan"));
 const logger_1 = __importStar(require("./utils/logger"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const app = (0, express_1.default)();
 const desiredTimeZone = "Asia/Kolkata"; // India Standard Time (GMT+5:30)
-// Get the current time in the specified time zone
 app.use((0, cors_1.default)({
     origin: [
         "http://localhost:5173",
@@ -57,7 +57,7 @@ const routes_2 = __importDefault(require("./users/bookings/routes"));
 app.use("/api/users", routes_1.default);
 app.use("/api/bookings", routes_2.default);
 app.get("/", (req, res) => {
-    const date = (0, moment_timezone_1.default)().tz(desiredTimeZone).format("YYYY-MM-DD HH:mm:ss");
+    const date = (0, moment_1.default)().format("YYYY-MM-DD HH:mm:ss");
     res.status(200).send({
         message: "Server is running",
         status_code: 200,

@@ -14,23 +14,47 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const errors_handler_1 = __importDefault(require("../../utils/errors.handler"));
 const db_1 = __importDefault(require("./db"));
+const client_sqs_1 = require("@aws-sdk/client-sqs");
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
+const sqsClient = new client_sqs_1.SQSClient({
+    region: process.env.AWS_REGION,
+});
 class BookingsHelper extends db_1.default {
     constructor() {
         super(...arguments);
-        this.createBookingHelper = (reqObj) => __awaiter(this, void 0, void 0, function* () {
-            reqObj.created_at = new Date();
-            reqObj.updated_at = new Date();
-            // Additional validation and business logic can be added here
-            const booking = yield this.createBooking(reqObj);
-            if (!booking) {
+        this.insertBookingInSqs = (reqObj) => __awaiter(this, void 0, void 0, function* () {
+            const messageData = {
+                id: reqObj.id,
+                ticket_type: reqObj.ticket_type,
+                user_id: reqObj.user_id,
+                payment_id: reqObj.payment_id,
+                ticket_id: reqObj.ticket_id,
+                payment_status: reqObj.payment_status,
+                ticket_status: reqObj.ticket_status,
+                offline_ticket_issued: reqObj.offline_ticket_issued,
+                updated_at: reqObj.updated_at,
+                created_at: reqObj.created_at,
+            };
+            if (!process.env.SQS_QUEUE_URL)
                 throw new errors_handler_1.default({
                     status_code: 400,
-                    message: "Something went wrong while creating booking",
-                    message_code: "SOMETHING_WENT_WRONG",
+                    message: "SQS_QUEUE_URL not found",
+                    message_code: "SQS_URL_NOT_FOUND",
                 });
-            }
-            return booking;
+            const queueUrl = process.env.SQS_QUEUE_URL ||
+                "https://sqs.ap-south-1.amazonaws.com/322653267300/booking-post.fifo";
+            const messageGroupId = "booking-post";
+            const sendMessageCommand = new client_sqs_1.SendMessageCommand({
+                QueueUrl: queueUrl,
+                MessageBody: JSON.stringify(messageData),
+                MessageGroupId: messageGroupId,
+            });
+            const result = yield sqsClient.send(sendMessageCommand);
+            console.log("Message sent to SQS:", result.MessageId);
+            return result;
         });
+<<<<<<< HEAD:build/src/users/bookings/helper.js
         this.issueOfflineTicketHelper = (reqObj) => __awaiter(this, void 0, void 0, function* () {
             try {
                 const booking = yield this.issueOfflineTicket(reqObj);
@@ -52,6 +76,8 @@ class BookingsHelper extends db_1.default {
             }
         });
         // Additional helper methods specific to booking functionality can be added here
+=======
+>>>>>>> cddf6baaa5ee704264d93596f5dd8dfb247c2281:src/users/bookings/helper.js
     }
 }
 exports.default = BookingsHelper;

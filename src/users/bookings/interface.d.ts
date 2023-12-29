@@ -1,7 +1,7 @@
 export type IBookingResponse = {
 	success: boolean;
 	message: string;
-	booking: BookingObj;
+	messageId: string;
 };
 
 export type ICreateBookingReqObj = {
@@ -17,6 +17,7 @@ export type ICreateBookingReqObj = {
 	created_at: Date;
 };
 
+<<<<<<< HEAD
 export type BookingObj = {
 	id: string;
 	ticket_type: string;
@@ -35,3 +36,5 @@ export type IOfflineTicketIssuedReqObj = {
 	ticket_id: string;
 	payment_id: string;
 };
+=======
+>>>>>>> cddf6baaa5ee704264d93596f5dd8dfb247c2281
