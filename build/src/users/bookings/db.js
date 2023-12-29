@@ -16,7 +16,7 @@ const pg_config_1 = __importDefault(require("../../config/pg.config"));
 class BookingsDB {
     constructor() {
         this.getBooking = (bookingId) => __awaiter(this, void 0, void 0, function* () {
-            const query = `SELECT * FROM bookings WHERE id = $1 LIMIT 1`;
+            const query = `SELECT * FROM bookings WHERE id = $1 LIMIT 1;`;
             const { rows } = yield pg_config_1.default.query(query, [bookingId]);
             return rows[0];
         });
@@ -25,7 +25,6 @@ class BookingsDB {
             const { rows } = yield pg_config_1.default.query(query);
             return rows[0];
         });
-        // Additional database methods specific to booking functionality can be added here
     }
 }
 exports.default = BookingsDB;

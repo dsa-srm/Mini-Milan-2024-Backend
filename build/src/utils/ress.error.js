@@ -33,8 +33,8 @@ const node_discord_logger_1 = __importDefault(require("node-discord-logger"));
 const errors_handler_1 = __importDefault(require("./errors.handler"));
 const disc_logger = new node_discord_logger_1.default({
     hook: "https://discord.com/api/webhooks/1187450079842414694/CAoiT2UtT44zl4YH-GxGKb_T_Hv4IC46uIFkjW4Xl2e12rXMmsDOfXkRmx2cFv8fl5D9",
-    icon: "https://cdn0.iconfinder.com/data/icons/shift-free/32/Error-512.png",
-    serviceName: "Mini-Milan-2024 Error Logger 🔥",
+    icon: "https://cdn0.iconfinder.com/data/icons/shift-free/32/Error-512.png", // optional, will be included as an icon in the footer
+    serviceName: "Mini-Milan-2024 Error Logger 🔥", // optional, will be included as text in the footer
     defaultMeta: {
         // optional, will be added to all the messages
         "Process ID": process.pid,

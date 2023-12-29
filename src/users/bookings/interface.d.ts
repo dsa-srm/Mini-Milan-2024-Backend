@@ -16,4 +16,3 @@ export type ICreateBookingReqObj = {
 	updated_at: Date;
 	created_at: Date;
 };
-

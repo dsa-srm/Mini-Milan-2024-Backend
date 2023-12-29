@@ -74,6 +74,17 @@ class UsersAuthService extends helper_1.default {
             yield this.deleteUserHelper(user_id);
             return;
         });
+        this.getUserService = (user_id) => __awaiter(this, void 0, void 0, function* () {
+            const user = yield this.getUserHelper(user_id);
+            if (!user) {
+                throw new errors_handler_1.default({
+                    status_code: 404,
+                    message: "User not found",
+                    message_code: "USER_NOT_FOUND",
+                });
+            }
+            return user;
+        });
         this.jwtHelper = new jwt_utils_1.default();
     }
 }
