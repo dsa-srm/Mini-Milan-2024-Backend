@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import { IUserAuthResObject, IUserAuthSignupReqObj } from "./interface";
 import ErrorHandler from "../../utils/errors.handler";
 import UsersAuthDB from "./db";
+import logger, { LogTypes } from "../../utils/logger";
 
 export default class UsersAuthHelper extends UsersAuthDB {
 	protected getUserByEmailHelper = async (
@@ -26,14 +27,6 @@ export default class UsersAuthHelper extends UsersAuthDB {
 			reqObj.phone_number
 		);
 
-		if (isExistingUser && !isExistingUser.is_deleted) {
-			throw new ErrorHandler({
-				status_code: 409,
-				message: "User already exists",
-				message_code: "USER_ALREADY_EXISTS",
-			});
-		}
-
 		reqObj.created_at = new Date();
 		reqObj.updated_at = new Date();
 
@@ -41,6 +34,22 @@ export default class UsersAuthHelper extends UsersAuthDB {
 			...reqObj,
 			password: await bcrypt.hash(reqObj.password, 12),
 		};
+
+		logger(isExistingUser, LogTypes.LOGS);
+
+		if (isExistingUser) {
+			if (isExistingUser.is_deleted) {
+				const user = await this.reviveUser(isExistingUser.id, newReqObj);
+				return user;
+			} else {
+				throw new ErrorHandler({
+					status_code: 404,
+					message: "User already exists",
+					message_code: "USER_ALREADY_EXISTS",
+				});
+			}
+		}
+
 		const user = await this.createUser(newReqObj);
 
 		if (!user) {

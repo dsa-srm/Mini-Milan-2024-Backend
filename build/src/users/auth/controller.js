@@ -35,7 +35,8 @@ class UsersAuthController extends services_1.default {
                         const reqObj = req.body;
                         const authRes = yield this.loginController(reqObj);
                         res.cookie("token", authRes.token, {
-                            httpOnly: true,
+                            expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+                            httpOnly: false,
                             secure: true,
                             sameSite: "none",
                         });
@@ -47,7 +48,8 @@ class UsersAuthController extends services_1.default {
                         const reqObj = Object.assign(Object.assign({}, req.body), { id: (0, uuid_1.v4)() });
                         const authRes = yield this.signupController(reqObj);
                         res.cookie("token", authRes.token, {
-                            httpOnly: true,
+                            expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+                            httpOnly: false,
                             secure: true,
                             sameSite: "none",
                         });
@@ -118,7 +120,9 @@ class UsersAuthController extends services_1.default {
             return {
                 success: true,
                 message: "User fetched successfully",
-                data: user,
+                data: {
+                    user: user,
+                },
             };
         });
     }
