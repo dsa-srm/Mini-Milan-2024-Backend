@@ -32,7 +32,7 @@ export default class UsersAuthController extends UsersAuthService {
 					const authRes: IAuthResponse = await this.loginController(reqObj);
 					res.cookie("token", authRes.token, {
 						expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
-						httpOnly: false,
+						httpOnly: true,
 						secure: true,
 						sameSite: "none",
 					});
@@ -44,7 +44,7 @@ export default class UsersAuthController extends UsersAuthService {
 					const authRes: IAuthResponse = await this.signupController(reqObj);
 					res.cookie("token", authRes.token, {
 						expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
-						httpOnly: false,
+						httpOnly: true,
 						secure: true,
 						sameSite: "none",
 					});

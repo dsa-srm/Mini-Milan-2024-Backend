@@ -27,11 +27,19 @@ export default class UsersAuthHelper extends UsersAuthDB {
 			reqObj.phone_number
 		);
 
+		reqObj.created_at = new Date();
+		reqObj.updated_at = new Date();
+
+		const newReqObj: IUserAuthSignupReqObj = {
+			...reqObj,
+			password: await bcrypt.hash(reqObj.password, 12),
+		};
+
 		logger(isExistingUser, LogTypes.LOGS);
 
 		if (isExistingUser) {
 			if (isExistingUser.is_deleted) {
-				const user = await this.reviveUser(isExistingUser.id);
+				const user = await this.reviveUser(isExistingUser.id, newReqObj);
 				return user;
 			} else {
 				throw new ErrorHandler({
@@ -42,13 +50,6 @@ export default class UsersAuthHelper extends UsersAuthDB {
 			}
 		}
 
-		reqObj.created_at = new Date();
-		reqObj.updated_at = new Date();
-
-		const newReqObj: IUserAuthSignupReqObj = {
-			...reqObj,
-			password: await bcrypt.hash(reqObj.password, 12),
-		};
 		const user = await this.createUser(newReqObj);
 
 		if (!user) {

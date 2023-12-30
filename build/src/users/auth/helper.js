@@ -51,10 +51,13 @@ class UsersAuthHelper extends db_1.default {
         });
         this.signupUserHelper = (reqObj) => __awaiter(this, void 0, void 0, function* () {
             const isExistingUser = yield this.isExistingUser(reqObj.email, reqObj.phone_number);
+            reqObj.created_at = new Date();
+            reqObj.updated_at = new Date();
+            const newReqObj = Object.assign(Object.assign({}, reqObj), { password: yield bcryptjs_1.default.hash(reqObj.password, 12) });
             (0, logger_1.default)(isExistingUser, logger_1.LogTypes.LOGS);
             if (isExistingUser) {
                 if (isExistingUser.is_deleted) {
-                    const user = yield this.reviveUser(isExistingUser.id);
+                    const user = yield this.reviveUser(isExistingUser.id, newReqObj);
                     return user;
                 }
                 else {
@@ -65,9 +68,6 @@ class UsersAuthHelper extends db_1.default {
                     });
                 }
             }
-            reqObj.created_at = new Date();
-            reqObj.updated_at = new Date();
-            const newReqObj = Object.assign(Object.assign({}, reqObj), { password: yield bcryptjs_1.default.hash(reqObj.password, 12) });
             const user = yield this.createUser(newReqObj);
             if (!user) {
                 throw new errors_handler_1.default({
