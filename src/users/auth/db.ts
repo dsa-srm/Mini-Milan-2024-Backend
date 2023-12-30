@@ -29,6 +29,14 @@ export default class UsersAuthDB {
 		return rows[0] as unknown as IUserAuthResObject;
 	};
 
+	protected reviveUser = async (id: string): Promise<IUserAuthResObject> => {
+		const query = `UPDATE users SET is_deleted = false WHERE id = $1 RETURNING *`;
+
+		const { rows } = await db.query(query, [id]);
+
+		return rows[0] as unknown as IUserAuthResObject;
+	};
+
 	protected isExistingUser = async (
 		email: string,
 		phone_number: number
