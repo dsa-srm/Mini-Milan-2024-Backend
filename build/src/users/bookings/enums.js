@@ -5,6 +5,7 @@ var bookingRoutes;
 (function (bookingRoutes) {
     bookingRoutes["POSTBOOKING"] = "/";
     bookingRoutes["GETLIVECOUNT"] = "/livecount";
+    bookingRoutes["UPDATETICKETISUED"] = "/updateticketissued";
 })(bookingRoutes || (exports.bookingRoutes = bookingRoutes = {}));
 var TicketStatus;
 (function (TicketStatus) {
