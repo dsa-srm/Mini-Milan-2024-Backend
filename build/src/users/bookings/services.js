@@ -19,7 +19,25 @@ class BookingsService extends helper_1.default {
         super();
         this.createBookingService = (reqObj) => __awaiter(this, void 0, void 0, function* () {
             const sqsResponse = yield this.insertBookingInSqs(reqObj);
-            return sqsResponse.MessageId;
+            const response = {
+                messageId: sqsResponse.MessageId,
+            };
+            return response;
+        });
+        this.getLiveTicketCountService = () => __awaiter(this, void 0, void 0, function* () {
+            const countResponse = yield this.getTotalBookingCount();
+            const totalTicketCount = 10000 - countResponse.count;
+            const response = {
+                total_count: totalTicketCount,
+            };
+            return response;
+        });
+        this.updateTicketIssuedService = (reqObj) => __awaiter(this, void 0, void 0, function* () {
+            const response = yield this.updateOfflineTicketIssuedHelper(reqObj);
+            const responseObj = {
+                data: response,
+            };
+            return responseObj;
         });
         this.jwtHelper = new jwt_utils_1.default();
     }
