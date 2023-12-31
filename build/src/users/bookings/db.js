@@ -20,9 +20,29 @@ class BookingsDB {
             const { rows } = yield pg_config_1.default.query(query, [bookingId]);
             return rows[0];
         });
+        this.getTotalBookingCount = () => __awaiter(this, void 0, void 0, function* () {
+            const query = `SELECT COUNT(*) FROM bookings;`;
+            const { rows } = yield pg_config_1.default.query(query);
+            return rows[0];
+        });
         this.createBooking = (reqObj) => __awaiter(this, void 0, void 0, function* () {
             const query = pg_config_1.default.format(`INSERT INTO bookings ? RETURNING *`, reqObj);
             const { rows } = yield pg_config_1.default.query(query);
+            return rows[0];
+        });
+        this.checkTicketIssued = (ticket_id) => __awaiter(this, void 0, void 0, function* () {
+            const query = `SELECT offline_ticket_issued FROM bookings WHERE ticket_id = $1 LIMIT 1;`;
+            const { rows } = yield pg_config_1.default.query(query, [ticket_id]);
+            return rows[0];
+        });
+        this.checkUserExists = (user_id) => __awaiter(this, void 0, void 0, function* () {
+            const query = `SELECT EXISTS(SELECT 1 FROM bookings WHERE user_id = $1);`;
+            const { rows } = yield pg_config_1.default.query(query, [user_id]);
+            return rows[0];
+        });
+        this.updateOfflineTicketIssued = (user_id, ticket_id, payment_id) => __awaiter(this, void 0, void 0, function* () {
+            const query = `UPDATE bookings SET offline_ticket_issued = true WHERE user_id = $1 AND ticket_id = $2 AND payment_id = $3 RETURNING *;`;
+            const { rows } = yield pg_config_1.default.query(query, [user_id, ticket_id, payment_id]);
             return rows[0];
         });
     }

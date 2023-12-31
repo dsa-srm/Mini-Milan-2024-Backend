@@ -24,26 +24,25 @@ class BookingsController extends services_1.default {
         this.execute = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
                 const method = req.method;
-                console.log(req.path);
-                const ticketType = req.query.ticketType;
-                const userId = req.query.userId;
-                const paymentId = req.query.paymentId;
-                const ticketId = req.query.ticketId;
-                const paymentStatus = req.query.paymentStatus;
-                const ticketIssued = req.query.ticketIssued;
                 let response = {
                     success: false,
                 };
                 let statusCode = 200;
-                if (!ticketType || !userId || !paymentStatus || !ticketIssued) {
-                    throw new errors_handler_1.default({
-                        status_code: 400,
-                        message: "Invalid Query Parameters",
-                        message_code: "INVALID_QUERY_PARAMS",
-                    });
-                }
                 if (req.path === enums_2.bookingRoutes.POSTBOOKING) {
                     if (method === enums_1.RequestMethods.GET) {
+                        const ticketType = req.query.ticketType;
+                        const userId = req.query.userId;
+                        const paymentId = req.query.paymentId;
+                        const ticketId = req.query.ticketId;
+                        const paymentStatus = req.query.paymentStatus;
+                        const ticketIssued = req.query.ticketIssued;
+                        if (!ticketType || !userId || !paymentStatus || !ticketIssued) {
+                            throw new errors_handler_1.default({
+                                status_code: 400,
+                                message: "Invalid Query Parameters",
+                                message_code: "INVALID_QUERY_PARAMS",
+                            });
+                        }
                         const reqObj = {
                             id: (0, uuid_1.v4)(),
                             ticket_type: ticketType,
@@ -61,8 +60,24 @@ class BookingsController extends services_1.default {
                         response = bookingResponse;
                     }
                 }
-                // else if(req.path === "/livecount"){
-                // }
+                else if (req.path === enums_2.bookingRoutes.GETLIVECOUNT) {
+                    if (method === enums_1.RequestMethods.GET) {
+                        const liveCountResponse = yield this.getLiveCountController();
+                        response = liveCountResponse;
+                    }
+                }
+                else if (req.path === enums_2.bookingRoutes.UPDATETICKETISUED) {
+                    if (method === enums_1.RequestMethods.PATCH) {
+                        const { userId, ticketId, paymentId } = req.body;
+                        const reqObj = {
+                            user_id: userId,
+                            ticket_id: ticketId,
+                            payment_id: paymentId
+                        };
+                        const updateResponse = yield this.updateTicketIssued(reqObj);
+                        response = updateResponse;
+                    }
+                }
                 res.status(statusCode).send(response);
             }
             catch (error) {
@@ -74,7 +89,26 @@ class BookingsController extends services_1.default {
             return {
                 success: true,
                 message: "Booking Entered Successfully!",
-                messageId: data,
+                data: data,
+                message_code: "BOOKING_ENTERED_SUCCESSFULLY"
+            };
+        });
+        this.getLiveCountController = () => __awaiter(this, void 0, void 0, function* () {
+            const data = yield this.getLiveTicketCountService();
+            return {
+                success: true,
+                message: "Total Live Count Fetched",
+                data: data,
+                message_code: "TOTAL_LIVE_COUNT_FETCHED"
+            };
+        });
+        this.updateTicketIssued = (reqObj) => __awaiter(this, void 0, void 0, function* () {
+            const data = yield this.updateTicketIssuedService(reqObj);
+            return {
+                success: true,
+                message: "Ticket Issued Updated Successfully",
+                data: data,
+                message_code: "TICKET_ISSUED_UPDATED_SUCCESSFULLY"
             };
         });
     }

@@ -54,6 +54,26 @@ class BookingsHelper extends db_1.default {
             console.log("Message sent to SQS:", result.MessageId);
             return result;
         });
+        this.updateOfflineTicketIssuedHelper = (reqObj) => __awaiter(this, void 0, void 0, function* () {
+            const isUserExists = yield this.checkUserExists(reqObj.user_id);
+            if (!isUserExists) {
+                throw new errors_handler_1.default({
+                    status_code: 400,
+                    message: "User not found, Send them to tech team!!",
+                    message_code: "USER_NOT_FOUND",
+                });
+            }
+            const checkIsAlreadyIssued = yield this.checkTicketIssued(reqObj.ticket_id);
+            if (checkIsAlreadyIssued) {
+                throw new errors_handler_1.default({
+                    status_code: 400,
+                    message: "Ticket already issued",
+                    message_code: "TICKET_ALREADY_ISSUED",
+                });
+            }
+            const updatedBooking = yield this.updateOfflineTicketIssued(reqObj.user_id, reqObj.ticket_id, reqObj.payment_id);
+            return updatedBooking;
+        });
     }
 }
 exports.default = BookingsHelper;
