@@ -52,21 +52,14 @@ export default class BookingsController extends BookingsService {
             ticket_status: ticketIssued,
 
             offline_ticket_issued: false,
-            created_at: new Date(),
-            updated_at: new Date(),
+           
           };
           const bookingResponse: IResponse =
             await this.createBookingController(reqObj);
           // Additional logic if needed
           response = bookingResponse;
         }
-      } else if (req.path === bookingRoutes.GETLIVECOUNT) {
-        if (method === RequestMethods.GET) {
-          const liveCountResponse: IResponse =
-            await this.getLiveCountController();
-          response = liveCountResponse;
-        }
-      }else if(req.path === bookingRoutes.UPDATETICKETISUED){
+      } else if(req.path === bookingRoutes.UPDATETICKETISUED){
 		if(method === RequestMethods.PATCH){
 			const {userId,ticketId,paymentId} = req.body;
 			const reqObj:IUpdateTicketReqObj={
@@ -97,16 +90,7 @@ export default class BookingsController extends BookingsService {
 	  message_code:"BOOKING_ENTERED_SUCCESSFULLY"
     };
   };
-  private getLiveCountController = async (): Promise<IResponse> => {
-    const data: Number = await this.getLiveTicketCountService();
-    return {
-      success: true,
-      message: "Total Live Count Fetched",
-      data: data,
-	  message_code:"TOTAL_LIVE_COUNT_FETCHED"
-    };
-  };
-
+ 
 
   private updateTicketIssued = async (reqObj:IUpdateTicketReqObj):Promise<IResponse>=>{
 	const data = await this.updateTicketIssuedService(reqObj);

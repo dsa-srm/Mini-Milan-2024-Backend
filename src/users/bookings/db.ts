@@ -11,12 +11,7 @@ export default class BookingsDB {
 
     return rows[0] as unknown as ICreateBookingReqObj;
   };
-  protected getTotalBookingCount = async (): Promise<number> => {
-    const query = `SELECT COUNT(*) FROM bookings;`;
 
-    const { rows } = await db.query(query);
-    return rows[0] as unknown as number;
-  };
 
   protected createBooking = async (
     reqObj: ICreateBookingReqObj
