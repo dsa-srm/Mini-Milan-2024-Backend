@@ -29,3 +29,15 @@ export type BookingObj = {
 	updated_at: Date;
 	created_at: Date;
 };
+
+export type IBooking = {
+	id: string;
+	
+	
+  };
+  
+  export type IResponse<T = any> = {
+	success: boolean;
+	message?: string;
+	data?: T | null;
+  }

@@ -17,7 +17,24 @@ export default class BookingsDB {
 
 		const { rows } = await db.query(query);
 		return rows[0] as unknown as BookingObj;
-	};
+    
 
+
+		
+	};
+ 
+	public async getTotalBookings(): Promise<number> {
+		try {
+		  const queryResult = await db.query('SELECT COUNT(*) FROM bookings');
+		  const totalBookings = parseInt(queryResult.rows[0], 10);
+		  return totalBookings;
+		} catch (error) {
+		  console.error('Error fetching total bookings:', error);
+		  throw new Error('Error fetching total bookings');
+		}
+	  }
 	// Additional database methods specific to booking functionality can be added here
 }
+// Assuming you have a BookingsService class with methods for handling bookings
+
+
