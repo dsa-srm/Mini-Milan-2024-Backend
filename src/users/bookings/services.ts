@@ -16,19 +16,31 @@ export default class BookingsService extends BookingsHelper {
     reqObj: ICreateBookingReqObj
   ): Promise<any> => {
     const sqsResponse = await this.insertBookingInSqs(reqObj);
-    const response = {
-      messageId: sqsResponse.MessageId,
-    };
+	const response ={
+		messageId: sqsResponse.MessageId,
+	}
     return response;
   };
 
-  protected updateTicketIssuedService = async (
-    reqObj: IUpdateTicketReqObj
-  ): Promise<any> => {
-    const response = await this.updateOfflineTicketIssuedHelper(reqObj);
-    const responseObj = {
-      data: response,
-    };
-    return responseObj;
+  protected getLiveTicketCountService = async (): Promise<any> => {
+    
+	const countResponse:any = await this.getTotalBookingCount();
+  const totalTicketCount = 10000-countResponse.count;
+	const response={
+		total_count: totalTicketCount,
+	}
+	return response;
+
+
+  };
+  protected updateTicketIssuedService = async (reqObj:IUpdateTicketReqObj): Promise<any> => {
+    
+	const response = await this.updateOfflineTicketIssuedHelper(reqObj);
+	const responseObj={
+		data: response,
+	}
+	return responseObj;
+
+
   };
 }

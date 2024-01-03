@@ -24,7 +24,8 @@ export default class BookingsHelper extends BookingsDB {
       payment_status: reqObj.payment_status,
       ticket_status: reqObj.ticket_status,
       offline_ticket_issued: reqObj.offline_ticket_issued,
-     
+      updated_at: reqObj.updated_at,
+      created_at: reqObj.created_at,
     };
     if (!process.env.SQS_QUEUE_URL)
       throw new ErrorHandler({
