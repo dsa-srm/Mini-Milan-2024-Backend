@@ -11,5 +11,4 @@ const { protect } = new middleware_1.default();
 const { execute } = new controller_1.default();
 // router.use(protect);
 router.route("/").get(execute);
-router.route("/livecount").get(execute);
 exports.default = router;
