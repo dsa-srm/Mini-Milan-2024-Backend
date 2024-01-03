@@ -3,7 +3,11 @@ export type IBookingPostResponse = {
   message: string;
   message_id: string;
 };
-
+export type ILiveCountResponse = {
+  success: boolean;
+  message: string;
+  total_count: Number;
+};
 
 export type ICreateBookingReqObj = {
   id: string;
@@ -14,7 +18,8 @@ export type ICreateBookingReqObj = {
   payment_status: string;
   ticket_status: string;
   offline_ticket_issued: boolean;
-
+  updated_at: Date;
+  created_at: Date;
 };
 
 export type IUpdateTicketReqObj = {
