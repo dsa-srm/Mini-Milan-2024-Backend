@@ -93,3 +93,9 @@ export default class UsersAuthDB {
 		await db.query(query, [user_id]);
 	};
 }
+
+export class ExtendedUserServiceDb extends UsersAuthDB {
+	getUser_Email = async (email: string): Promise<IUserAuthResObject> => {
+		return await this.getUserByEmail(email);
+	};
+}

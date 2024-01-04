@@ -35,8 +35,6 @@ export default class UsersAuthHelper extends UsersAuthDB {
 			password: await bcrypt.hash(reqObj.password, 12),
 		};
 
-		logger(isExistingUser, LogTypes.LOGS);
-
 		if (isExistingUser) {
 			if (isExistingUser.is_deleted) {
 				const user = await this.reviveUser(isExistingUser.id, newReqObj);

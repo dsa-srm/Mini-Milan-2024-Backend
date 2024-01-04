@@ -16,6 +16,7 @@ const errors_handler_1 = __importDefault(require("../../utils/errors.handler"));
 const db_1 = __importDefault(require("./db"));
 const client_sqs_1 = require("@aws-sdk/client-sqs");
 const dotenv_1 = __importDefault(require("dotenv"));
+const db_2 = require("../auth/db");
 dotenv_1.default.config();
 const sqsClient = new client_sqs_1.SQSClient({
     region: process.env.AWS_REGION,
@@ -73,6 +74,26 @@ class BookingsHelper extends db_1.default {
             }
             const updatedBooking = yield this.updateOfflineTicketIssued(reqObj.user_id, reqObj.ticket_id, reqObj.payment_id);
             return updatedBooking;
+        });
+        this.getBookingByEmailHelper = (email) => __awaiter(this, void 0, void 0, function* () {
+            const authObj = new db_2.ExtendedUserServiceDb();
+            const user = yield authObj.getUser_Email(email);
+            if (!user) {
+                throw new errors_handler_1.default({
+                    status_code: 400,
+                    message: "User not found",
+                    message_code: "USER_NOT_FOUND",
+                });
+            }
+            const booking = yield this.getUserBooking(user.id);
+            if (!booking) {
+                throw new errors_handler_1.default({
+                    status_code: 400,
+                    message: "Booking not found",
+                    message_code: "BOOKING_NOT_FOUND",
+                });
+            }
+            return booking;
         });
     }
 }
