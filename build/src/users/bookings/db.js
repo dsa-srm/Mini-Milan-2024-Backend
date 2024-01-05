@@ -48,3 +48,4 @@ class BookingsDB {
     }
 }
 exports.default = BookingsDB;
+// Assuming you have a BookingsService class with methods for handling bookings

@@ -29,3 +29,15 @@ export type IUpdateTicketReqObj = {
   ticket_id: string;
  
 };
+
+export type IBooking = {
+	id: string;
+	
+	
+  };
+  
+  export type IResponse<T = any> = {
+	success: boolean;
+	message?: string;
+	data?: T | null;
+  }

@@ -50,7 +50,7 @@ class UsersAuthHelper extends db_1.default {
             return yield bcryptjs_1.default.compare(password, user.password);
         });
         this.signupUserHelper = (reqObj) => __awaiter(this, void 0, void 0, function* () {
-            const isExistingUser = yield this.isExistingUser(reqObj.email, reqObj.phone_number);
+            const isExistingUser = yield this.isExistingUser(reqObj.email, reqObj.phone_number, reqObj.reg_number);
             reqObj.created_at = new Date();
             reqObj.updated_at = new Date();
             const newReqObj = Object.assign(Object.assign({}, reqObj), { password: yield bcryptjs_1.default.hash(reqObj.password, 12) });
