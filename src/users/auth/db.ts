@@ -2,16 +2,10 @@ import db from "../../config/pg.config";
 import { IUserAuthResObject, IUserAuthSignupReqObj } from "./interface";
 
 export default class UsersAuthDB {
-<<<<<<< HEAD
-	
-  protected getUser = async (email: string): Promise<IUserAuthResObject> => {
-    const query = `SELECT * FROM users WHERE email = $1 LIMIT 1`;
-=======
 	protected getUserByEmail = async (
 		email: string
 	): Promise<IUserAuthResObject> => {
 		const query = `SELECT * FROM users WHERE email = $1 AND is_deleted = false LIMIT 1`;
->>>>>>> 18a3d3d53175a8a6f74fa8cf5ef746f91e3c0830
 
     const { rows } = await db.query(query, [email]);
 
@@ -84,11 +78,13 @@ export default class UsersAuthDB {
 
 	protected isExistingUser = async (
 		email: string,
-		phone_number: number
-	): Promise<IUserAuthResObject> => {
-		const query = `SELECT * FROM users WHERE email = $1 OR phone_number = $2 LIMIT 1`;
+		phone_number: number,
+		reg_number: string
 
-		const { rows } = await db.query(query, [email, phone_number]);
+	): Promise<IUserAuthResObject> => {
+		const query = `SELECT * FROM users WHERE email = $1 OR phone_number = $2 OR reg_number = $3 LIMIT 1`;
+
+		const { rows } = await db.query(query, [email, phone_number, reg_number]);
 
 		return rows[0] as unknown as IUserAuthResObject;
 	};

@@ -60,9 +60,9 @@ class UsersAuthDB {
             const { rows } = yield pg_config_1.default.query(query, values);
             return rows[0];
         });
-        this.isExistingUser = (email, phone_number) => __awaiter(this, void 0, void 0, function* () {
-            const query = `SELECT * FROM users WHERE email = $1 OR phone_number = $2 LIMIT 1`;
-            const { rows } = yield pg_config_1.default.query(query, [email, phone_number]);
+        this.isExistingUser = (email, phone_number, reg_number) => __awaiter(this, void 0, void 0, function* () {
+            const query = `SELECT * FROM users WHERE email = $1 OR phone_number = $2 OR reg_number = $3 LIMIT 1`;
+            const { rows } = yield pg_config_1.default.query(query, [email, phone_number, reg_number]);
             return rows[0];
         });
         this.deleteUser = (user_id) => __awaiter(this, void 0, void 0, function* () {
