@@ -84,6 +84,8 @@ class IUserAuthValidation {
                         message_code: "NOT_LOGGED_IN",
                     });
                 }
+                const jsonPayload = JSON.parse(JSON.stringify(payload));
+                req.body.current_user = jsonPayload.data;
                 next();
             }
             catch (error) {

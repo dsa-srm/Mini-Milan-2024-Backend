@@ -93,4 +93,20 @@ export default class UsersAuthService extends UsersAuthHelper {
 		await this.deleteUserHelper(user_id);
 		return;
 	};
+
+	protected getUserService = async (
+		user_id: string
+	): Promise<IUserAuthResObject> => {
+		const user = await this.getUserHelper(user_id);
+
+		if (!user) {
+			throw new ErrorHandler({
+				status_code: 404,
+				message: "User not found",
+				message_code: "USER_NOT_FOUND",
+			});
+		}
+
+		return user;
+	};
 }

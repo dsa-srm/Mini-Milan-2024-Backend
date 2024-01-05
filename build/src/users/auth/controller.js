@@ -35,7 +35,8 @@ class UsersAuthController extends services_1.default {
                         const reqObj = req.body;
                         const authRes = yield this.loginController(reqObj);
                         res.cookie("token", authRes.token, {
-                            httpOnly: true,
+                            expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+                            httpOnly: false,
                             secure: true,
                             sameSite: "none",
                         });
@@ -47,19 +48,28 @@ class UsersAuthController extends services_1.default {
                         const reqObj = Object.assign(Object.assign({}, req.body), { id: (0, uuid_1.v4)() });
                         const authRes = yield this.signupController(reqObj);
                         res.cookie("token", authRes.token, {
-                            httpOnly: true,
+                            expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+                            httpOnly: false,
                             secure: true,
                             sameSite: "none",
                         });
                         response = authRes.user;
                     }
                 }
-                else if (routeName === enums_2.UsersAuthRoutes.DELETE) {
-                    if (method === enums_1.RequestMethods.DELETE) {
+                else if (method === enums_1.RequestMethods.DELETE) {
+                    const user_id = req.params.id;
+                    yield this.deleteUserController(user_id);
+                    response.message = "User deleted successfully";
+                    statusCode = 204;
+                }
+                else if (method === enums_1.RequestMethods.GET) {
+                    if (routeName === enums_2.UsersAuthRoutes.CURRENT) {
+                        const user_id = req.body.current_user.id;
+                        response = yield this.getUserController(user_id);
+                    }
+                    else {
                         const user_id = req.params.id;
-                        yield this.deleteUserController(user_id);
-                        response.message = "User deleted successfully";
-                        statusCode = 204;
+                        response = yield this.getUserController(user_id);
                     }
                 }
                 res.status(statusCode).send(response);
@@ -104,6 +114,16 @@ class UsersAuthController extends services_1.default {
         this.deleteUserController = (user_id) => __awaiter(this, void 0, void 0, function* () {
             yield this.deleteUserService(user_id);
             return;
+        });
+        this.getUserController = (user_id) => __awaiter(this, void 0, void 0, function* () {
+            const user = yield this.getUserService(user_id);
+            return {
+                success: true,
+                message: "User fetched successfully",
+                data: {
+                    user: user,
+                },
+            };
         });
     }
 }
