@@ -36,7 +36,7 @@ class UsersAuthController extends services_1.default {
                         const authRes = yield this.loginController(reqObj);
                         res.cookie("token", authRes.token, {
                             expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
-                            httpOnly: false,
+                            httpOnly: true,
                             secure: true,
                             sameSite: "none",
                         });
@@ -49,7 +49,7 @@ class UsersAuthController extends services_1.default {
                         const authRes = yield this.signupController(reqObj);
                         res.cookie("token", authRes.token, {
                             expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
-                            httpOnly: false,
+                            httpOnly: true,
                             secure: true,
                             sameSite: "none",
                         });

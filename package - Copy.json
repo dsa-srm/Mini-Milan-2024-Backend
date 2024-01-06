@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    
-    "start": "nodemon build/src/index.js"
-    
+    "start:build": "tsc -w",
+    "start:run": "nodemon build/src/index.js",
+    "start": "concurrently npm:start:*",
+    "test": "artillery run test/artillery.yml"
   },
   "author": "",
   "license": "ISC",
