@@ -55,6 +55,12 @@ export default class UsersAuthController extends UsersAuthService {
 				await this.deleteUserController(user_id);
 				response.message = "User deleted successfully";
 				statusCode = 204;
+				res.cookie("token", "", {
+					expires: new Date(Date.now()),
+					httpOnly: true,
+					secure: true,
+					sameSite: "none",
+				});
 			} else if (method === RequestMethods.GET) {
 				if (routeName === UsersAuthRoutes.CURRENT) {
 					const user_id = req.body.current_user.id;

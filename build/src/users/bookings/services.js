@@ -39,6 +39,10 @@ class BookingsService extends helper_1.default {
             };
             return responseObj;
         });
+        this.getBookingService = (email) => __awaiter(this, void 0, void 0, function* () {
+            const response = yield this.getBookingByEmailHelper(email);
+            return response;
+        });
         this.jwtHelper = new jwt_utils_1.default();
     }
 }
