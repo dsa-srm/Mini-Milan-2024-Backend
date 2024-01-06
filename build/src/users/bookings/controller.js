@@ -35,8 +35,8 @@ class BookingsController extends services_1.default {
                         const paymentId = req.query.paymentId;
                         const ticketId = req.query.ticketId;
                         const paymentStatus = req.query.paymentStatus;
-                        const ticketIssued = req.query.ticketIssued;
-                        if (!ticketType || !userId || !paymentStatus || !ticketIssued) {
+                        const ticketStatus = req.query.ticketStatus;
+                        if (!ticketType || !userId || !paymentStatus || !ticketStatus) {
                             throw new errors_handler_1.default({
                                 status_code: 400,
                                 message: "Invalid Query Parameters",
@@ -50,7 +50,7 @@ class BookingsController extends services_1.default {
                             payment_id: paymentId,
                             ticket_id: ticketId,
                             payment_status: paymentStatus,
-                            ticket_status: ticketIssued,
+                            ticket_status: ticketStatus,
                             offline_ticket_issued: false,
                             created_at: new Date(),
                             updated_at: new Date(),
@@ -107,21 +107,12 @@ class BookingsController extends services_1.default {
                 message_code: "BOOKING_ENTERED_SUCCESSFULLY",
             };
         });
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 9383301948846035181abdf7d0fd5ff0fa44425a
         this.getLiveCountController = () => __awaiter(this, void 0, void 0, function* () {
             const data = yield this.getLiveTicketCountService();
             return {
                 success: true,
                 message: "Total Live Count Fetched",
                 data: data,
-<<<<<<< HEAD
-                message_code: "TOTAL_LIVE_COUNT_FETCHED"
-            };
-        });
-=======
                 message_code: "TOTAL_LIVE_COUNT_FETCHED",
             };
         });
@@ -134,9 +125,6 @@ class BookingsController extends services_1.default {
                 message_code: "BOOKING_FETCHED_SUCCESSFULLY",
             };
         });
-=======
->>>>>>> 26753cfce5fe1d84a162012b7e9dedf5ed2b66db
->>>>>>> 9383301948846035181abdf7d0fd5ff0fa44425a
         this.updateTicketIssued = (reqObj) => __awaiter(this, void 0, void 0, function* () {
             const data = yield this.updateTicketIssuedService(reqObj);
             return {

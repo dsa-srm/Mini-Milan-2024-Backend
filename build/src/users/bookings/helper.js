@@ -52,7 +52,7 @@ class BookingsHelper extends db_1.default {
                 MessageGroupId: messageGroupId,
             });
             const result = yield sqsClient.send(sendMessageCommand);
-            // console.log("Message sent to SQS:", result.MessageId);
+            console.log("Message sent to SQS:", result.MessageId);
             return result;
         });
         this.updateOfflineTicketIssuedHelper = (reqObj) => __awaiter(this, void 0, void 0, function* () {

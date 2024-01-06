@@ -10,9 +10,9 @@ const express_rate_limit_1 = __importDefault(require("express-rate-limit"));
 //Creating a rate limiter
 const limiter = (0, express_rate_limit_1.default)({
     //Amount of requests per window
-    max: 3,
+    max: 10,
     //Window size in ms
-    windowMs: 15 * 60 * 1000, //15 mins
+    windowMs: 15 * 60 * 1000,
     //Message on error
     message: "Too many requests from this IP, try again in 15mins !!",
 });
