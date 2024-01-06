@@ -20,6 +20,7 @@ export default class BookingsHelper extends BookingsDB {
       id: reqObj.id,
       ticket_type: reqObj.ticket_type,
       user_id: reqObj.user_id,
+      email: reqObj.email,
       payment_id: reqObj.payment_id,
       ticket_id: reqObj.ticket_id,
       payment_status: reqObj.payment_status,
@@ -71,6 +72,16 @@ export default class BookingsHelper extends BookingsDB {
 		message_code: "TICKET_ALREADY_ISSUED",
 	  });
 	}
+
+  const isUserEmail =  await this.UserEmail(reqObj.email);
+  if(!isUserEmail){
+    throw new ErrorHandler({
+      status_code: 400,
+      message: "User not found, Send them to tech team!!",
+			message_code: "USER_NOT_FOUND",
+    });
+
+  }
 
 	const updatedBooking = await this.updateOfflineTicketIssued(reqObj.user_id,reqObj.ticket_id,reqObj.payment_id);
 

@@ -17,6 +17,7 @@ export type ICreateBookingReqObj = {
   ticket_id: string;
   payment_status: string;
   ticket_status: string;
+  email:string;
   offline_ticket_issued: boolean;
   updated_at: Date;
   created_at: Date;
@@ -25,6 +26,7 @@ export type ICreateBookingReqObj = {
 export type IUpdateTicketReqObj = {
  
   user_id: string;
+  email: string;
   payment_id: string;
   ticket_id: string;
  

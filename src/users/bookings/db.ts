@@ -37,7 +37,7 @@ export default class BookingsDB {
   }
 
   protected checkUserExists = async (user_id: string): Promise<boolean> => {
-	const query = `SELECT EXISTS(SELECT 1 FROM bookings WHERE user_id = $1);`;
+	const query = `SELECT EXISTS(SELECT 1 FROM bookings WHERE user_id = $1);`; 
 	const { rows } = await db.query(query, [user_id]);
 
 	return rows[0] as unknown as boolean;
@@ -49,7 +49,11 @@ export default class BookingsDB {
 
 	return rows[0] as unknown as any;
   }
-
+ protected UserEmail = async (user_id: string): Promise<string> =>{
+  const query = `SELECT email FROM USER WHERE id = user_id;`;
+  const {rows} = await db.query(query, [user_id]);
+   return rows[0] as unknown as string;
+ }
 }
 // Assuming you have a BookingsService class with methods for handling bookings
 
