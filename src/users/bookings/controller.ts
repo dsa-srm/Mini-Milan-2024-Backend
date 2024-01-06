@@ -33,7 +33,7 @@ export default class BookingsController extends BookingsService {
 			const ticketId = req.query.ticketId as string;
 			const paymentStatus = req.query.paymentStatus as string;
 			const ticketIssued = req.query.ticketIssued as string;
-	  
+	    
 			
 			if (!ticketType || !userId || !paymentStatus || !ticketIssued) {
 				throw new ErrorHandler({

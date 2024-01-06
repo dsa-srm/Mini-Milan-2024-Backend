@@ -24,7 +24,8 @@ export default class UsersAuthHelper extends UsersAuthDB {
 	): Promise<IUserAuthResObject> => {
 		const isExistingUser = await this.isExistingUser(
 			reqObj.email,
-			reqObj.phone_number
+			reqObj.phone_number,
+			reqObj.reg_number
 		);
 
 		reqObj.created_at = new Date();

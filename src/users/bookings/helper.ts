@@ -15,6 +15,7 @@ const sqsClient = new SQSClient({
 });
 export default class BookingsHelper extends BookingsDB {
   protected insertBookingInSqs = async (reqObj: ICreateBookingReqObj) => {
+   
     const messageData = {
       id: reqObj.id,
       ticket_type: reqObj.ticket_type,
@@ -45,7 +46,7 @@ export default class BookingsHelper extends BookingsDB {
     });
 
     const result = await sqsClient.send(sendMessageCommand);
-    console.log("Message sent to SQS:", result.MessageId);
+    // console.log("Message sent to SQS:", result.MessageId);
     return result;
   };
 
@@ -62,6 +63,7 @@ export default class BookingsHelper extends BookingsDB {
 		  });
 	}
     const checkIsAlreadyIssued = await this.checkTicketIssued(reqObj.ticket_id);
+
 	if (checkIsAlreadyIssued) {
 	  throw new ErrorHandler({
 		status_code: 400,

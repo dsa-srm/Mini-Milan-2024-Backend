@@ -20,7 +20,7 @@ export default class UsersAuthController extends UsersAuthService {
 		try {
 			const method = req.method;
 			const routeName = req.route.path.split("/")[1];
-
+   
 			let response: IResponse = {
 				success: false,
 			};
