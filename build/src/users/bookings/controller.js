@@ -52,18 +52,10 @@ class BookingsController extends services_1.default {
                             payment_status: paymentStatus,
                             ticket_status: ticketIssued,
                             offline_ticket_issued: false,
-                            created_at: new Date(),
-                            updated_at: new Date(),
                         };
                         const bookingResponse = yield this.createBookingController(reqObj);
                         // Additional logic if needed
                         response = bookingResponse;
-                    }
-                }
-                else if (req.path === enums_2.bookingRoutes.GETLIVECOUNT) {
-                    if (method === enums_1.RequestMethods.GET) {
-                        const liveCountResponse = yield this.getLiveCountController();
-                        response = liveCountResponse;
                     }
                 }
                 else if (req.path === enums_2.bookingRoutes.UPDATETICKETISUED) {
@@ -107,6 +99,7 @@ class BookingsController extends services_1.default {
                 message_code: "BOOKING_ENTERED_SUCCESSFULLY",
             };
         });
+<<<<<<< HEAD
         this.getLiveCountController = () => __awaiter(this, void 0, void 0, function* () {
             const data = yield this.getLiveTicketCountService();
             return {
@@ -125,6 +118,8 @@ class BookingsController extends services_1.default {
                 message_code: "BOOKING_FETCHED_SUCCESSFULLY",
             };
         });
+=======
+>>>>>>> 26753cfce5fe1d84a162012b7e9dedf5ed2b66db
         this.updateTicketIssued = (reqObj) => __awaiter(this, void 0, void 0, function* () {
             const data = yield this.updateTicketIssuedService(reqObj);
             return {
