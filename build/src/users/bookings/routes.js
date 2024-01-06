@@ -13,4 +13,5 @@ const { execute } = new controller_1.default();
 router.route("/").get(execute);
 router.route("/find").get(execute);
 router.route("/livecount").get(execute);
+router.route("/updateticketissued").patch(execute);
 exports.default = router;
