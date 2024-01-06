@@ -10,6 +10,8 @@ const { execute } = new BookingsController();
 
 router.route("/").get(execute);
 
+router.route("/find").get(execute);
+
 router.route("/livecount").get(execute);
 
 export default router;

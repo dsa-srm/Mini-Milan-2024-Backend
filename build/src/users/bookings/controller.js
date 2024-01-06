@@ -72,10 +72,24 @@ class BookingsController extends services_1.default {
                         const reqObj = {
                             user_id: userId,
                             ticket_id: ticketId,
-                            payment_id: paymentId
+                            payment_id: paymentId,
                         };
                         const updateResponse = yield this.updateTicketIssued(reqObj);
                         response = updateResponse;
+                    }
+                }
+                else if (req.path === enums_2.bookingRoutes.FETCHBOOKING) {
+                    if (method === enums_1.RequestMethods.GET) {
+                        const email = req.body.email;
+                        if (!email) {
+                            throw new errors_handler_1.default({
+                                status_code: 400,
+                                message: "Email is required",
+                                message_code: "EMAIL_REQUIRED",
+                            });
+                        }
+                        const bookingResponse = yield this.getBookingController(email);
+                        response = bookingResponse;
                     }
                 }
                 res.status(statusCode).send(response);
@@ -90,25 +104,46 @@ class BookingsController extends services_1.default {
                 success: true,
                 message: "Booking Entered Successfully!",
                 data: data,
-                message_code: "BOOKING_ENTERED_SUCCESSFULLY"
+                message_code: "BOOKING_ENTERED_SUCCESSFULLY",
             };
         });
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> ankit-dev
         this.getLiveCountController = () => __awaiter(this, void 0, void 0, function* () {
             const data = yield this.getLiveTicketCountService();
             return {
                 success: true,
                 message: "Total Live Count Fetched",
                 data: data,
+<<<<<<< HEAD
                 message_code: "TOTAL_LIVE_COUNT_FETCHED"
             };
         });
+=======
+                message_code: "TOTAL_LIVE_COUNT_FETCHED",
+            };
+        });
+        this.getBookingController = (email) => __awaiter(this, void 0, void 0, function* () {
+            const data = yield this.getBookingService(email);
+            return {
+                success: true,
+                message: "Booking Fetched Successfully!",
+                data: data,
+                message_code: "BOOKING_FETCHED_SUCCESSFULLY",
+            };
+        });
+=======
+>>>>>>> 26753cfce5fe1d84a162012b7e9dedf5ed2b66db
+>>>>>>> ankit-dev
         this.updateTicketIssued = (reqObj) => __awaiter(this, void 0, void 0, function* () {
             const data = yield this.updateTicketIssuedService(reqObj);
             return {
                 success: true,
                 message: "Ticket Issued Updated Successfully",
                 data: data,
-                message_code: "TICKET_ISSUED_UPDATED_SUCCESSFULLY"
+                message_code: "TICKET_ISSUED_UPDATED_SUCCESSFULLY",
             };
         });
     }
