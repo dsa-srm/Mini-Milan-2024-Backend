@@ -41,7 +41,12 @@ class BookingsDB {
             return rows[0];
         });
         this.checkUserExists = (user_id) => __awaiter(this, void 0, void 0, function* () {
-            const query = `SELECT EXISTS(SELECT 1 FROM bookings WHERE user_id = $1 and is_deleted = false);`;
+            const query = `SELECT EXISTS(
+			SELECT 1
+			FROM bookings AS b
+			INNER JOIN users AS u ON b.user_id = u.user_id
+			WHERE u.user_id = $1 AND u.is_deleted = false
+		);`;
             const { rows } = yield pg_config_1.default.query(query, [user_id]);
             return rows[0];
         });

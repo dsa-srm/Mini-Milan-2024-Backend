@@ -14,4 +14,6 @@ router.route("/find").get(execute);
 
 router.route("/livecount").get(execute);
 
+router.route("/updateticketissued").patch(execute);
+
 export default router;
