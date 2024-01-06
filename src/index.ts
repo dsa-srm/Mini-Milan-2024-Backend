@@ -3,14 +3,13 @@ dotenv.config();
 import express, { Application, Response, Request } from "express";
 import cors from "cors";
 // import * as moment from "moment-timezone";
-import moment from "moment";
+import moment from "moment-timezone";
 import morgan from "morgan";
 import logger, { LogTypes } from "./utils/logger";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 const app: Application = express();
 
-const desiredTimeZone = "Asia/Kolkata"; // India Standard Time (GMT+5:30)
 
 app.use(
 	cors({

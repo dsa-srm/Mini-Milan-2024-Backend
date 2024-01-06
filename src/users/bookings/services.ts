@@ -21,8 +21,7 @@ export default class BookingsService extends BookingsHelper {
 	): Promise<any> => {
 		const sqsResponse = await this.insertBookingInSqs(reqObj);
 		const response = {
-			messageId: sqsResponse.MessageId,
-		};
+			messageId: sqsResponse.MessageId};
 		return response;
 	};
 

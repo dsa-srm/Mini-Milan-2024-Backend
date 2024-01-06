@@ -6,7 +6,7 @@ import rateLimiter from "express-rate-limit";
 //Creating a rate limiter
 const limiter = rateLimiter({
 	//Amount of requests per window
-	max: 3,
+	max: 10,
 	//Window size in ms
 	windowMs: 15 * 60 * 1000, //15 mins
 	//Message on error

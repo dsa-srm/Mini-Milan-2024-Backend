@@ -50,7 +50,7 @@ export default class BookingsDB {
 	};
 
 	protected checkUserExists = async (user_id: string): Promise<boolean> => {
-		const query = `SELECT EXISTS(SELECT 1 FROM bookings WHERE user_id = $1);`;
+		const query = `SELECT EXISTS(SELECT 1 FROM bookings WHERE user_id = $1 and is_deleted = false);`;
 		const { rows } = await db.query(query, [user_id]);
 
 		return rows[0] as unknown as boolean;

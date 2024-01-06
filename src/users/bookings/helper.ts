@@ -74,6 +74,10 @@ export default class BookingsHelper extends BookingsDB {
 			});
 		}
 
+		
+
+		
+
 		const updatedBooking = await this.updateOfflineTicketIssued(
 			reqObj.user_id,
 			reqObj.ticket_id,
