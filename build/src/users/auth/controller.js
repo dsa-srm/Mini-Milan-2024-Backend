@@ -61,6 +61,12 @@ class UsersAuthController extends services_1.default {
                     yield this.deleteUserController(user_id);
                     response.message = "User deleted successfully";
                     statusCode = 204;
+                    res.cookie("token", "", {
+                        expires: new Date(Date.now()),
+                        httpOnly: true,
+                        secure: true,
+                        sameSite: "none",
+                    });
                 }
                 else if (method === enums_1.RequestMethods.GET) {
                     if (routeName === enums_2.UsersAuthRoutes.CURRENT) {

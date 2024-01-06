@@ -15,6 +15,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const pg_config_1 = __importDefault(require("../../config/pg.config"));
 class BookingsDB {
     constructor() {
+        this.getUserBooking = (user_id) => __awaiter(this, void 0, void 0, function* () {
+            const query = `SELECT * FROM bookings WHERE User_id = $1 LIMIT 1;`;
+            const { rows } = yield pg_config_1.default.query(query, [user_id]);
+            return rows[0];
+        });
         this.getBooking = (bookingId) => __awaiter(this, void 0, void 0, function* () {
             const query = `SELECT * FROM bookings WHERE id = $1 LIMIT 1;`;
             const { rows } = yield pg_config_1.default.query(query, [bookingId]);
