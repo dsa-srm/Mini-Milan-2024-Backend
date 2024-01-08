@@ -14,7 +14,13 @@ const limiter = (0, express_rate_limit_1.default)({
     //Window size in ms
     windowMs: 15 * 60 * 1000,
     //Message on error
-    message: "Too many requests from this IP, try again in 15mins !!"
+    handler: (req, res) => {
+        res.status(429).send({
+            success: false,
+            message: "Too many requests, please try again in 15mins.",
+            message_code: "TOO_MANY_REQUESTS",
+        });
+    },
 });
 const router = (0, express_1.Router)();
 const { execute } = new controller_1.default();

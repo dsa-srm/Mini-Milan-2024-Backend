@@ -55,7 +55,7 @@ export default class BookingsDB {
     return rows[0] as unknown as boolean;
   };
   protected UserEmail = async (user_id: string): Promise<string> => {
-    const query = `SELECT email FROM USER WHERE id = user_id;`;
+    const query = `SELECT email FROM users WHERE id = $1;`;
     const { rows } = await db.query(query, [user_id]);
     return rows[0] as unknown as string;
   };
