@@ -1,4 +1,8 @@
-import { ICreateBookingReqObj, IUpdateTicketReqObj } from "./interface";
+import {
+  IBookingGetResObj,
+  ICreateBookingReqObj,
+  IUpdateTicketReqObj,
+} from "./interface";
 import ErrorHandler from "../../utils/errors.handler";
 import BookingsDB from "./db";
 import {
@@ -9,25 +13,22 @@ import {
 } from "@aws-sdk/client-sqs";
 
 import dotenv from "dotenv";
+import UsersAuthDB, { ExtendedUserServiceDb } from "../auth/db";
 dotenv.config();
 const sqsClient = new SQSClient({
   region: process.env.AWS_REGION,
 });
 export default class BookingsHelper extends BookingsDB {
   protected insertBookingInSqs = async (reqObj: ICreateBookingReqObj) => {
-
-
-
-    const UserEmail =  await this.UserEmail(reqObj.user_id);
-    if(!UserEmail){
+    const UserEmail = await this.UserEmail(reqObj.user_id);
+    if (!UserEmail) {
       throw new ErrorHandler({
         status_code: 400,
         message: "User not found, Send them to tech team!!",
         message_code: "USER_NOT_FOUND",
       });
-  
     }
-   
+
     const messageData = {
       id: reqObj.id,
       ticket_type: reqObj.ticket_type,
@@ -59,42 +60,64 @@ export default class BookingsHelper extends BookingsDB {
     });
 
     const result = await sqsClient.send(sendMessageCommand);
-    // console.log("Message sent to SQS:", result.MessageId);
+    console.log("Message sent to SQS:", result.MessageId);
     return result;
   };
 
-
-
-  protected updateOfflineTicketIssuedHelper = async (reqObj: IUpdateTicketReqObj) => {
-
-	const isUserExists = await this.checkUserExists(reqObj.user_id);
-	if(!isUserExists){
-		throw new ErrorHandler({
-			status_code: 400,
-			message: "User not found, Send them to tech team!!",
-			message_code: "USER_NOT_FOUND",
-		  });
-	}
+  protected updateOfflineTicketIssuedHelper = async (
+    reqObj: IUpdateTicketReqObj
+  ) => {
+    const isUserExists = await this.checkUserExists(reqObj.user_id);
+    if (!isUserExists) {
+      throw new ErrorHandler({
+        status_code: 400,
+        message: "User not found, Send them to tech team!!",
+        message_code: "USER_NOT_FOUND",
+      });
+    }
     const checkIsAlreadyIssued = await this.checkTicketIssued(reqObj.ticket_id);
+    if (checkIsAlreadyIssued) {
+      throw new ErrorHandler({
+        status_code: 400,
+        message: "Ticket already issued",
+        message_code: "TICKET_ALREADY_ISSUED",
+      });
+    }
 
-	if (checkIsAlreadyIssued) {
-	  throw new ErrorHandler({
-		status_code: 400,
-		message: "Ticket already issued",
-		message_code: "TICKET_ALREADY_ISSUED",
-	  });
-	}
+    const updatedBooking = await this.updateOfflineTicketIssued(
+      reqObj.user_id,
+      reqObj.ticket_id,
+      reqObj.payment_id
+    );
 
- 
+    return updatedBooking;
+  };
 
-	const updatedBooking = await this.updateOfflineTicketIssued(reqObj.user_id,reqObj.ticket_id,reqObj.payment_id);
+  protected getBookingByEmailHelper = async (
+    email: string
+  ): Promise<IBookingGetResObj> => {
+    const authObj = new ExtendedUserServiceDb();
 
-	return updatedBooking;
+    const user = await authObj.getUser_Email(email);
 
+    if (!user) {
+      throw new ErrorHandler({
+        status_code: 400,
+        message: "User not found",
+        message_code: "USER_NOT_FOUND",
+      });
+    }
 
+    const booking = await this.getUserBooking(user.id);
 
+    if (!booking) {
+      throw new ErrorHandler({
+        status_code: 400,
+        message: "Booking not found",
+        message_code: "BOOKING_NOT_FOUND",
+      });
+    }
 
-  }
-
-
+    return booking;
+  };
 }

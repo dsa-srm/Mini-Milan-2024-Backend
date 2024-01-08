@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ExtendedUserServiceDb = void 0;
 const pg_config_1 = __importDefault(require("../../config/pg.config"));
 class UsersAuthDB {
     constructor() {
@@ -72,3 +73,12 @@ class UsersAuthDB {
     }
 }
 exports.default = UsersAuthDB;
+class ExtendedUserServiceDb extends UsersAuthDB {
+    constructor() {
+        super(...arguments);
+        this.getUser_Email = (email) => __awaiter(this, void 0, void 0, function* () {
+            return yield this.getUserByEmail(email);
+        });
+    }
+}
+exports.ExtendedUserServiceDb = ExtendedUserServiceDb;
