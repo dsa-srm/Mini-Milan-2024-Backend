@@ -15,12 +15,24 @@ const sqsClient = new SQSClient({
 });
 export default class BookingsHelper extends BookingsDB {
   protected insertBookingInSqs = async (reqObj: ICreateBookingReqObj) => {
+
+
+
+    const UserEmail =  await this.UserEmail(reqObj.user_id);
+    if(!UserEmail){
+      throw new ErrorHandler({
+        status_code: 400,
+        message: "User not found, Send them to tech team!!",
+        message_code: "USER_NOT_FOUND",
+      });
+  
+    }
    
     const messageData = {
       id: reqObj.id,
       ticket_type: reqObj.ticket_type,
       user_id: reqObj.user_id,
-      email: reqObj.email,
+      email: UserEmail,
       payment_id: reqObj.payment_id,
       ticket_id: reqObj.ticket_id,
       payment_status: reqObj.payment_status,
@@ -73,15 +85,7 @@ export default class BookingsHelper extends BookingsDB {
 	  });
 	}
 
-  const isUserEmail =  await this.UserEmail(reqObj.email);
-  if(!isUserEmail){
-    throw new ErrorHandler({
-      status_code: 400,
-      message: "User not found, Send them to tech team!!",
-			message_code: "USER_NOT_FOUND",
-    });
-
-  }
+ 
 
 	const updatedBooking = await this.updateOfflineTicketIssued(reqObj.user_id,reqObj.ticket_id,reqObj.payment_id);
 
