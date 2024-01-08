@@ -2,28 +2,22 @@ import { Router, response } from "express";
 import UsersAuthController from "./controller";
 import IUserAuthValidation from "./middleware";
 import rateLimiter from "express-rate-limit";
-import { Response } from "express";
-import ErrorHandler from "../../utils/errors.handler";
 
-const options = {
-  statusCode: 429,
-  message: "Too many requests from this IP, try again in 15mins !!",
-};
+
 //Creating a rate limiter
 const limiter = rateLimiter({
-  //Amount of requests per window
-  max: 15,
-  //Window size in ms
-  windowMs: 15 * 60 * 1000, //15 mins
-  //Message on error
-  handler: (req, res: Response, next, options) => {
-    throw new ErrorHandler( {
-      status_code: 429,
-      message: "Too many requests from this IP, try again in 15mins !!",
-      message_code: "TOO_MANY_REQUESTS",
-    });
-  },
-  // message: "Too many requests from this IP, try again in 15mins !!"
+	//Amount of requests per window
+	max: 15,
+	//Window size in ms
+	windowMs: 15 * 60 * 1000, //15 mins
+	//Message on error
+	handler: (req, res) => {
+		res.status(429).send({
+			success: false,
+			message: "Too many requests, please try again in 15mins.",
+			message_code: "TOO_MANY_REQUESTS",
+		});
+	},
 });
 
 const router: Router = Router();
