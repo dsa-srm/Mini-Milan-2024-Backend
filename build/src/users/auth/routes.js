@@ -7,14 +7,26 @@ const express_1 = require("express");
 const controller_1 = __importDefault(require("./controller"));
 const middleware_1 = __importDefault(require("./middleware"));
 const express_rate_limit_1 = __importDefault(require("express-rate-limit"));
+const errors_handler_1 = __importDefault(require("../../utils/errors.handler"));
+const options = {
+    statusCode: 429,
+    message: "Too many requests from this IP, try again in 15mins !!",
+};
 //Creating a rate limiter
 const limiter = (0, express_rate_limit_1.default)({
     //Amount of requests per window
-    max: 10,
+    max: 15,
     //Window size in ms
     windowMs: 15 * 60 * 1000,
     //Message on error
-    message: "Too many requests from this IP, try again in 15mins !!",
+    handler: (req, res, next, options) => {
+        throw new errors_handler_1.default({
+            status_code: 429,
+            message: "Too many requests from this IP, try again in 15mins !!",
+            message_code: "TOO_MANY_REQUESTS",
+        });
+    },
+    // message: "Too many requests from this IP, try again in 15mins !!"
 });
 const router = (0, express_1.Router)();
 const { execute } = new controller_1.default();
