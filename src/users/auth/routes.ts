@@ -19,6 +19,7 @@ const { execute } = new UsersAuthController();
 const { protect } = new IUserAuthValidation();
 
 router.post("/login", limiter, execute);
+router.get("/logout",  execute);
 router.post("/signup", limiter, execute);
 router.get("/current", protect, execute);
 router.get("/:id", protect, execute);

@@ -48,10 +48,10 @@ class UsersAuthService extends helper_1.default {
             const { checkIsKtrStudentEmail } = new middleware_1.default();
             checkIsKtrStudentEmail(reqObj.email);
             const user = yield this.signupUserHelper(reqObj);
-            const token = yield this.jwtHelper.generateTokens(user);
+            // const token = await this.jwtHelper.generateTokens(user);
             const response = {
                 user,
-                token: token.access_token,
+                // token: token.access_token,
             };
             return response;
         });

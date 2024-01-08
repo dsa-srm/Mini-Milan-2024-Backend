@@ -38,12 +38,12 @@ export type IResponse<T = any> = {
 
 export type IAuthResponse = {
 	user: IResponse; //error
-	token: string;
+	token?: string;
 };
 
 export type AuthObj = {
 	user: IUserAuthResObject; //error
-	token: string;
+	token?: string;
 };
 
 declare namespace Express {
