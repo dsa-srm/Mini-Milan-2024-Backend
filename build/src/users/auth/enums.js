@@ -4,6 +4,7 @@ exports.UsersAuthRoutes = void 0;
 var UsersAuthRoutes;
 (function (UsersAuthRoutes) {
     UsersAuthRoutes["LOGIN"] = "login";
+    UsersAuthRoutes["LOGOUT"] = "logout";
     UsersAuthRoutes["SIGNUP"] = "signup";
     UsersAuthRoutes["CURRENT"] = "current";
 })(UsersAuthRoutes || (exports.UsersAuthRoutes = UsersAuthRoutes = {}));

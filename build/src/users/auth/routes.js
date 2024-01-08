@@ -20,6 +20,7 @@ const router = (0, express_1.Router)();
 const { execute } = new controller_1.default();
 const { protect } = new middleware_1.default();
 router.post("/login", limiter, execute);
+router.get("/logout", execute);
 router.post("/signup", limiter, execute);
 router.get("/current", protect, execute);
 router.get("/:id", protect, execute);
