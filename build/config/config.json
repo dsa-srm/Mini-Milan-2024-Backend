@@ -1,10 +1,10 @@
 {
  
   "development": {
-    "username": "default",
-    "password": "5UAw4rhQkZNp",
-    "database": "verceldb",
-    "host": "ep-delicate-dew-08255488-pooler.ap-southeast-1.postgres.vercel-storage.com",
+    "username": "postgres",
+    "password": "minimilan",
+    "database": "ebdb",
+    "host": "awseb-e-ivfwwakppn-stack-awsebrdsdatabase-f900pxcyi258.ckci7ohurjfc.ap-south-1.rds.amazonaws.com",
     "dialect": "postgres",
     "dialectOptions": {
       "ssl": {

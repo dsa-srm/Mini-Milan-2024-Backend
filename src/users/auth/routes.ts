@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router, response } from "express";
 import UsersAuthController from "./controller";
 import IUserAuthValidation from "./middleware";
 import rateLimiter from "express-rate-limit";
@@ -12,7 +12,7 @@ const limiter = rateLimiter({
 	//Message on error
 	handler: (req, res) => {
 		res.status(429).send({
-			status: "fail",
+			success: false,
 			message: "Too many requests, please try again in 15mins.",
 			message_code: "TOO_MANY_REQUESTS",
 		});
@@ -24,8 +24,9 @@ const router: Router = Router();
 const { execute } = new UsersAuthController();
 const { protect } = new IUserAuthValidation();
 
-router.post("/login", execute);
-router.post("/signup", execute);
+router.post("/login", limiter, execute);
+router.get("/logout", execute);
+router.post("/signup", limiter, execute);
 router.get("/current", protect, execute);
 router.get("/:id", protect, execute);
 router.delete("/:id", protect, execute);

@@ -22,6 +22,7 @@ class BookingsController extends services_1.default {
     constructor() {
         super(...arguments);
         this.execute = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            var _a;
             try {
                 const method = req.method;
                 let response = {
@@ -35,8 +36,8 @@ class BookingsController extends services_1.default {
                         const paymentId = req.query.paymentId;
                         const ticketId = req.query.ticketId;
                         const paymentStatus = req.query.paymentStatus;
-                        const ticketIssued = req.query.ticketIssued;
-                        if (!ticketType || !userId || !paymentStatus || !ticketIssued) {
+                        const ticketStatus = req.query.ticketStatus;
+                        if (!ticketType || !userId || !paymentStatus || !ticketStatus) {
                             throw new errors_handler_1.default({
                                 status_code: 400,
                                 message: "Invalid Query Parameters",
@@ -50,7 +51,7 @@ class BookingsController extends services_1.default {
                             payment_id: paymentId,
                             ticket_id: ticketId,
                             payment_status: paymentStatus,
-                            ticket_status: ticketIssued,
+                            ticket_status: ticketStatus,
                             offline_ticket_issued: false,
                             created_at: new Date(),
                             updated_at: new Date(),
@@ -68,11 +69,11 @@ class BookingsController extends services_1.default {
                 }
                 else if (req.path === enums_2.bookingRoutes.UPDATETICKETISUED) {
                     if (method === enums_1.RequestMethods.PATCH) {
-                        const { userId, ticketId, paymentId } = req.body;
+                        const { user_id, ticket_id, payment_id } = req.body;
                         const reqObj = {
-                            user_id: userId,
-                            ticket_id: ticketId,
-                            payment_id: paymentId,
+                            user_id: (_a = user_id === null || user_id === void 0 ? void 0 : user_id.toString()) !== null && _a !== void 0 ? _a : "",
+                            ticket_id: ticket_id,
+                            payment_id: payment_id,
                         };
                         const updateResponse = yield this.updateTicketIssued(reqObj);
                         response = updateResponse;

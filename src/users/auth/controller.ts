@@ -37,7 +37,20 @@ export default class UsersAuthController extends UsersAuthService {
 					});
 					response = authRes.user;
 				}
-			} else if (routeName === UsersAuthRoutes.SIGNUP) {
+			}else if (routeName === UsersAuthRoutes.LOGOUT) {
+				if (method === RequestMethods.GET) {
+					res.cookie("token", "", {
+						expires: new Date(Date.now()),
+						httpOnly: true,
+						secure: true,
+						sameSite: "none",
+					});
+					response.message = "Logged Out Successfully";
+				}
+			}
+			
+			
+			else if (routeName === UsersAuthRoutes.SIGNUP) {
 				if (method === RequestMethods.POST) {
 					const reqObj: IUserAuthSignupReqObj = { ...req.body, id: v4() };
 					const authRes: IAuthResponse = await this.signupController(reqObj);

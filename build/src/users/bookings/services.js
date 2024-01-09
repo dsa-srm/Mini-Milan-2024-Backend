@@ -20,7 +20,7 @@ class BookingsService extends helper_1.default {
         this.createBookingService = (reqObj) => __awaiter(this, void 0, void 0, function* () {
             const sqsResponse = yield this.insertBookingInSqs(reqObj);
             const response = {
-                messageId: sqsResponse.MessageId,
+                messageId: sqsResponse.MessageId
             };
             return response;
         });
@@ -34,10 +34,10 @@ class BookingsService extends helper_1.default {
         });
         this.updateTicketIssuedService = (reqObj) => __awaiter(this, void 0, void 0, function* () {
             const response = yield this.updateOfflineTicketIssuedHelper(reqObj);
-            const responseObj = {
-                data: response,
-            };
-            return responseObj;
+            // const responseObj = {
+            // 	data: response,
+            // };
+            return response;
         });
         this.getBookingService = (email) => __awaiter(this, void 0, void 0, function* () {
             const response = yield this.getBookingByEmailHelper(email);

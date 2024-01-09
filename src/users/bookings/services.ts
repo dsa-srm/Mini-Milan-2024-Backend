@@ -21,8 +21,7 @@ export default class BookingsService extends BookingsHelper {
 	): Promise<any> => {
 		const sqsResponse = await this.insertBookingInSqs(reqObj);
 		const response = {
-			messageId: sqsResponse.MessageId,
-		};
+			messageId: sqsResponse.MessageId};
 		return response;
 	};
 
@@ -38,10 +37,10 @@ export default class BookingsService extends BookingsHelper {
 		reqObj: IUpdateTicketReqObj
 	): Promise<any> => {
 		const response = await this.updateOfflineTicketIssuedHelper(reqObj);
-		const responseObj = {
-			data: response,
-		};
-		return responseObj;
+		// const responseObj = {
+		// 	data: response,
+		// };
+		return response;
 	};
 
 	protected getBookingService = async (

@@ -29,9 +29,10 @@ export default class BookingsController extends BookingsService {
 					const paymentId = req.query.paymentId as string;
 					const ticketId = req.query.ticketId as string;
 					const paymentStatus = req.query.paymentStatus as string;
-					const ticketIssued = req.query.ticketIssued as string;
+					const ticketStatus = req.query.ticketStatus as string;
 
-					if (!ticketType || !userId || !paymentStatus || !ticketIssued) {
+			
+					if (!ticketType || !userId || !paymentStatus || !ticketStatus) {
 						throw new ErrorHandler({
 							status_code: 400,
 							message: "Invalid Query Parameters",
@@ -45,7 +46,7 @@ export default class BookingsController extends BookingsService {
 						payment_id: paymentId,
 						ticket_id: ticketId,
 						payment_status: paymentStatus,
-						ticket_status: ticketIssued,
+						ticket_status: ticketStatus,
 
 						offline_ticket_issued: false,
 						created_at: new Date(),
@@ -65,11 +66,11 @@ export default class BookingsController extends BookingsService {
 				}
 			} else if (req.path === bookingRoutes.UPDATETICKETISUED) {
 				if (method === RequestMethods.PATCH) {
-					const { userId, ticketId, paymentId } = req.body;
+					const { user_id, ticket_id, payment_id } = req.body;
 					const reqObj: IUpdateTicketReqObj = {
-						user_id: userId,
-						ticket_id: ticketId,
-						payment_id: paymentId,
+						user_id: user_id?.toString() ?? "",
+						ticket_id: ticket_id,
+						payment_id: payment_id,
 					};
 					const updateResponse = await this.updateTicketIssued(reqObj);
 					response = updateResponse;

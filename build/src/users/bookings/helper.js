@@ -25,10 +25,19 @@ class BookingsHelper extends db_1.default {
     constructor() {
         super(...arguments);
         this.insertBookingInSqs = (reqObj) => __awaiter(this, void 0, void 0, function* () {
+            const UserEmail = yield this.UserEmail(reqObj.user_id);
+            if (!UserEmail) {
+                throw new errors_handler_1.default({
+                    status_code: 400,
+                    message: "User not found, Send them to tech team!!",
+                    message_code: "USER_NOT_FOUND",
+                });
+            }
             const messageData = {
                 id: reqObj.id,
                 ticket_type: reqObj.ticket_type,
                 user_id: reqObj.user_id,
+                email: UserEmail.email,
                 payment_id: reqObj.payment_id,
                 ticket_id: reqObj.ticket_id,
                 payment_status: reqObj.payment_status,
@@ -65,7 +74,7 @@ class BookingsHelper extends db_1.default {
                 });
             }
             const checkIsAlreadyIssued = yield this.checkTicketIssued(reqObj.ticket_id);
-            if (checkIsAlreadyIssued) {
+            if (checkIsAlreadyIssued.offline_ticket_issued) {
                 throw new errors_handler_1.default({
                     status_code: 400,
                     message: "Ticket already issued",

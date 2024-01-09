@@ -35,18 +35,38 @@ class BookingsDB {
             const { rows } = yield pg_config_1.default.query(query);
             return rows[0];
         });
+        // protected checkUserExists = async (user_id: string): Promise<boolean> => {
+        // const query = `SELECT EXISTS(SELECT 1 FROM bookings WHERE user_id = $1);`;
+        // const { rows } = await db.query(query, [user_id]);
+        // return rows[0] as unknown as any;
+        // }
         this.checkTicketIssued = (ticket_id) => __awaiter(this, void 0, void 0, function* () {
-            const query = `SELECT offline_ticket_issued FROM bookings WHERE ticket_id = $1 LIMIT 1;`;
+            const query = `SELECT offline_ticket_issued FROM bookings WHERE ticket_id = $1 ;`;
             const { rows } = yield pg_config_1.default.query(query, [ticket_id]);
             return rows[0];
         });
+        this.UserEmail = (user_id) => __awaiter(this, void 0, void 0, function* () {
+            const query = `SELECT email FROM users WHERE id = $1;`;
+            const { rows } = yield pg_config_1.default.query(query, [user_id]);
+            return rows[0];
+        });
         this.checkUserExists = (user_id) => __awaiter(this, void 0, void 0, function* () {
-            const query = `SELECT EXISTS(SELECT 1 FROM bookings WHERE user_id = $1);`;
+            const query = `SELECT EXISTS(
+		SELECT 1 FROM users WHERE id = $1 AND is_deleted = false
+		);`;
             const { rows } = yield pg_config_1.default.query(query, [user_id]);
             return rows[0];
         });
         this.updateOfflineTicketIssued = (user_id, ticket_id, payment_id) => __awaiter(this, void 0, void 0, function* () {
-            const query = `UPDATE bookings SET offline_ticket_issued = true WHERE user_id = $1 AND ticket_id = $2 AND payment_id = $3 RETURNING *;`;
+            const query = `UPDATE bookings AS b
+    SET offline_ticket_issued = true, updated_at = current_timestamp
+    FROM users AS u
+    WHERE b.user_id = u.id
+      AND b.ticket_id = $2
+      AND b.payment_id = $3
+      AND b.user_id = $1
+    RETURNING b.*, u.name, u.reg_number, u.email 
+    ;`;
             const { rows } = yield pg_config_1.default.query(query, [user_id, ticket_id, payment_id]);
             return rows[0];
         });

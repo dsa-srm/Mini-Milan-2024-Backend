@@ -16,7 +16,7 @@ const limiter = (0, express_rate_limit_1.default)({
     //Message on error
     handler: (req, res) => {
         res.status(429).send({
-            status: "fail",
+            success: false,
             message: "Too many requests, please try again in 15mins.",
             message_code: "TOO_MANY_REQUESTS",
         });
@@ -25,8 +25,9 @@ const limiter = (0, express_rate_limit_1.default)({
 const router = (0, express_1.Router)();
 const { execute } = new controller_1.default();
 const { protect } = new middleware_1.default();
-router.post("/login", execute);
-router.post("/signup", execute);
+router.post("/login", limiter, execute);
+router.get("/logout", execute);
+router.post("/signup", limiter, execute);
 router.get("/current", protect, execute);
 router.get("/:id", protect, execute);
 router.delete("/:id", protect, execute);

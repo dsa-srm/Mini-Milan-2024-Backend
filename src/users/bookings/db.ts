@@ -41,16 +41,28 @@ export default class BookingsDB {
 		return rows[0] as unknown as ICreateBookingReqObj;
 	};
 
+	// protected checkUserExists = async (user_id: string): Promise<boolean> => {
+	// const query = `SELECT EXISTS(SELECT 1 FROM bookings WHERE user_id = $1);`;
+	// const { rows } = await db.query(query, [user_id]);
+
+	// return rows[0] as unknown as any;
+	// }
 	protected checkTicketIssued = async (ticket_id: string): Promise<boolean> => {
-		const query = `SELECT offline_ticket_issued FROM bookings WHERE ticket_id = $1 LIMIT 1;`;
+		const query = `SELECT offline_ticket_issued FROM bookings WHERE ticket_id = $1 ;`;
 
 		const { rows } = await db.query(query, [ticket_id]);
 
 		return rows[0] as unknown as boolean;
 	};
-
+	protected UserEmail = async (user_id: string): Promise<any> => {
+		const query = `SELECT email FROM users WHERE id = $1;`;
+		const { rows } = await db.query(query, [user_id]);
+		return rows[0] as unknown as string;
+	};
 	protected checkUserExists = async (user_id: string): Promise<boolean> => {
-		const query = `SELECT EXISTS(SELECT 1 FROM bookings WHERE user_id = $1);`;
+		const query = `SELECT EXISTS(
+		SELECT 1 FROM users WHERE id = $1 AND is_deleted = false
+		);`;
 		const { rows } = await db.query(query, [user_id]);
 
 		return rows[0] as unknown as boolean;
@@ -60,8 +72,16 @@ export default class BookingsDB {
 		user_id: string,
 		ticket_id: string,
 		payment_id: string
-	): Promise<any> => {
-		const query = `UPDATE bookings SET offline_ticket_issued = true WHERE user_id = $1 AND ticket_id = $2 AND payment_id = $3 RETURNING *;`;
+	): Promise<ICreateBookingReqObj> => {
+		const query = `UPDATE bookings AS b
+    SET offline_ticket_issued = true, updated_at = current_timestamp
+    FROM users AS u
+    WHERE b.user_id = u.id
+      AND b.ticket_id = $2
+      AND b.payment_id = $3
+      AND b.user_id = $1
+    RETURNING b.*, u.name, u.reg_number, u.email 
+    ;`;
 		const { rows } = await db.query(query, [user_id, ticket_id, payment_id]);
 
 		return rows[0] as unknown as any;

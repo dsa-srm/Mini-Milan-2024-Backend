@@ -42,6 +42,17 @@ class UsersAuthController extends services_1.default {
                         response = authRes.user;
                     }
                 }
+                else if (routeName === enums_2.UsersAuthRoutes.LOGOUT) {
+                    if (method === enums_1.RequestMethods.GET) {
+                        res.cookie("token", "", {
+                            expires: new Date(Date.now()),
+                            httpOnly: true,
+                            secure: true,
+                            sameSite: "none",
+                        });
+                        response.message = "Logged Out Successfully";
+                    }
+                }
                 else if (routeName === enums_2.UsersAuthRoutes.SIGNUP) {
                     if (method === enums_1.RequestMethods.POST) {
                         const reqObj = Object.assign(Object.assign({}, req.body), { id: (0, uuid_1.v4)() });
