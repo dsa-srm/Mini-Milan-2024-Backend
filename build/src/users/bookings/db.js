@@ -41,7 +41,7 @@ class BookingsDB {
         // return rows[0] as unknown as any;
         // }
         this.checkTicketIssued = (ticket_id) => __awaiter(this, void 0, void 0, function* () {
-            const query = `SELECT offline_ticket_issued FROM bookings WHERE ticket_id = $1 LIMIT 1;`;
+            const query = `SELECT offline_ticket_issued FROM bookings WHERE ticket_id = $1 ;`;
             const { rows } = yield pg_config_1.default.query(query, [ticket_id]);
             return rows[0];
         });
@@ -52,16 +52,17 @@ class BookingsDB {
         });
         this.checkUserExists = (user_id) => __awaiter(this, void 0, void 0, function* () {
             const query = `SELECT EXISTS(
-			SELECT 1
-			FROM bookings AS b
-			INNER JOIN users AS u ON b.user_id = u.user_id
-			WHERE u.user_id = $1 AND u.is_deleted = false
+		SELECT 1 FROM users WHERE id = $1 AND is_deleted = false
 		);`;
             const { rows } = yield pg_config_1.default.query(query, [user_id]);
             return rows[0];
         });
         this.updateOfflineTicketIssued = (user_id, ticket_id, payment_id) => __awaiter(this, void 0, void 0, function* () {
-            const query = `UPDATE bookings SET offline_ticket_issued = true WHERE user_id = $1 AND ticket_id = $2 AND payment_id = $3 RETURNING *;`;
+            const query = `UPDATE bookings
+    SET offline_ticket_issued = true, updated_at = current_timestamp
+    WHERE user_id = $1 AND ticket_id = $2 AND payment_id = $3
+    RETURNING *;
+    ;`;
             const { rows } = yield pg_config_1.default.query(query, [user_id, ticket_id, payment_id]);
             return rows[0];
         });
