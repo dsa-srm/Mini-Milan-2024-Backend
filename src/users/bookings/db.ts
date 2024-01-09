@@ -47,12 +47,12 @@ export default class BookingsDB {
 
 	// return rows[0] as unknown as any;
 	// }
-	protected checkTicketIssued = async (ticket_id: string): Promise<boolean> => {
+	protected checkTicketIssued = async (ticket_id: string): Promise<any> => {
 		const query = `SELECT offline_ticket_issued FROM bookings WHERE ticket_id = $1 ;`;
 
 		const { rows } = await db.query(query, [ticket_id]);
 
-		return rows[0] as unknown as boolean;
+		return rows[0] as unknown as any;
 	};
 	protected UserEmail = async (user_id: string): Promise<any> => {
 		const query = `SELECT email FROM users WHERE id = $1;`;
@@ -82,6 +82,7 @@ export default class BookingsDB {
       AND b.user_id = $1
     RETURNING b.*, u.name, u.reg_number, u.email 
     ;`;
+
 		const { rows } = await db.query(query, [user_id, ticket_id, payment_id]);
 
 		return rows[0] as unknown as any;

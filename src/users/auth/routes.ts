@@ -24,9 +24,9 @@ const router: Router = Router();
 const { execute } = new UsersAuthController();
 const { protect } = new IUserAuthValidation();
 
-router.post("/login", limiter, execute);
+router.post("/login", execute);
 router.get("/logout", execute);
-router.post("/signup", limiter, execute);
+router.post("/signup", execute);
 router.get("/current", protect, execute);
 router.get("/:id", protect, execute);
 router.delete("/:id", protect, execute);

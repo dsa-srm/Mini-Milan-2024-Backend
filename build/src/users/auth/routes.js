@@ -25,9 +25,9 @@ const limiter = (0, express_rate_limit_1.default)({
 const router = (0, express_1.Router)();
 const { execute } = new controller_1.default();
 const { protect } = new middleware_1.default();
-router.post("/login", limiter, execute);
+router.post("/login", execute);
 router.get("/logout", execute);
-router.post("/signup", limiter, execute);
+router.post("/signup", execute);
 router.get("/current", protect, execute);
 router.get("/:id", protect, execute);
 router.delete("/:id", protect, execute);

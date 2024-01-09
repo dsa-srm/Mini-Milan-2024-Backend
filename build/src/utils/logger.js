@@ -1,8 +1,16 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LogTypes = void 0;
 const pino_1 = require("pino");
-const init = () => (0, pino_1.pino)();
+const pino_pretty_1 = __importDefault(require("pino-pretty"));
+const stream = (0, pino_pretty_1.default)({
+    colorize: true,
+    translateTime: "yyyy-mm-dd HH:MM:ss",
+});
+const init = () => (0, pino_1.pino)(stream);
 var LogTypes;
 (function (LogTypes) {
     LogTypes["LOGS"] = "logs";

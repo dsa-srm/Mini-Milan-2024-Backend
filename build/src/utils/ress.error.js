@@ -29,13 +29,28 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.errorHandler = void 0;
 const logger_1 = __importStar(require("./logger"));
 const errors_handler_1 = __importDefault(require("./errors.handler"));
+const disc_logger_1 = require("./disc_logger");
 const errorHandler = (res, error) => {
-    // disc_logger.error({
-    // 	message: error?.message ?? "sample error",
-    // 	error: new Error("sample error"), // This field can be included in other log functions as well
-    // });
-    var _a;
-    (0, logger_1.default)(`Request failed with: ${error ? (_a = error.message) !== null && _a !== void 0 ? _a : JSON.stringify(error) : "No error"}`, logger_1.LogTypes.CUSTOM_OBJ);
+    var _a, _b;
+    if (error === null || error === void 0 ? void 0 : error.is_loggable) {
+        disc_logger_1.disc_logger.error({
+            message: `${error.message_code}`,
+            description: `
+			# Error Details
+			
+			### Message : 
+			${error.message}
+			
+			### User : 
+			${(_a = error.user) !== null && _a !== void 0 ? _a : ""}
+			
+			### Timestamp : 
+			${new Date().toLocaleString()}
+			`,
+            error: error, // This field can be included in other log functions as well
+        });
+    }
+    (0, logger_1.default)(`Request failed with: ${error ? (_b = error.message) !== null && _b !== void 0 ? _b : JSON.stringify(error) : "No error"}`, logger_1.LogTypes.CUSTOM_OBJ);
     if (error instanceof errors_handler_1.default) {
         return res.status(error.status_code).send({
             success: false,
