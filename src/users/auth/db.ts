@@ -7,13 +7,28 @@ export default class UsersAuthDB {
 	): Promise<IUserAuthResObject> => {
 		const query = `SELECT * FROM users WHERE email = $1 AND is_deleted = false LIMIT 1`;
 
-    const { rows } = await db.query(query, [email]);
+		const { rows } = await db.query(query, [email]);
 
-    return rows[0] as unknown as IUserAuthResObject;
-  };
+		return rows[0] as unknown as IUserAuthResObject;
+	};
 
 	protected getUser = async (id: string): Promise<IUserAuthResObject> => {
-		const query = `SELECT * FROM users WHERE id = $1 AND is_deleted = false LIMIT 1`;
+		const query = `SELECT 
+		u.*, 
+		b.payment_id, 
+		b.ticket_id, 
+		b.payment_status, 
+		b.ticket_status, 
+		b.offline_ticket_issued
+	FROM 
+		users u
+	LEFT JOIN 
+		booking b ON u.id = b.user_id
+	WHERE 
+		u.id = $1 AND 
+		u.is_deleted = false
+	LIMIT 1;
+	`;
 
 		const { rows } = await db.query(query, [id]);
 
@@ -80,7 +95,6 @@ export default class UsersAuthDB {
 		email: string,
 		phone_number: number,
 		reg_number: string
-
 	): Promise<IUserAuthResObject> => {
 		const query = `SELECT * FROM users WHERE email = $1 OR phone_number = $2 OR reg_number = $3 LIMIT 1`;
 

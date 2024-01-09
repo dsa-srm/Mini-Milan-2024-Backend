@@ -13,14 +13,13 @@ import {
 	IUserAuthSignupReqObj,
 } from "./interface";
 import UsersAuthService from "./services";
-import ErrorHandler from "../../utils/errors.handler";
 
 export default class UsersAuthController extends UsersAuthService {
 	public execute = async (req: Request, res: Response): Promise<void> => {
 		try {
 			const method = req.method;
 			const routeName = req.route.path.split("/")[1];
-   
+
 			let response: IResponse = {
 				success: false,
 			};
@@ -94,16 +93,10 @@ export default class UsersAuthController extends UsersAuthService {
 	private signupController = async (
 		reqObj: IUserAuthSignupReqObj
 	): Promise<IAuthResponse> => {
-		if (!reqObj.email || !reqObj.phone_number) {
-			throw new ErrorHandler({
-				status_code: 400,
-				message: "Email or Phone Number is required.",
-				message_code: "EMAIL_OR_PHONE_NUMBER_REQUIRED",
-			});
-		} else {
-			const { validateEmailAndPhoneNumber } = new IUserAuthValidation();
-			validateEmailAndPhoneNumber(reqObj.email, reqObj.phone_number);
-		}
+		IUserAuthValidation.validateEmailAndPhoneNumber(
+			reqObj.email,
+			reqObj.phone_number
+		);
 
 		const data: AuthObj = await this.signupService(reqObj);
 		return {

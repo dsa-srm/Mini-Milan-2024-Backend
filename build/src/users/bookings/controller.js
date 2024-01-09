@@ -107,21 +107,12 @@ class BookingsController extends services_1.default {
                 message_code: "BOOKING_ENTERED_SUCCESSFULLY",
             };
         });
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> ankit-dev
         this.getLiveCountController = () => __awaiter(this, void 0, void 0, function* () {
             const data = yield this.getLiveTicketCountService();
             return {
                 success: true,
                 message: "Total Live Count Fetched",
                 data: data,
-<<<<<<< HEAD
-                message_code: "TOTAL_LIVE_COUNT_FETCHED"
-            };
-        });
-=======
                 message_code: "TOTAL_LIVE_COUNT_FETCHED",
             };
         });
@@ -134,9 +125,6 @@ class BookingsController extends services_1.default {
                 message_code: "BOOKING_FETCHED_SUCCESSFULLY",
             };
         });
-=======
->>>>>>> 26753cfce5fe1d84a162012b7e9dedf5ed2b66db
->>>>>>> ankit-dev
         this.updateTicketIssued = (reqObj) => __awaiter(this, void 0, void 0, function* () {
             const data = yield this.updateTicketIssuedService(reqObj);
             return {

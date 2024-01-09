@@ -1,21 +1,24 @@
 config:
-  target: http://127.0.0.1:5000/api
+  target: http://localhost:5000/api/users
   phases:
     - duration: 10
-      arrivalRate: 10
-      rampTo: 20
+      arrivalRate: 1
+      rampTo: 40
       name: Warm up phase
-    - duration: 60
-      arrivalRate: 200
-      rampTo: 500
-      name: Ramp up load
   processor: "./dataGenerate.js"
 
 scenarios:
   - flow:
       - post:
-          url: "/bookings"
+          url: "/signup"
           beforeRequest: "generateRandomBody"
           json: "{{ data }}"
-          headers:
-            Authorization: "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbiI6ImFjY2Vzc190b2tlbiIsImRhdGEiOnsiaWQiOiJmYmFjNjA4OS05ODFiLTQwNTYtOTgyZS02ODMxMTcxODU5NmUiLCJuYW1lIjoiTWlzaHJhIEppIiwiZW1haWwiOiJqczQ4MjFAc3JtaXN0LmVkdS5pbiIsInBhc3N3b3JkIjoiJDJhJDEyJHc0eXBDYjB1MlA0WFdjU1g5bXltMC4xSWRkNWJBM0QuSXptblo2NDBoU2pNUmxvVFRVeTNDIiwicmVnX251bWJlciI6IlJBMjExMTAzMTAxMDExOCIsImlzX2t0cl9zdHVkZW50Ijp0cnVlLCJwaG9uZV9udW1iZXIiOiI3MDA3NTA2NzI4IiwiaXNfdGlja2V0X2lzc3VlZCI6ZmFsc2UsImNyZWF0ZWRfYXQiOiIyMDIzLTEyLTMwVDEwOjMxOjU5LjM1M1oiLCJ1cGRhdGVkX2F0IjoiMjAyMy0xMi0zMFQxMDozODoyNi45NDRaIiwiZ2VuZGVyIjoibWFsZSIsImlzX2RlbGV0ZWQiOmZhbHNlfSwiaWF0IjoxNzAzOTMyNzA3LCJleHAiOjE3MDUyMjg3MDd9.xfmpPwICKwusVG-lImN7B-d3EYQzX0XAMRp5jLAonkPEhRUnjN9d9BrZRcPeGDouwkC6TCf8iVef3WGaf6H__QYsjxjfag4QCcmdbbLrdip5nMrCaFHZc0QR7CRv9UsL4lNwrO8TkkWjP4Flq2_Ai-MMXG6PRV6KwcyTjxRauUTuhjWZW58b18W8m5kaWPoM4EdG1XvbY3m3E94NIpXRnp4ghaWReQUgpt3uvz5mV07og7lQFWKd-C-cLCo7gvb2M83xmzMTbeEgrU0RNfP1HXBbVvV-4K1zF7Na-BsDjO8HqyEY8_jeFvwXJ-M96HvMPD_HBMCCyyizQIn6jbsf7g"
+          capture:
+            json: "$.data.user.email"
+            as: "email"
+      - post:
+          url: "/login"
+          method: "post"
+          json:
+            password: "{{ data.password }}"
+            email: "{{ email }}"

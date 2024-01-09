@@ -22,7 +22,22 @@ class UsersAuthDB {
             return rows[0];
         });
         this.getUser = (id) => __awaiter(this, void 0, void 0, function* () {
-            const query = `SELECT * FROM users WHERE id = $1 AND is_deleted = false LIMIT 1`;
+            const query = `SELECT 
+		u.*, 
+		b.payment_id, 
+		b.ticket_id, 
+		b.payment_status, 
+		b.ticket_status, 
+		b.offline_ticket_issued
+	FROM 
+		users u
+	LEFT JOIN 
+		booking b ON u.id = b.user_id
+	WHERE 
+		u.id = $1 AND 
+		u.is_deleted = false
+	LIMIT 1;
+	`;
             const { rows } = yield pg_config_1.default.query(query, [id]);
             return rows[0];
         });

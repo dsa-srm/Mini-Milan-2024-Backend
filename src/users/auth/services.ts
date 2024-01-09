@@ -61,6 +61,7 @@ export default class UsersAuthService extends UsersAuthHelper {
 		checkIsKtrStudentEmail(reqObj.email);
 
 		const user: IUserAuthResObject = await this.signupUserHelper(reqObj);
+
 		const token = await this.jwtHelper.generateTokens(user);
 
 		const response: AuthObj = {
