@@ -7,13 +7,16 @@ class ErrorHandler extends Error {
         this.message = errorObj.message;
         this.data = errorObj.data;
         this.message_code = errorObj.message_code;
+        this.is_loggable = errorObj.is_loggable;
+        this.user = errorObj.user;
     }
     toString() {
         return {
             message: this.message,
             status_code: this.status_code,
             data: this.data,
-            message_code: this.message_code
+            message_code: this.message_code,
+            is_loggable: this.is_loggable,
         };
     }
 }

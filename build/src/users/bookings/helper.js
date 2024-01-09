@@ -30,7 +30,9 @@ class BookingsHelper extends db_1.default {
                 throw new errors_handler_1.default({
                     status_code: 400,
                     message: "User not found, Send them to tech team!!",
-                    message_code: "USER_NOT_FOUND",
+                    message_code: "USER_NOT_FOUND_IN_CREATE_BOOKING",
+                    is_loggable: true,
+                    user: reqObj.user_id,
                 });
             }
             const messageData = {
@@ -71,6 +73,8 @@ class BookingsHelper extends db_1.default {
                     status_code: 400,
                     message: "User not found, Send them to tech team!!",
                     message_code: "USER_NOT_FOUND",
+                    is_loggable: true,
+                    user: reqObj.user_id,
                 });
             }
             const checkIsAlreadyIssued = yield this.checkTicketIssued(reqObj.ticket_id);

@@ -1,14 +1,27 @@
 import { Response } from "express";
-import os from "os";
 import logger, { LogTypes } from "./logger";
 import ErrorHandler from "./errors.handler";
 import { disc_logger } from "./disc_logger";
 
 export const errorHandler = (res: Response, error: any) => {
-	// disc_logger.error({
-	// 	message: error?.message ?? "sample error",
-	// 	error: new Error("sample error"), // This field can be included in other log functions as well
-	// });
+	if (error?.is_loggable) {
+		disc_logger.error({
+			message: `${error.message_code}`,
+			description: `
+			# Error Details
+			
+			### Message : 
+			${error.message}
+			
+			### User : 
+			${error.user ?? ""}
+			
+			### Timestamp : 
+			${new Date().toLocaleString()}
+			`,
+			error: error, // This field can be included in other log functions as well
+		});
+	}
 
 	logger(
 		`Request failed with: ${
