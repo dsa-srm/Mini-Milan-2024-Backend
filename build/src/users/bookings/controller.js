@@ -22,6 +22,7 @@ class BookingsController extends services_1.default {
     constructor() {
         super(...arguments);
         this.execute = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            var _a;
             try {
                 const method = req.method;
                 let response = {
@@ -68,11 +69,11 @@ class BookingsController extends services_1.default {
                 }
                 else if (req.path === enums_2.bookingRoutes.UPDATETICKETISUED) {
                     if (method === enums_1.RequestMethods.PATCH) {
-                        const { userId, ticketId, paymentId } = req.body;
+                        const { user_id, ticket_id, payment_id } = req.body;
                         const reqObj = {
-                            user_id: userId,
-                            ticket_id: ticketId,
-                            payment_id: paymentId,
+                            user_id: (_a = user_id === null || user_id === void 0 ? void 0 : user_id.toString()) !== null && _a !== void 0 ? _a : "",
+                            ticket_id: ticket_id,
+                            payment_id: payment_id,
                         };
                         const updateResponse = yield this.updateTicketIssued(reqObj);
                         response = updateResponse;

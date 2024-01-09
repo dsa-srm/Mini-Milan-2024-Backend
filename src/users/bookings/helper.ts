@@ -33,7 +33,7 @@ export default class BookingsHelper extends BookingsDB {
       id: reqObj.id,
       ticket_type: reqObj.ticket_type,
       user_id: reqObj.user_id,
-      email: UserEmail,
+      email: UserEmail.email,
       payment_id: reqObj.payment_id,
       ticket_id: reqObj.ticket_id,
       payment_status: reqObj.payment_status,
@@ -67,6 +67,7 @@ export default class BookingsHelper extends BookingsDB {
   protected updateOfflineTicketIssuedHelper = async (
     reqObj: IUpdateTicketReqObj
   ) => {
+   
     const isUserExists = await this.checkUserExists(reqObj.user_id);
     if (!isUserExists) {
       throw new ErrorHandler({
@@ -75,8 +76,8 @@ export default class BookingsHelper extends BookingsDB {
         message_code: "USER_NOT_FOUND",
       });
     }
-    const checkIsAlreadyIssued = await this.checkTicketIssued(reqObj.ticket_id);
-    if (checkIsAlreadyIssued) {
+    const checkIsAlreadyIssued :any= await this.checkTicketIssued(reqObj.ticket_id);
+    if (checkIsAlreadyIssued.offline_ticket_issued) {
       throw new ErrorHandler({
         status_code: 400,
         message: "Ticket already issued",

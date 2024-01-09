@@ -37,7 +37,7 @@ class BookingsHelper extends db_1.default {
                 id: reqObj.id,
                 ticket_type: reqObj.ticket_type,
                 user_id: reqObj.user_id,
-                email: UserEmail,
+                email: UserEmail.email,
                 payment_id: reqObj.payment_id,
                 ticket_id: reqObj.ticket_id,
                 payment_status: reqObj.payment_status,
@@ -74,7 +74,7 @@ class BookingsHelper extends db_1.default {
                 });
             }
             const checkIsAlreadyIssued = yield this.checkTicketIssued(reqObj.ticket_id);
-            if (checkIsAlreadyIssued) {
+            if (checkIsAlreadyIssued.offline_ticket_issued) {
                 throw new errors_handler_1.default({
                     status_code: 400,
                     message: "Ticket already issued",
