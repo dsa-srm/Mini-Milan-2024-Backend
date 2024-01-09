@@ -27,12 +27,9 @@ class UsersAuthHelper extends db_1.default {
         });
         this.signupUserHelper = (reqObj) => __awaiter(this, void 0, void 0, function* () {
             const isExistingUser = yield this.isExistingUser(reqObj.email, reqObj.phone_number, reqObj.reg_number);
-            reqObj.created_at = new Date();
-            reqObj.updated_at = new Date();
-            const newReqObj = Object.assign(Object.assign({}, reqObj), { password: yield bcryptjs_1.default.hash(reqObj.password, 12) });
             if (isExistingUser) {
                 if (isExistingUser.is_deleted) {
-                    const user = yield this.reviveUser(isExistingUser.id, newReqObj);
+                    const user = yield this.reviveUser(isExistingUser.id, Object.assign(Object.assign({}, reqObj), { password: yield bcryptjs_1.default.hash(reqObj.password, 12), created_at: new Date(), updated_at: new Date() }));
                     return user;
                 }
                 else {
@@ -43,7 +40,7 @@ class UsersAuthHelper extends db_1.default {
                     });
                 }
             }
-            const user = yield this.createUser(newReqObj);
+            const user = yield this.createUser(Object.assign(Object.assign({}, reqObj), { password: yield bcryptjs_1.default.hash(reqObj.password, 12), created_at: new Date(), updated_at: new Date() }));
             if (!user) {
                 throw new errors_handler_1.default({
                     status_code: 400,

@@ -12,7 +12,7 @@ const limiter = (0, express_rate_limit_1.default)({
     //Amount of requests per window
     max: 15,
     //Window size in ms
-    windowMs: 15 * 60 * 1000,
+    windowMs: 15 * 60 * 1000, //15 mins
     //Message on error
     handler: (req, res) => {
         res.status(429).send({

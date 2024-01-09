@@ -20,29 +20,6 @@ const errors_handler_1 = __importDefault(require("../../utils/errors.handler"));
 const joi_1 = __importDefault(require("joi"));
 class IUserAuthValidation {
     constructor() {
-        this.validateEmailAndPhoneNumber = (email, phone_number) => {
-            const emailSchema = joi_1.default.string().email({
-                minDomainSegments: 2,
-                tlds: { allow: true },
-            });
-            const phoneSchema = joi_1.default.string().pattern(/^[0-9]{10}$/);
-            const emailValidationResult = emailSchema.validate(email);
-            const phoneValidationResult = phoneSchema.validate(phone_number.toString());
-            if (emailValidationResult.error) {
-                throw new errors_handler_1.default({
-                    status_code: 400,
-                    message: "Invalid email format.",
-                    message_code: "INVALID_EMAIL_FORMAT",
-                });
-            }
-            if (phoneValidationResult.error) {
-                throw new errors_handler_1.default({
-                    status_code: 400,
-                    message: "Invalid phone number format.",
-                    message_code: "INVALID_PHONE_NUMBER_FORMAT",
-                });
-            }
-        };
         this.jwtVerifyPromisified = (token, secret) => {
             return new Promise((resolve, reject) => {
                 jsonwebtoken_1.default.verify(token, secret, {}, (err, payload) => {
@@ -105,6 +82,36 @@ class IUserAuthValidation {
         };
     }
 }
+IUserAuthValidation.validateEmailAndPhoneNumber = (email, phone_number) => {
+    if (!email || !phone_number) {
+        throw new errors_handler_1.default({
+            status_code: 400,
+            message: "Email or Phone Number is required.",
+            message_code: "EMAIL_OR_PHONE_NUMBER_REQUIRED",
+        });
+    }
+    const emailSchema = joi_1.default.string().email({
+        minDomainSegments: 2,
+        tlds: { allow: true },
+    });
+    const phoneSchema = joi_1.default.string().pattern(/^[0-9]{10}$/);
+    const emailValidationResult = emailSchema.validate(email);
+    const phoneValidationResult = phoneSchema.validate(phone_number.toString());
+    if (emailValidationResult.error) {
+        throw new errors_handler_1.default({
+            status_code: 400,
+            message: "Invalid email format.",
+            message_code: "INVALID_EMAIL_FORMAT",
+        });
+    }
+    if (phoneValidationResult.error) {
+        throw new errors_handler_1.default({
+            status_code: 400,
+            message: "Invalid phone number format.",
+            message_code: "INVALID_PHONE_NUMBER_FORMAT",
+        });
+    }
+};
 exports.default = IUserAuthValidation;
 // 1.soft delete
 // 2.is ktr-student

@@ -2,7 +2,6 @@ import bcrypt from "bcryptjs";
 import { IUserAuthResObject, IUserAuthSignupReqObj } from "./interface";
 import ErrorHandler from "../../utils/errors.handler";
 import UsersAuthDB from "./db";
-import logger, { LogTypes } from "../../utils/logger";
 
 export default class UsersAuthHelper extends UsersAuthDB {
 	protected getUserByEmailHelper = async (
@@ -28,17 +27,14 @@ export default class UsersAuthHelper extends UsersAuthDB {
 			reqObj.reg_number
 		);
 
-		reqObj.created_at = new Date();
-		reqObj.updated_at = new Date();
-
-		const newReqObj: IUserAuthSignupReqObj = {
-			...reqObj,
-			password: await bcrypt.hash(reqObj.password, 12),
-		};
-
 		if (isExistingUser) {
 			if (isExistingUser.is_deleted) {
-				const user = await this.reviveUser(isExistingUser.id, newReqObj);
+				const user = await this.reviveUser(isExistingUser.id, {
+					...reqObj,
+					password: await bcrypt.hash(reqObj.password, 12),
+					created_at: new Date(),
+					updated_at: new Date(),
+				});
 				return user;
 			} else {
 				throw new ErrorHandler({
@@ -49,7 +45,12 @@ export default class UsersAuthHelper extends UsersAuthDB {
 			}
 		}
 
-		const user = await this.createUser(newReqObj);
+		const user = await this.createUser({
+			...reqObj,
+			password: await bcrypt.hash(reqObj.password, 12),
+			created_at: new Date(),
+			updated_at: new Date(),
+		});
 
 		if (!user) {
 			throw new ErrorHandler({

@@ -58,10 +58,14 @@ class BookingsDB {
             return rows[0];
         });
         this.updateOfflineTicketIssued = (user_id, ticket_id, payment_id) => __awaiter(this, void 0, void 0, function* () {
-            const query = `UPDATE bookings
+            const query = `UPDATE bookings AS b
     SET offline_ticket_issued = true, updated_at = current_timestamp
-    WHERE user_id = $1 AND ticket_id = $2 AND payment_id = $3
-    RETURNING *;
+    FROM users AS u
+    WHERE b.user_id = u.id
+      AND b.ticket_id = $2
+      AND b.payment_id = $3
+      AND b.user_id = $1
+    RETURNING b.*, u.name, u.reg_number, u.email 
     ;`;
             const { rows } = yield pg_config_1.default.query(query, [user_id, ticket_id, payment_id]);
             return rows[0];

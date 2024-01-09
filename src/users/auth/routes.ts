@@ -3,7 +3,6 @@ import UsersAuthController from "./controller";
 import IUserAuthValidation from "./middleware";
 import rateLimiter from "express-rate-limit";
 
-
 //Creating a rate limiter
 const limiter = rateLimiter({
 	//Amount of requests per window

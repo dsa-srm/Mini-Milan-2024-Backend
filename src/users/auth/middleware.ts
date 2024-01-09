@@ -5,13 +5,20 @@ import path from "path";
 import { Request, Response, NextFunction } from "express";
 import ErrorHandler from "../../utils/errors.handler";
 import Joi from "joi";
-import logger, { LogTypes } from "../../utils/logger";
 
 export default class IUserAuthValidation {
-	public validateEmailAndPhoneNumber = (
+	public static validateEmailAndPhoneNumber = (
 		email: string,
 		phone_number: number
 	) => {
+		if (!email || !phone_number) {
+			throw new ErrorHandler({
+				status_code: 400,
+				message: "Email or Phone Number is required.",
+				message_code: "EMAIL_OR_PHONE_NUMBER_REQUIRED",
+			});
+		}
+
 		const emailSchema = Joi.string().email({
 			minDomainSegments: 2,
 			tlds: { allow: true },

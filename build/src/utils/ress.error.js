@@ -27,31 +27,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.errorHandler = void 0;
-const os_1 = __importDefault(require("os"));
 const logger_1 = __importStar(require("./logger"));
-const node_discord_logger_1 = __importDefault(require("node-discord-logger"));
 const errors_handler_1 = __importDefault(require("./errors.handler"));
-const disc_logger = new node_discord_logger_1.default({
-    hook: "https://discord.com/api/webhooks/1187450079842414694/CAoiT2UtT44zl4YH-GxGKb_T_Hv4IC46uIFkjW4Xl2e12rXMmsDOfXkRmx2cFv8fl5D9",
-    icon: "https://cdn0.iconfinder.com/data/icons/shift-free/32/Error-512.png",
-    serviceName: "Mini-Milan-2024 Error Logger 🔥",
-    defaultMeta: {
-        // optional, will be added to all the messages
-        "Process ID": process.pid,
-        Host: os_1.default.hostname(), // import os from 'os';
-    },
-    errorHandler: (err) => {
-        // // optional, if you don't want this library to log to console
-        // console.error("error from discord", err);
-    },
-});
 const errorHandler = (res, error) => {
-    var _a, _b;
-    disc_logger.error({
-        message: (_a = error === null || error === void 0 ? void 0 : error.message) !== null && _a !== void 0 ? _a : "sample error",
-        error: new Error("sample error"), // This field can be included in other log functions as well
-    });
-    (0, logger_1.default)(`Request failed with: ${error ? (_b = error.message) !== null && _b !== void 0 ? _b : JSON.stringify(error) : "No error"}`, logger_1.LogTypes.CUSTOM_OBJ);
+    // disc_logger.error({
+    // 	message: error?.message ?? "sample error",
+    // 	error: new Error("sample error"), // This field can be included in other log functions as well
+    // });
+    var _a;
+    (0, logger_1.default)(`Request failed with: ${error ? (_a = error.message) !== null && _a !== void 0 ? _a : JSON.stringify(error) : "No error"}`, logger_1.LogTypes.CUSTOM_OBJ);
     if (error instanceof errors_handler_1.default) {
         return res.status(error.status_code).send({
             success: false,
